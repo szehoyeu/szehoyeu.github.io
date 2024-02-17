@@ -240,3 +240,54 @@ A ```staged payload```, as indicated by the ```“/”``` between “shell” an
 windows/x64/shell/reverse_tcp
 ```
 
+#### Post
+
+Post modules will be useful on the ```final stage``` of the penetration testing process listed above, ```post-exploitation```.
+
+
+```
+/opt/metasploit-framework/embedded/framework/modules# tree -L 1 post/
+
+post/
+├── aix
+├── android
+├── apple_ios
+├── bsd
+├── firefox
+├── hardware
+├── linux
+├── multi
+├── networking
+├── osx
+├── solaris
+└── windows
+
+12 directories, 0 files
+```
+
+If you wish to familiarize yourself further with these modules, you can find them under the modules folder of your Metasploit installation. For the AttackBox these are under 
+
+```
+/opt/metasploit-framework/embedded/framework/modules
+```
+
+What is the name of the code taking advantage of a flaw on the target system?
+```
+exploit
+```
+What is the name of the code that runs on the target system to achieve the attacker's goal?
+```
+payload
+```
+What are self-contained payloads called?
+```
+Singles
+```
+
+Is "windows/x64/pingback_reverse_tcp" among singles or staged payload?
+```
+singles
+```
+
+Task 3  Msfconsole
+---
