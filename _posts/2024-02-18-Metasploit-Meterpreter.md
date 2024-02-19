@@ -819,7 +819,7 @@ erptest:1117:aad3b435b51404eeaad3b435b51404ee:8b9ca7572fe60a1559686dba90726715::
 ACME-TEST$:1008:aad3b435b51404eeaad3b435b51404ee:fff00bcd72cdffa3fa9efbb23ee04332:::
 
 ```
-![image](/assets/img/Metasploit-Meterpreter02.png)
+![image2](/assets/img/Metasploit-Meterpreter02.png)
 
 ---
 What is the cleartext password of the jchambers user?
