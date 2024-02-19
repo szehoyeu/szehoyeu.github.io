@@ -23,11 +23,13 @@ winget list -?
 
 - use the https://winget.run
 - enter the application name
+
 ```
 winget install -e --id Zoom.Zoom
 
 winget list -e --id Zoom.Zoom --accept-source-agreements
 ```
+
 ![img](/assets/img/intune02.png)
 
 
