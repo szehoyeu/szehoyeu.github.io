@@ -17,6 +17,7 @@ Task 1  Find the list id of the application
 
 - cmd: winget list
 [List Command:](https://learn.microsoft.com/en-us/windows/package-manager/winget/list)
+
 ```
 winget list -?
 ```
@@ -42,10 +43,11 @@ Task2 Powershell - Detection and Remediation Script
 
 Test
 ```
-## check locally installed Zoom
+check locally installed Zoom
 $localInstalled_software = winget.exe list -e --id Zoom.Zoom --accept-source-agreements
+```
 
-Logic 
+#### Logic 
 ---
 - If result contain Avaliable, the application needs to upgrade the version
 - If result only contain Version, the application is the latest version 
@@ -56,7 +58,7 @@ Logic
 
 -2 : "Available" header
 ```
-
+```
 $available= (-split $localInstalled_software[-3])[-2]
 Write-Host $available
 ```
