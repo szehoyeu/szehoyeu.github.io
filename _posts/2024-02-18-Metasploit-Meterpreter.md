@@ -11,9 +11,9 @@ tags: [Metasploit]
 Ref: 
 [THM Metasploit Meterpreter:](https://tryhackme.com/room/meterpreter)
 
-[Ref: Link](https://www.youtube.com/watch?v=96V-nwvtaks)
+[Link](https://www.youtube.com/watch?v=96V-nwvtaks)
 
-[Crack Hash code to clear password:](crackstation.net)
+[Crack Hash code to clear password](crackstation.net)
 
 ---
 Task 1  Introduction
