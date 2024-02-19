@@ -5,12 +5,10 @@ categories: [Intune]
 tags: [Intune]
 ---
 
-![image](/assets/img/subdomain-numeration01.png)
+![image](/assets/img/intune.png)
 
 ---
 Ref: 
-
-
 [Link](https://www.youtube.com/watch?v=ea0g1Y1zaek)
 
 ---
@@ -33,7 +31,15 @@ winget list -e --id Zoom.Zoom --accept-source-agreements
 ```
 ![img](/assets/img/intune02.png)
 
-- powershell
+
+Task2 Powershell - Detection and Remediation Script
+---
+
+- [Detection Script](/assets/file/InstalledAppDetection.ps1)
+- [Remediation Script](/assets/file/UpdateAppToLatestVersion.ps1)
+
+
+Test
 ```
 ## check locally installed Zoom
 $localInstalled_software = winget.exe list -e --id Zoom.Zoom --accept-source-agreements
@@ -49,9 +55,33 @@ $available= (-split $localInstalled_software[-3])[-2]
 # Write-Host $available
 
 ```
-
+Result
 ```
 Name Id        Version     Available    Source
 ----------------------------------------------
 Zoom Zoom.Zoom < 5.12.8964 5.17.7.31859 winget
 ```
+
+- remediation scripts will run with exit 1 from detection script
+![img](/assets/img/intune03.png)
+
+![img](/assets/img/intune04.png)
+- As Intune is run the script as System.
+- use PsExec64.exe -i -s cmd.exe
+![img](/assets/img/intune05.png)
+
+![img](/assets/img/intune06.png)
+
+![img](/assets/img/intune07.png)
+
+- Intune>Devices>Windows>Scripts and remediations location
+
+![img](/assets/img/intune08.png)
+
+- The script needs to save as UTF-8 format 
+
+![img](/assets/img/intune09.png)
+
+- Create the script below.
+
+![img](/assets/img/intune10.png)
