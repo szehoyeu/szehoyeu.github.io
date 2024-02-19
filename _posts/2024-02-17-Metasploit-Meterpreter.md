@@ -18,4 +18,4 @@ Ref:
 
 ---
 
-[Crack Hash code to clear password](crackstation.net)
+[Crack Hash code to clear password](http://www.crackstation.net)
