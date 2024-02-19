@@ -27,7 +27,6 @@ winget list -?
 winget install -e --id Zoom.Zoom
 
 winget list -e --id Zoom.Zoom --accept-source-agreements
-
 ```
 ![img](/assets/img/intune02.png)
 
@@ -44,16 +43,20 @@ Test
 ## check locally installed Zoom
 $localInstalled_software = winget.exe list -e --id Zoom.Zoom --accept-source-agreements
 
-# Logic 
-# If result contain Avaliable, the application needs to upgrade the version
-# If result only contain Version, the application is the latest version 
-# If result don't show anything, the application is not installed
+Logic 
+---
+- If result contain Avaliable, the application needs to upgrade the version
+- If result only contain Version, the application is the latest version 
+- If result don't show anything, the application is not installed
 
-# -3 : line of the header
-# -2 : "Available" header
+```
+-3 : line of the header
+
+-2 : "Available" header
+```
+
 $available= (-split $localInstalled_software[-3])[-2]
-# Write-Host $available
-
+Write-Host $available
 ```
 Result
 ```
@@ -63,11 +66,14 @@ Zoom Zoom.Zoom < 5.12.8964 5.17.7.31859 winget
 ```
 
 - remediation scripts will run with exit 1 from detection script
+
 ![img](/assets/img/intune03.png)
 
 ![img](/assets/img/intune04.png)
+
 - As Intune is run the script as System.
 - use PsExec64.exe -i -s cmd.exe
+
 ![img](/assets/img/intune05.png)
 
 ![img](/assets/img/intune06.png)
