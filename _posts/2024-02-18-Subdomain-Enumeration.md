@@ -89,6 +89,8 @@ Task 5  OSINT - Sublist3r
 Automation Using Sublist3r
 To speed up the process of OSINT subdomain discovery, we can automate the above methods with the help of tools like ```Sublist3r```, click the "View Site" button to open up the static site and run the sublist3r simulation to discover a new subdomain that will help answer the question below.
 
+![image](/assets/img/subdomain-numeration03.png)
+
 ---
 What is the first subdomain discovered by sublist3r?
 web55.acmeitsupport.thm
