@@ -16,7 +16,7 @@ Ref:
 [Discover subdomains belonging to a Domain 02](https://ui.ctsearch.entrust.com/ui/ctsearchui "CT Search")
 
 
-[Link](https://www.youtube.com/watch?v=96V-nwvtaks)
+[Link](https://www.youtube.com/watch?v=BdgXV-FCthw&t=223s)
 
 ---
 Task 1  Introduction
