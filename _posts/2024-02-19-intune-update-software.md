@@ -9,9 +9,13 @@ tags: [Intune]
 
 ---
 Ref: 
+
+[Winget Updates | Proactive Remediations](https://scloud.work/winget-updates-proactive-remediations-2/)
+
 [Link](https://www.youtube.com/watch?v=ea0g1Y1zaek)
 
 ---
+
 Task 1  Find the list id of the application
 ---
 
