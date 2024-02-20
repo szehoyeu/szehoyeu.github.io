@@ -262,7 +262,7 @@ i.e.
 curl 'http://10.10.1.45/customers/reset?email=robert%40acmeitsupport.thm' -H 'Content-Type: application/x-www-form-urlencoded' -d 'username=robert'
 ```
 #### Output
----
+```
 
 <!DOCTYPE html>
 <html lang="en">
@@ -314,7 +314,7 @@ curl 'http://10.10.1.45/customers/reset?email=robert%40acmeitsupport.thm' -H 'Co
 </html>
 <!--
 Page Generated in 0.03351 Seconds using the THM Framework v1.2 ( https://static-labs.tryhackme.cloud/sites/thm-web-framework ) -->
-
+```
 ---
 
 We use the ```-H``` flag to add an additional header to the request. In this instance, we are setting the ```Content-Type``` to application/x-www-form-urlencoded, which lets the web server know we are sending form data so it properly understands our request.
@@ -337,7 +337,7 @@ curl 'http://10.10.1.45/customers/reset?email=robert%40acmeitsupport.thm' -H 'Co
 ```
 #### Output
 ---
-
+```
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -388,7 +388,7 @@ curl 'http://10.10.1.45/customers/reset?email=robert%40acmeitsupport.thm' -H 'Co
 </html>
 <!--
 Page Generated in 0.03188 Seconds using the THM Framework v1.2 ( https://static-labs.tryhackme.cloud/sites/thm-web-framework )-->
-
+```
 
 Step 3:
 
@@ -404,6 +404,7 @@ curl 'http://10.10.67.239/customers/reset?email=robert@acmeitsupport.thm' -H 'Co
 ```
 #### Output
 ---
+```
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -454,7 +455,7 @@ curl 'http://10.10.67.239/customers/reset?email=robert@acmeitsupport.thm' -H 'Co
 </html>
 <!--
 Page Generated in 0.03800 Seconds using the THM Framework v1.2 ( https://static-labs.tryhackme.cloud/sites/thm-web-framework )-->
-
+```
 
 ---
 
