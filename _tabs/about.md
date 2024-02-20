@@ -14,7 +14,7 @@ I have a strong faith in Jesus and I try to practice my faith by praying, and re
 
 I have a very active and healthy lifestyle, as I love playing basketball, swimming, and running. I run more than 16 miles a week only on weekends. I also like meditation before sleep, as it helps me relax and improve my well-being.
 
-I have a big and lovely family, with three children and five dogs. My son is Aidan, and my daughters are Michelle and Abbie. The dogs are Luffy, Jackie, Chewy, DingDing, and Mickey. They are all growing up fast and they keep me busy and happy.
+I have a big and lovely family, with three children and five dogs. My wife, Ada, my son, Aidan, and my daughters are Michelle and Abbie. The dogs are Luffy, Jackie, Chewy, DingDing, and Mickey. They are all growing up fast and they keep me busy and happy.
 
 > Add content here `_tabs/about.md`{: .filepath } 
 {: .prompt-tip }
