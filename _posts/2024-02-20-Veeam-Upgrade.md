@@ -5,16 +5,24 @@ categories: [Veeam]
 tags: [Veeam]
 ---
 
+![image](/assets/img/veeam.png)
+---
 Ref:
 
-[Veeam](https://helpcenter.veeam.com/docs/backup/vsphere/upgrade_console.html?ver=120)
+[Veeam Documentation for console upgrade](https://helpcenter.veeam.com/docs/backup/vsphere/upgrade_console.html?ver=120)
 
-![image](/assets/img/veeam.png)
-
-
+[Youtube Link: ](https://www.youtube.com/watch?v=UANRBXLGckY&t=7s)
 
 ---
 Steps
+
+1. Backup configuration settings !!!
+2. Take screenshots of the backup jobs and DISABLE the jobs afterward.
+3. Disable all backup jobs
+![img](/assets/img/Veeam17.png)
+4. Stop Veeam.Backup.Shell.exe via Task Manager![img](/assets/img/Veeam16.png)
+
+---
 
 Upgrading Veeam Backup & Replication Console
 To perform upgrade of Veeam Backup & Replication console to version 12.1, you must be running version 10a (build 10.0.1.4854) or later on the supported operating system (refer to the System Requirements section of this document). For information on upgrade from earlier versions, see this Veeam KB article.
