@@ -19,8 +19,12 @@ Steps
 1. Backup configuration settings !!!
 2. Take screenshots of the backup jobs and DISABLE the jobs afterward.
 3. Disable all backup jobs
+
 ![img](/assets/img/Veeam17.png)
-4. Stop Veeam.Backup.Shell.exe via Task Manager![img](/assets/img/Veeam16.png)
+
+4. Stop Veeam.Backup.Shell.exe via Task Manager
+
+![img](/assets/img/Veeam16.png)
 
 ---
 
