@@ -12,6 +12,8 @@ Ref:
 
 - [THM Command Injection](https://tryhackme.com/room/oscommandinjection)
 
+- [Cheat Sheet - Command Injection](https://github.com/payloadbox/command-injection-payload-list) 
+
 - [Request Bin Tool](https://pipedream.com/requestbin)
 
 - [FFUF tool and wordlist - Github](https://github.com/ffuf/ffuf)
@@ -21,6 +23,7 @@ Ref:
 - [Decode from Base64 format](https://www.base64decode.org/)
 
 - [XSS Hunter Express](https://github.com/mandatoryprogrammer/xsshunter-express)
+
 ---
 
 Task 1  Introduction (What is Command Injection?)
@@ -181,11 +184,96 @@ What payload would I use to test a Windows machine for blind command injection?
 Answer : timeout
 
 ---
+Task 4  Remediating Command Injection
+---
+Command injection can be prevented in a variety of ways. Everything from minimal use of potentially dangerous functions or libraries in a programming language to filtering input without relying on a user’s input. I have detailed these a bit further below. The examples below are of the PHP programming language; however, the same principles can be extended to many other languages.
 
 
 
+### Vulnerable Functions
+
+In PHP, many functions interact with the operating system to execute commands via shell; these include:
+
+- Exec
+- Passthru
+- System
+
+
+Take this snippet below as an example. Here, the application will only accept and process numbers that are inputted into the form. This means that any commands such as ```whoami``` will not be processed.
+
+![img](/assets/img/cmd-inject06.png)
+
+The application will only accept a specific pattern of characters (the digits  0-9)
+The application will then only proceed to execute this data which is all numerical.
+
+
+These functions take input such as a string or user data and will execute whatever is provided on the system. Any application that uses these functions without proper checks will be vulnerable to command injection.
 
 
 
+### Input sanitisation
+
+Sanitising any input from a user that an application uses is a great way to prevent command injection. This is a process of specifying the formats or types of data that a user can submit. For example, an input field that only accepts numerical data or removes any special characters such as ```>``` ,  ```&``` and ```/```.
+
+In the snippet below, the ```filter_input``` [PHP function](https://www.php.net/manual/en/function.filter-input.php) is used to check whether or not any data submitted via an ```input form is a number or not```. If it is not a number, it must be invalid input.
+
+![img](/assets/img/cmd-inject07.png)
+
+### Bypassing Filters
+
+Applications will employ numerous techniques in filtering and sanitising data that is taken from a  user's input. These filters will restrict you to specific payloads; however, ```we can abuse the logic behind an application to bypass these filters```. 
+
+For example, 
+
+An application may strip out quotation marks; we can instead use the hexadecimal value of this to achieve the same result.
+
+When executed, although the data given will be in a different format than what is expected, it can still be interpreted and will have the same result.
+
+![img](/assets/img/cmd-inject08.png)
+
+---
+
+What is the term for the process of "cleaning" user input that is provided to an application?
+Sanitisation
+
+---
+
+Task 5  Practical: Command Injection (Deploy)
+---
+Test some payloads on the application hosted on the website visible in split-screen view to test for command injection. Refer to this [cheat sheet](https://github.com/payloadbox/command-injection-payload-list) if you are stuck or wish to explore some more complex payloads.
+
+Find the contents of the flag located in ```/home/tryhackme/flag.txt```. You can use a variety of payloads to achieve this – I recommend trying multiple.
 
 
+```
+127.0.0.1 & cat $;/usr/bin/id
+```
+![img](/assets/img/cmd-inject09.png)
+![img](/assets/img/cmd-inject10.png)
+
+---
+
+What user is this application running as?
+```
+www-data
+```
+What are the contents of the flag located in /home/tryhackme/flag.txt?
+```
+THM{COMMAND_INJECTION_COMPLETE}
+```
+
+---
+
+Task 6  Conclusion
+---
+Well done for making it to the end of this room. To recap, we’ve learned about the following elements of command injection:
+
+- How to discover the command injection vulnerability
+
+- How to test and exploit this vulnerability using payloads designed for different operating systems
+
+- How to prevent this vulnerability in an application
+
+- Applying your learning by performing command injection in a practical application
+
+As you will have probably discovered, there are multiple payloads that can be used to achieve the same goal. I highly encourage you to go back to the practical element of this task and try some alternative methods of retrieving the flag.
