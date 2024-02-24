@@ -24,6 +24,8 @@ Ref:
 
 - [XSS Hunter Express](https://github.com/mandatoryprogrammer/xsshunter-express)
 
+- [Link](https://www.youtube.com/watch?v=9v5RzG3ha8s)
+
 ---
 
 Task 1  Introduction (What is Command Injection?)
