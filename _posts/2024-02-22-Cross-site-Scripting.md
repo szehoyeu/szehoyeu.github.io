@@ -121,8 +121,10 @@ Which JavaScript method is often used as a Proof Of Concept?
 Answer : alert
 
 ---
+
 Task 3  Reflected XSS
 ---
+
 ### Reflected XSS
 
 Reflected XSS happens when ```user-supplied data in an HTTP request``` is included in the webpage source without any validation.
@@ -155,8 +157,10 @@ Where in an URL is a good place to test for reflected XSS?
 Answer : parameter
 
 ---
+
 Task 4  Stored XSS
 ---
+
 ### Stored XSS
 
 As the name infers, the XSS payload is stored on the web application (in a database, for example) and then gets run when other users visit the site or web page.
@@ -194,6 +198,7 @@ Answer : database
 
 Task 5  DOM Based XSS
 ---
+
 ### DOM Based XSS
 
 What is the DOM?
