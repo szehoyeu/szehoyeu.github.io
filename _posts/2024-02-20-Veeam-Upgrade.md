@@ -17,7 +17,9 @@ Ref:
 Steps
 
 1. Backup configuration settings !!!
+
 2. Take screenshots of the backup jobs and DISABLE the jobs afterward.
+
 3. Disable all backup jobs
 
 ![img](/assets/img/Veeam17.png)
