@@ -22,7 +22,7 @@ Ref:
 
 - [Sequenxer](https://tryhackme.com/room/burpsuiteom)
 
-- [Link](https://www.youtube.com/)
+- [Link](https://www.youtube.com/watch?v=HZqCeVD1Hew)
 
 ---
 
@@ -33,9 +33,13 @@ Welcome to Burp Suite Basics!
 This particular room aims to understand the basics of the Burp Suite web application security testing framework. Our focus will revolve around the following key aspects:
 
 1. A thorough introduction to Burp Suite.
+
 2. A comprehensive overview of the various tools available within the framework.
+
 3. Detailed guidance on the process of installing Burp Suite on your system.
+
 4. Navigating and configuring Burp Suite.
+
 We will also introduce the core of the Burp Suite framework, which is the Burp Proxy. It is important to note that this room primarily serves as a foundational resource for acquiring knowledge about Burp Suite. Subsequent rooms in the Burp module will adopt a more practical approach. Thus, this room will contain a greater emphasis on theoretical content. If you have not yet utilised Burp Suite, it is recommended to carefully read the provided information and actively engage with the tool. Experimentation is essential for grasping the fundamentals of this framework. Combining the information presented here with hands-on exploration will establish a strong foundation for utilising the framework. This will significantly assist you in future rooms.
 
 Task 2  What is Burp Suite
@@ -234,6 +238,28 @@ Project settings: Displays settings specific to the current project.
 
 It's worth noting that many tools within Burp Suite provide shortcuts to specific categories of settings. For example, the Proxy module includes a Proxy settings button that opens the settings window directly to the relevant proxy section.
 
+---
 
+In which category can you find a reference to a "Cookie jar"?
+```
+Answer : 
+```
+In which base category can you find the "Updates" sub-category, which controls the Burp Suite update behaviour?
+```
+Answer : 
+```
+What is the name of the sub-category which allows you to change the keybindings for shortcuts in Burp Suite?
+```
+Answer : 
+```
+If we have uploaded Client-Side TLS certificates, can we override these on a per-project basis (yea/nay)?
+```
+Answer : ***
+```
+
+---
+
+Task 8  Introduction to the Burp Proxy
+---
 
 
