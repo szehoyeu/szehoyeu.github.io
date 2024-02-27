@@ -22,7 +22,7 @@ Ref:
 
 - [Sequenxer](https://tryhackme.com/room/burpsuiteom)
 
-- [Link](https://www.youtube.com/watch?v=HZqCeVD1Hew)
+- [Link](https://www.youtube.com/watch?v=dJy0dVlWGtI)
 
 ---
 
