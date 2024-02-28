@@ -402,9 +402,9 @@ Capturing and logging all of the traffic can quickly become overwhelming and inc
 By setting a scope for the project, we can define what gets proxied and logged in Burp Suite. We can restrict Burp Suite to target only the specific web application(s) we want to test. 
 
 The easiest way to do this is by switching to the ```Target tab, right-clicking on our target from the list on the left```, and selecting ```Add To Scope```. Burp will then prompt us to choose whether we want to stop logging anything that is not in scope, and in most cases, we want to select ```yes```.
-<!--
+
 ![Instructions- Add Target - Scooping](/assets/file/BurpSuite01.gif)
--->
+
 ---
 
 To check our scope, we can switch to the ```Scope settings sub-tab``` within the ```Target tab```.
@@ -441,9 +441,9 @@ To overcome this issue, we can manually add the PortSwigger CA certificate to ou
 By completing these steps, we have added the PortSwigger CA certificate to our list of trusted certificate authorities. Now, we should be able to visit any TLS-enabled site without encountering the certificate error.
 
 You can watch the following video for a visual demonstration of the full certificate import process:
-<!--
+
 ![Full certificate import process](/assets/file/BurpSuite02.gif)
--->
+
 By following these instructions, you can ensure that your browser trusts the PortSwigger CA certificate and securely communicates with TLS-enabled websites through the Burp Suite Proxy.
 
 ---
@@ -460,9 +460,9 @@ In a real-world web app pentest, we would test this for a variety of things, one
 
 ### Walkthrough
 Try typing: <script>alert("Succ3ssful XSS")</script>, into the "Contact Email" field. You should find that there is a client-side filter in place which prevents you from adding any special characters that aren't allowed in email addresses:
-<!--
+
 ![img](/assets/file/BurpSuite03.gif)
--->
+
 Fortunately for us, client-side filters are absurdly easy to bypass. There are a variety of ways we could disable the script or just prevent it from loading in the first place.
 
 Let's focus on simply bypassing the filter for now.
@@ -474,9 +474,9 @@ Now, enter some legitimate data into the support form. For example: "pentester@e
 Submit the form — the request should be intercepted by the proxy.
 
 With the request captured in the proxy, we can now change the email field to be our very simple payload from above: <script>alert("Succ3ssful XSS")</script>. After pasting in the payload, we need to select it, then URL encode it with the Ctrl + U shortcut to make it safe to send. This process is shown in the GIF below:
-<!--
+
 ![img](/assets/file/BurpSuite04.gif)
--->
+
 Finally, press the "Forward" button to send the request.
 
 You should find an alert box from the site indicating a successful XSS attack!
