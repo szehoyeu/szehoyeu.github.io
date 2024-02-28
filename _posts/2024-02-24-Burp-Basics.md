@@ -56,12 +56,12 @@ Burp Suite is available in different editions. For our purposes, we will focus o
 
 1. ```Burp Suite Professional``` is an unrestricted version of Burp Suite Community. It comes with features such as:
 
-- An automated vulnerability scanner.
-- A fuzzer/brute-forcer that isn't rate limited.
-- Saving projects for future use and report generation.
-- A built-in API to allow integration with other tools.
-- Unrestricted access to add new extensions for greater functionality.
-- Access to the Burp Suite Collaborator (effectively providing a unique request catcher self-hosted or running on a Portswigger-owned server).
+   - An automated vulnerability scanner.
+   - A fuzzer/brute-forcer that isn't rate limited.
+   - Saving projects for future use and report generation.
+   - A built-in API to allow integration with other tools.
+   - Unrestricted access to add new extensions for greater functionality.
+   - Access to the Burp Suite Collaborator (effectively providing a unique request catcher self-hosted or running on a Portswigger-owned server).
 
 In short, Burp Suite Professional is a highly potent tool, making it a preferred choice for professionals in the field.
 
