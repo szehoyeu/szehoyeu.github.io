@@ -194,9 +194,7 @@ In Burp Suite, the default navigation is primarily done through the top menu bar
 
 Here's how the navigation works:
 
-1. Module Selection: The top row of the menu bar displays the available modules in Burp Suite. You can click on each module to switch between them. For example, the Burp Proxy module is selected in the image below.
-
-![img](/assets/img/burp-basics06.png)
+1. Module Selection: The top row of the menu bar displays the available modules in Burp Suite. You can click on each module to switch between them. For example, the Burp Proxy module is selected in the image below. ![img](/assets/img/burp-basics06.png)
 
 2. ```Sub-Tabs```: If a selected module has multiple sub-tabs, they can be accessed through the second menu bar that appears directly below the main menu bar. These sub-tabs often contain module-specific settings and options. For example, in the image above, the Proxy Intercept sub-tab is selected within the Burp Proxy module.
 
@@ -307,32 +305,26 @@ Here are the steps to configure the Burp Suite Proxy with FoxyProxy:
 Note: 
 FoxyProxy is already installed on the AttackBox.
 
-2. Access FoxyProxy Options: Once installed, a button will appear at the top right of the Firefox browser. Click on the FoxyProxy button to access the FoxyProxy options pop-up.
+2. Access FoxyProxy Options: Once installed, a button will appear at the top right of the Firefox browser. Click on the FoxyProxy button to access the FoxyProxy options pop-up.![img](/assets/img/burp-basics15.png)
 
-![img](/assets/img/burp-basics15.png)
-
-3. Create Burp Proxy Configuration: In the FoxyProxy options pop-up, click the Options button. This will open a new browser tab with the FoxyProxy configurations. Click the Add button to create a new proxy configuration.
-
-![img](/assets/img/burp-basics16.png)
+3. Create Burp Proxy Configuration: In the FoxyProxy options pop-up, click the Options button. This will open a new browser tab with the FoxyProxy configurations. Click the Add button to create a new proxy configuration.![img](/assets/img/burp-basics16.png)
 
 4. Add Proxy Details: On the "Add Proxy" page, fill in the following values:
+   
+   Title: ```Burp``` (or any preferred name)
 
-Title: ```Burp``` (or any preferred name)
-Proxy IP: ```127.0.0.1```
-Port: ```8080```
+   Proxy IP: ```127.0.0.1```
 
-![img](/assets/img/burp-basics17.png)
+   Port: ```8080```
+   
+   ![img](/assets/img/burp-basics17.png)
 
 
 5. Save Configuration: Click Save to save the Burp Proxy configuration.
 
-6. Activate Proxy Configuration: Click on the FoxyProxy icon at the top-right of the Firefox browser and select the Burp configuration. This will redirect your browser traffic through 127.0.0.1:8080. Note that Burp Suite must be running for your browser to make requests when this configuration is activated.
+6. Activate Proxy Configuration: Click on the FoxyProxy icon at the top-right of the Firefox browser and select the Burp configuration. This will redirect your browser traffic through 127.0.0.1:8080. Note that Burp Suite must be running for your browser to make requests when this configuration is activated.![img](/assets/img/burp-basics18.png)
 
-![img](/assets/img/burp-basics18.png)
-
-7. Enable Proxy Intercept in Burp Suite: Switch to Burp Suite and ensure that Intercept is turned on in the Proxy tab.
-
-![img](/assets/img/burp-basics19.png)
+7. Enable Proxy Intercept in Burp Suite: Switch to Burp Suite and ensure that Intercept is turned on in the Proxy tab.![img](/assets/img/burp-basics19.png)
 
 8. Test the Proxy: Open Firefox and try accessing a website, such as the homepage for http://10.10.237.29/. Your browser will hang, and the proxy will populate with the HTTP request. Congratulations, you have successfully intercepted your first request!
 
@@ -410,9 +402,9 @@ Capturing and logging all of the traffic can quickly become overwhelming and inc
 By setting a scope for the project, we can define what gets proxied and logged in Burp Suite. We can restrict Burp Suite to target only the specific web application(s) we want to test. 
 
 The easiest way to do this is by switching to the ```Target tab, right-clicking on our target from the list on the left```, and selecting ```Add To Scope```. Burp will then prompt us to choose whether we want to stop logging anything that is not in scope, and in most cases, we want to select ```yes```.
-
+<!--
 ![Instructions- Add Target - Scooping](/assets/file/BurpSuite01.gif)
-
+-->
 ---
 
 To check our scope, we can switch to the ```Scope settings sub-tab``` within the ```Target tab```.
@@ -449,9 +441,9 @@ To overcome this issue, we can manually add the PortSwigger CA certificate to ou
 By completing these steps, we have added the PortSwigger CA certificate to our list of trusted certificate authorities. Now, we should be able to visit any TLS-enabled site without encountering the certificate error.
 
 You can watch the following video for a visual demonstration of the full certificate import process:
-
+<!--
 ![Full certificate import process](/assets/file/BurpSuite02.gif)
-
+-->
 By following these instructions, you can ensure that your browser trusts the PortSwigger CA certificate and securely communicates with TLS-enabled websites through the Burp Suite Proxy.
 
 ---
@@ -468,9 +460,9 @@ In a real-world web app pentest, we would test this for a variety of things, one
 
 ### Walkthrough
 Try typing: <script>alert("Succ3ssful XSS")</script>, into the "Contact Email" field. You should find that there is a client-side filter in place which prevents you from adding any special characters that aren't allowed in email addresses:
-
+<!--
 ![img](/assets/file/BurpSuite03.gif)
-
+-->
 Fortunately for us, client-side filters are absurdly easy to bypass. There are a variety of ways we could disable the script or just prevent it from loading in the first place.
 
 Let's focus on simply bypassing the filter for now.
@@ -482,9 +474,9 @@ Now, enter some legitimate data into the support form. For example: "pentester@e
 Submit the form — the request should be intercepted by the proxy.
 
 With the request captured in the proxy, we can now change the email field to be our very simple payload from above: <script>alert("Succ3ssful XSS")</script>. After pasting in the payload, we need to select it, then URL encode it with the Ctrl + U shortcut to make it safe to send. This process is shown in the GIF below:
-
+<!--
 ![img](/assets/file/BurpSuite04.gif)
-
+-->
 Finally, press the "Forward" button to send the request.
 
 You should find an alert box from the site indicating a successful XSS attack!
