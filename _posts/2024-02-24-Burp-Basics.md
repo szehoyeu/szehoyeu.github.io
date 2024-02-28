@@ -305,9 +305,11 @@ Here are the steps to configure the Burp Suite Proxy with FoxyProxy:
 Note: 
 FoxyProxy is already installed on the AttackBox.
 
-2. Access FoxyProxy Options: Once installed, a button will appear at the top right of the Firefox browser. Click on the FoxyProxy button to access the FoxyProxy options pop-up.![img](/assets/img/burp-basics15.png)
+2. Access FoxyProxy Options: Once installed, a button will appear at the top right of the Firefox browser. Click on the FoxyProxy button to access the FoxyProxy options pop-up.
+![img](/assets/img/burp-basics15.png)
 
-3. Create Burp Proxy Configuration: In the FoxyProxy options pop-up, click the Options button. This will open a new browser tab with the FoxyProxy configurations. Click the Add button to create a new proxy configuration.![img](/assets/img/burp-basics16.png)
+3. Create Burp Proxy Configuration: In the FoxyProxy options pop-up, click the Options button. This will open a new browser tab with the FoxyProxy configurations. Click the Add button to create a new proxy configuration.
+![img](/assets/img/burp-basics16.png)
 
 4. Add Proxy Details: On the "Add Proxy" page, fill in the following values:
    
@@ -322,9 +324,11 @@ FoxyProxy is already installed on the AttackBox.
 
 5. Save Configuration: Click Save to save the Burp Proxy configuration.
 
-6. Activate Proxy Configuration: Click on the FoxyProxy icon at the top-right of the Firefox browser and select the Burp configuration. This will redirect your browser traffic through 127.0.0.1:8080. Note that Burp Suite must be running for your browser to make requests when this configuration is activated.![img](/assets/img/burp-basics18.png)
+6. Activate Proxy Configuration: Click on the FoxyProxy icon at the top-right of the Firefox browser and select the Burp configuration. This will redirect your browser traffic through 127.0.0.1:8080. Note that Burp Suite must be running for your browser to make requests when this configuration is activated.
+![img](/assets/img/burp-basics18.png)
 
-7. Enable Proxy Intercept in Burp Suite: Switch to Burp Suite and ensure that Intercept is turned on in the Proxy tab.![img](/assets/img/burp-basics19.png)
+7. Enable Proxy Intercept in Burp Suite: Switch to Burp Suite and ensure that Intercept is turned on in the Proxy tab.
+![img](/assets/img/burp-basics19.png)
 
 8. Test the Proxy: Open Firefox and try accessing a website, such as the homepage for http://10.10.237.29/. Your browser will hang, and the proxy will populate with the HTTP request. Congratulations, you have successfully intercepted your first request!
 
@@ -432,7 +436,8 @@ To overcome this issue, we can manually add the PortSwigger CA certificate to ou
 
 1. ```Download``` the CA Certificate: With the Burp Proxy activated, navigate to http://burp/cert. This will download a file called cacert.der. Save this file somewhere on your machine.
 
-2. ```Access Firefox Certificate Settings```: Type about:preferences into your Firefox URL bar and press Enter. This will take you to the Firefox settings page. Search the page for ```"certificates"``` and click on the View ```Certificates``` button.![img](/assets/img/burp-basics24.png)
+2. ```Access Firefox Certificate Settings```: Type about:preferences into your Firefox URL bar and press Enter. This will take you to the Firefox settings page. Search the page for ```"certificates"``` and click on the View ```Certificates``` button.
+![img](/assets/img/burp-basics24.png)
 
 3. ```Import the CA Certificate```: In the Certificate Manager window, click on the Import button. Select the cacert.der file that you downloaded in the previous step.
 
