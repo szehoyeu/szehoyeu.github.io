@@ -598,6 +598,7 @@ Answer : o.bennett:bella1
 
 
 > Step 1. Turn off "Proxy" and navigate to http://10.10.79.3/admin/login/ to load the page
+{: .prompt-tip }
 
 > Step 2. Enter whatever the login 
 Step 3. Turn On "Proxy"
