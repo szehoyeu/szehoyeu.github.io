@@ -114,7 +114,8 @@ This feature enables us to view and alter our data in hexadecimal byte format, a
 Lastly, we have the Smart decode option. This feature tries to auto-decode encoded text. 
 
 For instance, 
-```&#x42;&#x75;&#x72;&#x70;&#x20;&#x53;&#x75;&#x69;&#x74;&#x65;
+```
+&#x42;&#x75;&#x72;&#x70;&#x20;&#x53;&#x75;&#x69;&#x74;&#x65;
 ``` 
 is automatically recognized as ```HTML encoded``` and is accordingly decoded:
 
@@ -206,7 +207,6 @@ Note: This file can also be downloaded from the deployed VM with wget http://10.
 2. unzip archive.zip.
 3. unzip file.zip -d destination_folder.
 4. unzip mysite.zip -d /var/www.
-
 ```
 
 Now read the problem specification below:
