@@ -24,8 +24,6 @@ Ref:
 
 - [Cyberchef](https://gchq.github.io/CyberChef/)
 
-- [Link](https://www.youtube.com/watch?v=eaOk-N1UQuU)
-
 ---
 
 Task 1  Introduction
