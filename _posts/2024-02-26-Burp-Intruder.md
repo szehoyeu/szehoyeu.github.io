@@ -597,24 +597,23 @@ Answer : o.bennett:bella1
 
 
 
-> Step 1. Turn off "Proxy" and navigate to http://10.10.79.3/admin/login/ to load the page
-{: .prompt-tip }
+- Step 1. Turn off "Proxy" and navigate to http://10.10.79.3/admin/login/ to load the page
 
-> Step 2. Enter whatever the login 
-Step 3. Turn On "Proxy"
-Step 4. Enter whatever the login again to capture Username, Password and LoginToken
-Step 5. Send the result to Intruder
-Step 6. Set "Positions" to Pitchfork
-Step 7. Only set username and password as variables
-Step 8. On Payloads tab, set payload 1 to load username.txt list; set payload 2 to password.txt list
-Step 9. Project Options tab or Project>Sessions>Marcos>Add 
+- Step 2. Enter whatever the login 
+- Step 3. Turn On "Proxy"
+- Step 4. Enter whatever the login again to capture Username, Password and LoginToken
+- Step 5. Send the result to Intruder
+- Step 6. Set "Positions" to Pitchfork
+- Step 7. Only set username and password as variables
+- Step 8. On Payloads tab, set payload 1 to load username.txt list; set payload 2 to password.txt list
+- Step 9. Project Options tab or Project>Sessions>Marcos>Add 
 
 Then look for status code with 200, method with GET, URL with "/admin/login" and Length with "4378"
 ![img](/assets/img/burp-Intruder19.png)
 
 Click ok and give a name CSFR
 
-Step 10. Add Session Handling Rules
+- Step 10. Add Session Handling Rules
 Details tab: Use Suite Scope
 
 Scope tab: 
@@ -622,19 +621,24 @@ Scope tab:
 - URL Scope: "Use suite scope"
 or Use Custom Scope > Include in scope > Add > Prefix: > http://MAchine_IP/
 
-Step 11. Add Rule actions > Run a Marco > Select the Macro created earlier
+- Step 11. Add Rule actions > Run a Marco > Select the Macro created earlier
 
-Step 12. Select the "Update only the following parameters and headers:" option and click "Edit"
+- Step 12. Select the "Update only the following parameters and headers:" option and click "Edit"
 Enter "loginToken"
 
-Select "Update only the following cookies" option and enter "session" > OK > Attack
+- Step 13. Select "Update only the following cookies" option and enter "session" > OK > Attack
 
 ![img](/assets/img/burp-Intruder20.png)
 
-Login to the machine /admin/login page
-{: .prompt-tip }
+- Step 14. Login to the machine /admin/login page
+
 
 --- 
 
 Task 13  Conclusion
 ---
+Congratulations on completing the Burp Suite Intruder room!
+
+By now, you should have a solid understanding of how to effectively utilize Intruder to automate requests and perform various types of attacks.
+
+In the next room of the module, we will be looking at some of [Burp Suite's other modules](https://tryhackme.com/room/burpsuiteom)!
