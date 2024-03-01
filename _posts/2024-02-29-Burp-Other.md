@@ -347,10 +347,66 @@ Answer : Excellent
 Task 9  Sequencer: Analysis
 ---
 
+Now that we have a report for the entropy analysis of our token, it's time to analyze it!
+
+The generated entropy analysis report is split into four primary sections. The first of these is the Summary of the results. The summary gives us the following:
+
+![img](/assets/img/burp-other18.png)
+
+- ```Overall result```: This gives a broad assessment of the security of the token generation mechanism. In this case, the level of entropy indicates that the tokens are likely securely generated.
+
+- ```Effective entropy```: This measures the randomness of the tokens. The effective entropy of 117 bits is relatively high, indicating that the tokens are sufficiently random and, therefore, secure against prediction or brute force attacks.
+
+- ```Reliability```: The significance level of 1% implies that there is 99% confidence in the accuracy of the results. This level of confidence is quite high, providing assurance in the accuracy of the effective entropy estimation.
+
+- ```Sample```: This provides details about the token samples analyzed during the entropy testing process, including the number of tokens and their characteristics.
+
+While the summary report often provides enough information to assess the security of the token generation process, it's important to remember that further investigation may be necessary in some cases. The character-level and bit-level analysis can provide more detailed insights into the randomness of the tokens, especially when the summary results raise potential concerns.
+
+While the entropy report can provide a strong indicator of the security of the token generation mechanism, there needs to be more definitive proof. Other factors could also impact the security of the tokens, and the nature of probability and statistics means there's always a degree of uncertainty. That said, an effective entropy of 117 bits with a significance level of 1% suggests a robustly secure token generation process.
+
+---
+
+Task 10  Organizer: Overview
+---
+
+The Organizer module of Burp Suite is designed to ```help you store and annotate copies of HTTP requests``` that you may want to revisit later. This tool can be particularly useful for organizing your penetration testing workflow. Here are some of its key features:
+
+- You can store requests that you want to investigate later, save requests that you've already identified as interesting, or save requests that you want to add to a report later.
+
+- You can send HTTP requests to Burp Organizer from other Burp Modules such as Proxy or Repeater. You can do this by right-clicking the request and selecting ```Send to Organizer```or using the default hotkey ```Ctrl + O```. Each HTTP request that you send to Organizer is a read-only copy of the original request saved at the point you sent it to Organizer.
+
+![img](/assets/img/burp-other19.png)
 
 
+- Requests are stored in a table, which contains columns such as the request index number, the time the request was made, workflow status, Burp tool that the request was sent from, HTTP method, server hostname, URL file path, URL query string, number of parameters in the request, HTTP status code of the response, length of the response in bytes, and any notes that you have made.
+
+![img](/assets/img/burp-other20.png)
+
+To view the request and response:
+
+1. Click on any Organizer item.
+2. The request and response are both read-only. You can search within the request or response, select the request, and then use the search bar below the request.
 
 
+![img](/assets/img/burp-other21.png)
 
+Are saved requests read-only? (yea/nay)
+```
+yea
+```
+
+---
+
+Task 11  Conclusion
+---
+
+Congratulations on completing the Burp Suite Other Modules room!
+
+To summarize, Decoder allows you to encode and decode data, making it easier to read and understand the information being transferred. Comparer enables you to spot differences between two datasets, which can be pivotal in identifying vulnerabilities or anomalies. Sequencer helps in performing entropy analysis on tokens, providing insights into the randomness of their generation and, consequently, their security level. Organizer enables you to store and annotate copies of HTTP requests that you may want to revisit later.
+
+Having a fundamental understanding of these tools equips you with a broader skillset when it comes to web application penetration testing.
+
+In the next and final room of this module, you will be exploring the Burp Suite Extensions tool.
 
 
