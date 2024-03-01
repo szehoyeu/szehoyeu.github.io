@@ -1,6 +1,6 @@
 ---
 title:  "THM: Burp Sutie-Extensions"
-date:   2024-02-2629 22:00:00 +0000
+date:   2024-02-28 22:00:00 +0000
 categories: [BurpSuite]
 tags: [BurpSuite]
 ---
