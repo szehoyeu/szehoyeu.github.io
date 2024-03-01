@@ -47,7 +47,7 @@ The Extensions interface in Burp Suite provides an overview of the extensions lo
 ![img](/assets/img/burp-ext01.png)
 
 1. ```Extensions List```: The top box displays a list of the extensions that are currently installed in Burp Suite for the current project. It allows you to activate or deactivate individual extensions.
-2. Managing Extensions```: On the left side of the Extensions interface, there are options to manage extensions:
+2. ```Managing Extensions```: On the left side of the Extensions interface, there are options to manage extensions:
    - ```Add```: You can use this button to install new extensions from files on your disk. These files can be custom-coded modules or modules obtained from external sources that are not available in the official BApp store.
    - ```Remove```: This button allows you to uninstall selected extensions from Burp Suite.
 
