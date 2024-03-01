@@ -6,7 +6,7 @@ order: 4
 
 
 
-I am an IT system administrator at Prolacta Bioscience, where I manage and monitor the IT systems and servers for a company that produces human milk-based products for premature infants. I have a master’s degree in electrical engineering from USC and a passion for learning new technologies and skills.
+I am an IT system administrator at Prolacta Bioscience, where I manage and monitor the IT systems and servers for a company that produces human milk-based products for premature infants. I have a Master’s degree in Electrical Engineering from USC and a passion for learning new technologies and skills.
 
 I have experience in IT systems and web development, and I am proficient in various tools and platforms, such as Azure, PowerShell, Power Automate, Veeam, Intune, Barracuda, Palo Alto Firewall, SOC, and cybersecurity. I have successfully completed various projects, such as a web app, automated workflow, etc which I showcase on my Github personal page. I also write a blog where I share my knowledge and insights on various topics, such as Azure, PowerShell, Power Automate, Veeam, Intune, and more.
 

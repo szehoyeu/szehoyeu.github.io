@@ -597,9 +597,9 @@ Answer : o.bennett:bella1
 
 
 
-Step 1. Turn off "Proxy" and navigate to http://10.10.79.3/admin/login/ to load the page
+> Step 1. Turn off "Proxy" and navigate to http://10.10.79.3/admin/login/ to load the page
 
-Step 2. Enter whatever the login 
+> Step 2. Enter whatever the login 
 Step 3. Turn On "Proxy"
 Step 4. Enter whatever the login again to capture Username, Password and LoginToken
 Step 5. Send the result to Intruder
@@ -631,7 +631,7 @@ Select "Update only the following cookies" option and enter "session" > OK > Att
 ![img](/assets/img/burp-Intruder20.png)
 
 Login to the machine /admin/login page
-
+{: .prompt-tip }
 
 --- 
 

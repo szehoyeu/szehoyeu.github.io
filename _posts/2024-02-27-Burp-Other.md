@@ -1,6 +1,6 @@
 ---
 title:  "THM: Burp Sutie-Other Modules"
-date:   2024-02-28 21:00:00 +0000
+date:   2024-02-27 21:00:00 +0000
 categories: [BurpSuite]
 tags: [BurpSuite]
 ---
