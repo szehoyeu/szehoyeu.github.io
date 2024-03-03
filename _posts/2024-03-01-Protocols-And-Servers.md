@@ -324,7 +324,7 @@ ftp> exit
 ```FTP servers``` and ```FTP clients``` use the FTP protocol. There are various FTP server software that you can select from if you want to host your FTP file server. Examples of FTP server software include:
 
 - [vsftpd](https://security.appspot.com/vsftpd.html)
-- [ProFTPD](http://www.proftpd.org/)
+- [ProFTPD](https://www.proftpd.org/)
 - [uFTP](https://www.uftpserver.com/)
 
 For FTP clients, in addition to the console FTP client commonly found on Linux systems, you can use an FTP client with GUI such as [FileZilla](https://filezilla-project.org/). Some web browsers also support FTP protocol.
