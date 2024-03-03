@@ -1,6 +1,6 @@
 ---
 title:  "THM: Net Sec Challenge"
-date:   2024-03-03 22:00:00 +0000
+date:   2024-03-02 22:00:00 +0000
 categories: [Network Security]
 tags: [Network Security]
 ---
@@ -12,8 +12,6 @@ tags: [Network Security]
 Ref: 
 
 - [THM: Net Sec Challenge](https://tryhackme.com/room/netsecchallenge)
-
-
 
 
 ---
@@ -90,3 +88,4 @@ nmap -sN 10.10.43.179
 ```
 ![img](/assets/img/Net-Sec-Challenge08.png)
 Answer : THM{f7443f99}
+
