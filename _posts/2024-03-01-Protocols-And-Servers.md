@@ -558,7 +558,7 @@ c4 OK LOGOUT completed
 Connection closed by foreign host.
 ```
 
-It is clear that IMAP sends the login credentials in cleartext, as we can see in the command ```LOGIN frank D2xc9CgD``. Anyone watching the network traffic would be able to know Frank’s username and password.
+It is clear that IMAP sends the login credentials in cleartext, as we can see in the command ```LOGIN frank D2xc9CgD```. Anyone watching the network traffic would be able to know Frank’s username and password.
 
 --- 
 
@@ -577,15 +577,25 @@ This room covered various protocols, their usage, and how they work under the ho
 It is good to remember the default port number for common protocols. Below is a summary of the protocols we covered, sorted in alphabetical order, along with their default port numbers.
 
 ![img](/assets/img/protocols-servers11.png)
+
 IMAP
+
 ![img](/assets/img/protocols-servers10.png)
+
 POP3
+
 ![img](/assets/img/protocols-servers09.png)
+
 SMTP
+
 ![img](/assets/img/protocols-servers07.png)
+
 FTP
+
 ![img](/assets/img/protocols-servers05.png)
+
 Telnet
+
 ![img](/assets/img/protocols-servers03.png) 
 
 
