@@ -13,7 +13,7 @@ Ref:
 
 - [THM: Net Sec Challenge](https://tryhackme.com/room/netsecchallenge)
 
-
+- [Link](https://www.youtube.com/watch?v=_s2oDTnsb7M)
 ---
 
 Task 1  
@@ -25,7 +25,6 @@ Task 1
    ```
    nmap -p1-10000 10.10.150.205
    ```
-
    ```
    Answer : 8080
    ```
@@ -83,9 +82,17 @@ Answer : THM{321452667098}
 ---
 
 8. Browsing to http://10.10.150.205:8080 displays a small challenge that will give you a flag once you solve it. What is the flag?
+
+Answer : THM{f7443f99}
+
+
 ```
 nmap -sN 10.10.43.179
+
 ```
+
 ![img](/assets/img/Net-Sec-Challenge08.png)
-Answer : THM{f7443f99}
+
+---
+
 
