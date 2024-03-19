@@ -164,7 +164,7 @@ Thankfully for us, there are resources on the internet that keep track of vulner
 
 1. [NVD (National Vulnerability Database)](https://nvd.nist.gov/vuln)
 
-2. [Exploit-DB](http://exploit-db.com/)
+2. [Exploit-DB](https://www.exploit-db.com/)
 
 Before we dive into these two resources, let's ensure that our understanding of some fundamental key terms is on the same page:
 

