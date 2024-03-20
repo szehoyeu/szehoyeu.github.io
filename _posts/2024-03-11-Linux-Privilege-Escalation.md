@@ -10,7 +10,7 @@ tags: [Linux]
 ---
 Ref: 
 
-- [THM: Linux Privilege Escalation](https://tryhackme.com/r/room/linprivesc)
+- [THM: Linux Privilege Escalation](http://tryhackme.com/r/room/linprivesc)
 
 - [THM Room: John the Ripper](https://tryhackme.com/room/johntheripper0)
 
@@ -1048,6 +1048,7 @@ cd murdoch
 ```
 
 or 
+![img](/assets/img/lpe66.png)
 ```
 rm thm
 echo "/bin/bash" > thm
@@ -1082,7 +1083,11 @@ Another vector that is more relevant to CTFs and exams is a misconfigured networ
 
 ![img](/assets/img/lpe60.png)
 
-The critical element for this privilege escalation vector is the “no_root_squash” option you can see above. By default, NFS will change the root user to nfsnobody and strip any file from operating with root privileges. If the “no_root_squash” option is present on a writable share, we can create an executable with SUID bit set and run it on the target system.
+The critical element for this privilege escalation vector is the ```“no_root_squash” option``` you can see above. 
+
+By default, NFS will change the root user to nfsnobody and strip any file from operating with root privileges. 
+
+```If the “no_root_squash” option is present on a writable share, we can create an executable with SUID bit set and run it on the target system.```
 
 We will start by enumerating mountable shares from our attacking machine.
 
@@ -1106,7 +1111,13 @@ You will see below that both files (nfs.c and nfs are present on the target syst
 
 Notice the nfs executable has the SUID bit set on the target system and runs with root privileges.
 
+---
+
 1. How many mountable shares can you identify on the target system?
+Answer: 3
+![img](/assets/img/lpe67.png)
+
+
 2. How many shares have the "no_root_squash" option enabled?
 3. Gain a root shell on the target system
 4. What is the content of the flag7.txt file?
