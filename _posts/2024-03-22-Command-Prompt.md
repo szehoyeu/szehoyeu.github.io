@@ -5,7 +5,7 @@ categories: [cmd]
 tags: [cmd]
 ---
 
-![image](/assets/img/cmd.png)
+![img](/assets/img/cmd.png)
 
 ---
 
