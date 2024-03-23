@@ -5,7 +5,7 @@ categories: [Linux]
 tags: [Linux]
 ---
 
-![image](/assets/img/lpe.png) 
+![img](/assets/img/lpe.png) 
 
 ---
 Ref: 
