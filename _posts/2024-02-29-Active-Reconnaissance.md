@@ -5,7 +5,7 @@ categories: [Network Security]
 tags: [Network Security]
 ---
 
-![image](/assets/img/active-Recon.png)
+![image](assets/img/active-Recon.png)
 
 ---
 Ref: 
