@@ -10,7 +10,7 @@ tags: [Linux]
 ---
 Ref: 
 
-- [THM: Linux Privilege Escalation](http://tryhackme.com/r/room/linprivesc)
+- [THM: Linux Privilege Escalation](https://tryhackme.com/r/room/linprivesc)
 
 - [THM Room: John the Ripper](https://tryhackme.com/room/johntheripper0)
 
@@ -1177,5 +1177,8 @@ Step3 - user GFTOBins.github.io search base64 -> select SUID
 ![img](/assets/img/lpe68.png)
 
 ```
+sudo install -m =xs $(which base64) .
 
+LFILE=file_to_read
+./base64 "$LFILE" | base64 --decode
 ```
