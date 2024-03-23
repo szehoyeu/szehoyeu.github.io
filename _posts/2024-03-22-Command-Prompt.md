@@ -1,6 +1,6 @@
 ---
 title:  "Windows - Command Prompt"
-date:   2024-03-11 15:00:00 +0000
+date:   2024-03-22 15:00:00 +0000
 categories: [cmd]
 tags: [cmd]
 ---
@@ -23,4 +23,6 @@ Example
 ```
 C:\Users\ABC> Documents\Example\"The file with space.doc"
 ```
+
+
 
