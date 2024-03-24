@@ -81,7 +81,7 @@ Answer : THM{321452667098}
 
 ---
 
-8. Browsing to http://10.10.150.205:8080 displays a small challenge that will give you a flag once you solve it. What is the flag?
+8. Browsing to https://10.10.150.205:8080 displays a small challenge that will give you a flag once you solve it. What is the flag?
 
 Answer : THM{f7443f99}
 
