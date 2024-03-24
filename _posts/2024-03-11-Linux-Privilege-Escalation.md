@@ -70,10 +70,10 @@ This room was designed to cover the main privilege escalation vectors and give y
 
 ---
 
-Task 2
+Task 2 What is Privilege Escalation?
 ---
 
-What is Privilege Escalation?
+
 What does "privilege escalation" mean?
 
 At it's core, Privilege Escalation usually involves going ```from a lower permission account to a higher permission one```. More technically, it's the ```exploitation of a vulnerability, design flaw, or configuration oversight in an operating system or application to gain unauthorized access to resources``` that are usually restricted from the users.
