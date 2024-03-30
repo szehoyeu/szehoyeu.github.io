@@ -13,6 +13,17 @@ Ref:
 
 - [THM: Core Windows Processes](https://tryhackme.com/r/room/btwindowsinternals)
 
+- [User Mode and Kernel Mode](https://docs.microsoft.com/en-us/windows-hardware/drivers/gettingstarted/user-mode-and-kernel-mode)
+
+- [Architecture of Windows NT](https://en.wikipedia.org/wiki/Architecture_of_Windows_NT)
+
+- [Session Manager Subsystem](https://en.wikipedia.org/wiki/Session_Manager_Subsystem)
+
+
+
+
+
+
 ---
 
 Task 1 - Introduction
@@ -113,4 +124,109 @@ Moving forward, we'll use Process Hacker and Process Explorer instead of Task Ma
 
 As always, it's encouraged that you inspect and familiarize yourself with all information available within Task Manager. It's a built-in utility that is available in every Windows system. You might find yourself in a situation where you can't bring your tools to the fight and rely on the tools native to the system.
 
-Aside from Task Manager, it would be best if you also familiarize yourself with the command-line equivalent of obtaining information about the running processes on a Windows system: tasklist, Get-Process or ps (PowerShell), and wmic.
+Aside from Task Manager, it would be best if you also familiarize yourself with the command-line equivalent of obtaining information about the running processes on a Windows system: ```tasklist, Get-Process or ps (PowerShell), and wmic```.
+
+
+Task 3 - System
+---
+The first Windows process on the list is System. It was mentioned in a previous section that a PID for any given process is assigned at random, but that is not the case for the System process. The PID for System is always 4. What does this process do exactly?
+
+The official definition from Windows Internals 6th Edition:
+
+"The System process (process ID 4) is the home for a special kind of thread that runs only in kernel mode a kernel-mode system thread. System threads have all the attributes and contexts of regular user-mode threads (such as a hardware context, priority, and so on) but are different in that they run only in kernel-mode executing code loaded in system space, whether that is in Ntoskrnl.exe or in any other loaded device driver. In addition, system threads don't have a user process address space and hence must allocate any dynamic storage from operating system memory heaps, such as a paged or nonpaged pool."
+
+What is user mode? Kernel-mode? Visit the following [link](https://docs.microsoft.com/en-us/windows-hardware/drivers/gettingstarted/user-mode-and-kernel-mode) to understand each of these.
+
+Now, what is normal behaviour for this process? Let's use Process Explorer and view the properties of the System.
+
+![img](/assets/img/cwp11.png)
+
+Image Path:  N/A
+Parent Process:  None
+Number of Instances:  One
+User Account:  Local System
+Start Time:  At boot time
+
+The information is slightly different if we view the System properties using Process Hacker. 
+
+![img](/assets/img/cwp12.png)
+
+
+Image Path: C:\Windows\system32\ntoskrnl.exe (NT OS Kernel)
+Parent Process: System Idle Process (0)
+
+Technically this is correct. You may notice that Process Hacker confirms this is legit (Verified) Microsoft Windows. 
+
+What is unusual behaviour for this process?
+- A parent process (aside from System Idle Process (0))
+- Multiple instances of System. (Should only be one instance) 
+- A different PID. (Remember that the PID will always be PID 4)
+- Not running in Session 0
+
+1. What PID should System always be?
+Answer: 4
+
+
+Task 4 - System > smss.exe
+---
+
+The next process is ```smss.exe (Session Manager Subsystem)```. This process, also known as the ```Windows Session Manager```, is responsible for creating new sessions. It is the first user-mode process started by the kernel.
+
+This process starts the kernel and user modes of the Windows subsystem (you can read more about the NT Architecture [here](https://en.wikipedia.org/wiki/Architecture_of_Windows_NT)). This subsystem includes win32k.sys (kernel mode), winsrv.dll (user mode), and csrss.exe (user mode). 
+
+Smss.exe starts csrss.exe (Windows subsystem) and wininit.exe in Session 0, an isolated Windows session for the operating system, and csrss.exe and winlogon.exe for Session 1, which is the user session. The first child instance creates child instances in new sessions, done by smss.exe copying itself into the new session and self-terminating. You can read more about this process [here](https://en.wikipedia.org/wiki/Session_Manager_Subsystem).
+
+Session 0 (csrss.exe & wininit.exe)
+
+![img](/assets/img/cwp13.png)
+
+
+![img](/assets/img/cwp14.png)
+
+Session 1 (csrss.exe & winlogon.exe)
+
+![img](/assets/img/cwp15.png)
+
+
+![img](/assets/img/cwp16.png)
+
+Any other subsystem listed in the ```Required``` value of 
+```
+HKLM\System\CurrentControlSet\Control\Session Manager\Subsystems
+```
+is also launched.
+
+![img](/assets/img/cwp17.png)
+
+SMSS is also responsible for creating environment variables, virtual memory paging files and starts winlogon.exe (the Windows Logon Manager).
+
+What is normal?
+
+![img](/assets/img/cwp18.png)
+
+	
+Image Path:  %SystemRoot%\System32\smss.exe
+Parent Process:  System
+Number of Instances:  One master instance and child instance per session. The child instance exits after creating the session.
+User Account:  Local System
+Start Time:  Within seconds of boot time for the master instance
+
+What is unusual?
+A different parent process other than System (4)
+The image path is different from C:\Windows\System32
+More than one running process. (children self-terminate and exit after each new session)
+The running User is not the SYSTEM user
+Unexpected registry entries for Subsystem
+
+---
+
+1. Aside from csrss.exe, what process does smss.exe spawn in Session 1?
+
+
+Answer : 
+
+
+
+
+
+
