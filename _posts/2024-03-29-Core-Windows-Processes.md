@@ -222,11 +222,334 @@ Unexpected registry entries for Subsystem
 
 1. Aside from csrss.exe, what process does smss.exe spawn in Session 1?
 
+![img](/assets/img/cwp19.png)
+Answer : winlogon.exe
 
-Answer : 
+---
+
+Task 5 - csrss.exe
+---
+As mentioned in the previous section, csrss.exe (Client Server Runtime Process) is the user-mode side of the Windows subsystem. This process is always running and is critical to system operation. If this process is terminated by chance, it will result in system failure. This process is responsible for the Win32 console window and process thread creation and deletion. For each instance, csrsrv.dll, basesrv.dll, and winsrv.dll are loaded (along with others). 
+
+This process is also responsible for making the Windows API available to other processes, mapping drive letters, and handling the Windows shutdown process. You can read more about this process here.
+
+Note: Recall that csrss.exe and winlogon.exe are called from smss.exe at startup for Session 1. 
+
+What is normal?
+
+Session 0 (PID 392)
+![img](/assets/img/cwp20.png)
 
 
 
+Session 1 (PID 512)
+![img](/assets/img/cwp21.png)
 
 
 
+Notice what is shown for the parent process for these two processes. Remember, these processes are spawned by smss.exe, which self-terminates itself.  
+
+Image Path:  %SystemRoot%\System32\csrss.exe
+Parent Process:  Created by an instance of smss.exe
+Number of Instances:  Two or more
+User Account:  Local System
+Start Time:  Within seconds of boot time for the first two instances (for Session 0 and 1). Start times for additional instances occur as new sessions are created, although only Sessions 0 and 1 are often created.
+
+What is unusual?
+An actual parent process. (smss.exe calls this process and self-terminates)
+Image file path other than C:\Windows\System32
+Subtle misspellings to hide rogue processes masquerading as csrss.exe in plain sight
+The user is not the SYSTEM user.
+
+---
+1. What was the process which had PID 384 and PID 488?
+
+Answer: smss.exe
+
+---
+
+
+Task 6 - wininit.exe
+---
+
+The Windows Initialization Process, wininit.exe, is responsible for launching services.exe (Service Control Manager), lsass.exe (Local Security Authority), and lsaiso.exe within Session 0. It is another critical Windows process that runs in the background, along with its child processes. 
+
+![img](/assets/img/cwp22.png)
+
+Note: ```lsaiso.exe``` is a process associated with Credential Guard and KeyGuard. You will only see this process if Credential Guard is enabled. 
+
+What is normal?
+
+![img](/assets/img/cwp23.png)
+
+
+Image Path:  %SystemRoot%\System32\wininit.exe
+Parent Process:  Created by an instance of smss.exe
+Number of Instances:  One
+User Account:  Local System
+Start Time:  Within seconds of boot time
+
+What is unusual?
+An actual parent process. (smss.exe calls this process and self-terminates)
+Image file path other than C:\Windows\System32
+Subtle misspellings to hide rogue processes in plain sight
+Multiple running instances
+Not running as SYSTEM
+
+---
+
+1. Which process might you not see running if Credential Guard is not enabled?
+
+Answer: lsaiso.exe
+
+---
+
+
+Task 7 - wininit.exe > services.exe
+---
+The next process is the Service Control Manager (SCM) or services.exe. Its primary responsibility is to handle system services: loading services, interacting with services and starting or ending services. It maintains a database that can be queried using a Windows built-in utility, sc.exe. 
+
+cmd.exe
+```
+C:\Users\Administrator> sc.exe
+DESCRIPTION:
+        SC is a command line program used for communicating with the
+        Service Control Manager and services.
+USAGE:
+        sc <server> [command] [service name] <option1> <option2>...
+```
+
+Information regarding services is stored in the registry, 
+```
+HKLM\System\CurrentControlSet\Services
+```
+
+
+![img](/assets/img/cwp24.png)
+
+
+This process also loads device drivers marked as auto-start into memory. 
+
+When a user logs into a machine successfully, this process is responsible for setting the value of the Last Known Good control set (Last Known Good Configuration), ```HKLM\System\Select\LastKnownGood```, to that of the CurrentControlSet. 
+
+![img](/assets/img/cwp25.png)
+
+This process is the parent to several other key processes: svchost.exe, spoolsv.exe, msmpeng.exe, and dllhost.exe, to name a few. You can read more about this process [here](https://en.wikipedia.org/wiki/Service_Control_Manager).
+
+
+![img](/assets/img/cwp26.png)
+
+What is normal?
+
+![img](/assets/img/cwp27.png)
+
+![img](/assets/img/cwp28.png)
+
+Image Path:  %SystemRoot%\System32\services.exe
+Parent Process:  wininit.exe
+Number of Instances:  One
+User Account:  Local System
+Start Time:  Within seconds of boot time
+
+What is unusual?
+- A parent process other than wininit.exe
+- Image file path other than C:\Windows\System32
+- Subtle misspellings to hide rogue processes in plain sight
+- Multiple running instances
+- Not running as SYSTEM
+
+---
+
+1. How many instances of services.exe should be running on a Windows system?
+Answer: 1
+
+---
+
+Task 8 - wininit.exe > services.exe > svchost.exe
+---
+
+The Service Host (Host Process for Windows Services), or svchost.exe, is responsible for hosting and managing Windows services. 
+![img](/assets/img/cwp29.png)
+
+The services running in this process are implemented as DLLs. The DLL to implement is stored in the registry for the service under the Parameters subkey in ServiceDLL. The full path is HKLM\SYSTEM\CurrentControlSet\Services\SERVICE NAME\Parameters.
+
+The example below is the ServiceDLL value for the Dcomlaunch service.
+
+![img](/assets/img/cwp30.png)
+
+To view this information from within Process Hacker, right-click the svchost.exe process. In this case, it will be PID 748.
+
+
+
+![img](/assets/img/cwp31.png)
+
+
+Right-click the service and select Properties. Look at Service DLL.
+
+![img](/assets/img/cwp32.png)
+
+
+From the above screenshot, the Binary Path is listed.
+
+Also, notice how it is structured. There is a key identifier in the binary path, and that identifier is -k . This is how a legitimate svchost.exe process is called. 
+
+The -k parameter is for grouping similar services to share the same process. This concept was based on the OS design and implemented to reduce resource consumption. Starting from ```Windows 10 Version 1703```, services grouped into host processes changed. On machines running more than 3.5 GB of memory, each service will run its own process. You can read more about this process here.
+
+Back to the key identifier (-k) from the binary path, in the above screen, the -k value is ```Dcomlaunch```. Other services are running with the same binary path in the virtual machine attached to this room.
+
+
+![img](/assets/img/cwp33.png)
+
+Each will have a different value for ServiceDLL. Let's take LSM as an example and inspect the value for ServiceDLL.
+
+![img](/assets/img/cwp34.png)
+![img](/assets/img/cwp35.png)
+
+Since svchost.exe will always have multiple running processes on any Windows system, this process has been a target for malicious use. Adversaries create malware to masquerade as this process and try to hide amongst the legitimate svchost.exe processes. They can name the malware svchost.exe or misspell it slightly, such as scvhost.exe. By doing so, the intention is to go under the radar. Another tactic is to install/call a malicious service (DLL).  
+
+Extra reading - [Hexacorn Blog](https://www.hexacorn.com/blog/2015/12/18/the-typographical-and-homomorphic-abuse-of-svchost-exe-and-other-popular-file-names/)
+
+What is normal?
+
+![img](/assets/img/cwp36.png)
+
+Image Path: %SystemRoot%\System32\svchost.exe
+Parent Process: services.exe
+Number of Instances: Many
+User Account: Varies (SYSTEM, Network Service, Local Service) depending on the svchost.exe instance. In Windows 10, some instances run as the logged-in user.
+Start Time: Typically within seconds of boot time. Other instances of svchost.exe can be started after boot.
+
+What is unusual?
+- A parent process other than services.exe
+- Image file path other than C:\Windows\System32
+- Subtle misspellings to hide rogue processes in plain sight
+- The absence of the -k parameter
+
+---
+
+1. What single letter parameter should always be visible in the Command line or Binary path?
+
+Answer: k
+
+---
+
+Task 9 - lsass.exe
+---
+
+Per Wikipedia, ```"Local Security Authority Subsystem Service (LSASS)``` is a process in Microsoft Windows operating systems that is responsible for enforcing the security policy on the system. It verifies users logging on to a Windows computer or server, handles password changes, and creates access tokens. It also writes to the Windows Security Log."
+
+It creates security tokens for ```SAM (Security Account Manager), AD (Active Directory), and NETLOGON```. It uses authentication packages specified in 
+```
+HKLM\System\CurrentControlSet\Control\Lsa.
+```
+
+![img](/assets/img/cwp37.png)
+
+Lsass.exe is another process adversaries target. Common tools such as mimikatz are used to dump credentials, or adversaries mimic this process to hide in plain sight. Again, they do this by either naming their malware by this process name or simply misspelling the malware slightly. 
+
+Extra reading: [How LSASS is maliciously used and additional features that Microsoft has put into place to prevent these attacks](https://yungchou.wordpress.com/2016/03/14/an-introduction-of-windows-10-credential-guard/).
+
+What is normal?
+
+![img](/assets/img/cwp38.png)
+
+
+Image Path:  %SystemRoot%\System32\lsass.exe
+Parent Process:  wininit.exe
+Number of Instances:  One
+User Account:  Local System
+Start Time:  Within seconds of boot time
+
+What is unusual?
+- A parent process other than wininit.exe
+- Image file path other than C:\Windows\System32
+- Subtle misspellings to hide rogue processes in plain sight
+- Multiple running instances
+- Not running as SYSTEM
+
+
+---
+
+1. What is the parent process for LSASS?
+
+Answer: wininit.exe
+
+---
+
+Task 10 - winlogon.exe
+---
+The Windows Logon, winlogon.exe, is responsible for handling the Secure Attention Sequence (SAS). It is the ALT+CTRL+DELETE key combination users press to enter their username & password. 
+
+This process is also responsible for loading the user profile. It loads the user's NTUSER.DAT into HKCU, and userinit.exe loads the user's shell. Read more about this process [here](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-2000-server/cc939862(v=technet.10)?redirectedfrom=MSDN).
+
+
+
+![img](/assets/img/cwp39.png)
+
+It is also responsible for locking the screen and running the user's screensaver, among other functions. You can read more about this process [here](https://en.wikipedia.org/wiki/Winlogon).
+
+Remember from earlier sections, smss.exe launches this process along with a copy of csrss.exe within Session 1. 
+
+![img](/assets/img/cwp40.png)
+
+What is normal?
+
+![img](/assets/img/cwp41.png)
+
+![img](/assets/img/cwp42.png)
+
+
+Image Path:  %SystemRoot%\System32\winlogon.exe
+Parent Process:  Created by an instance of smss.exe that exits, so analysis tools usually do not provide the parent process name.
+Number of Instances:  One or more
+User Account:  Local System
+Start Time:  Within seconds of boot time for the first instance (for Session 1). Additional instances occur as new sessions are created, typically through Remote Desktop or Fast User Switching logons.
+
+What is unusual?
+- An actual parent process. (smss.exe calls this process and self-terminates)
+- Image file path other than C:\Windows\System32
+- Subtle misspellings to hide rogue processes in plain sight
+- Not running as SYSTEM
+- Shell value in the registry other than explorer.exe
+
+---
+
+1. What is the non-existent parent process for winlogon.exe?
+
+Answer: smss.exe
+
+---
+
+
+Task 11 - explorer.exe
+---
+
+The last process we'll look at is Windows Explorer, explorer.exe. This process gives the user access to their folders and files. It also provides functionality for other features, such as the Start Menu and Taskbar.
+
+As mentioned previously, the Winlogon process runs userinit.exe, which launches the value in HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\Shell. Userinit.exe exits after spawning explorer.exe. Because of this, the parent process is non-existent. 
+
+There will be many child processes for explorer.exe.
+
+![img](/assets/img/cwp43.png)
+
+
+What is normal?
+
+![img](/assets/img/cwp44.png)
+
+
+Image Path:  %SystemRoot%\explorer.exe
+Parent Process:  Created by userinit.exe and exits
+Number of Instances:  One or more per interactively logged-in user
+User Account:  Logged-in user(s)
+Start Time:  First instance when the first interactive user logon session begins
+
+What is unusual?
+- An actual parent process. (userinit.exe calls this process and exits)
+- Image file path other than C:\Windows
+- Running as an unknown user
+- Subtle misspellings to hide rogue processes in plain sight
+- Outbound TCP/IP connections
+
+
+![img](/assets/img/cwp45.png)
