@@ -17,10 +17,10 @@ Ref:
 
 - [THM: Hacking Windows Module](https://tryhackme.com/module/hacking-windows-1)
 
-- [THM: Core Windows Processes](http://tryhackme.com/jr/btwindowsinternals)
+- [THM: Core Windows Processes](https://tryhackme.com/jr/btwindowsinternals)
 
 
-- [THM: Sysinternals](http://tryhackme.com/jr/btsysinternalssg)
+- [THM: Sysinternals](https://tryhackme.com/jr/btsysinternalssg)
 
 - [THM: Yara](https://tryhackme.com/room/yara)
 
