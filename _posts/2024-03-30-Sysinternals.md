@@ -21,7 +21,13 @@ Ref:
 
 - [streams](https://docs.microsoft.com/en-us/sysinternals/downloads/streams)
 
+- Mark's Blog - https://docs.microsoft.com/en-us/archive/blogs/markrussinovich/
 
+- Windows Blog Archive - https://techcommunity.microsoft.com/t5/windows-blog-archive/bg-p/Windows-Blog-Archive/label-name/Mark%20Russinovich
+
+- License to Kill: Malware Hunting with Sysinternals Tools - https://www.youtube.com/watch?v=A_TPZxuTzBU
+
+- Malware Hunting with Mark Russinovich and the Sysinternals Tools - https://www.youtube.com/watch?v=vW8eAqZyWeo
 
 
 ---
@@ -472,6 +478,7 @@ There is an option within ProcExp to Verify Signatures. Once enabled, it shows u
 
 ![img](/assets/img/si49.png)
 
+
 Other options to note include Run at Logon and Replace Task Manager.
 
 You may have noticed that some of the processes within Process Explorer have different colors. Those colors have meaning.
@@ -644,3 +651,36 @@ The example below strings is used to search within the ZoomIt binary for any str
 Other tools fall under the Miscellaneous category. I encourage you to explore these tools at your own leisure.
 
 Link: https://docs.microsoft.com/en-us/sysinternals/downloads/misc-utilities
+
+---
+1. Run the Strings tool on ZoomIt.exe. What is the full path to the .pdb file?
+
+![img](/assets/img/si68.png)
+
+Answer: C:\agent\_work\112\s\Win32\Release\ZoomIt.pdb
+
+---
+Task 10 - Conclusion
+---
+
+When you read the Sysinternals documentation, it might hint these tools are for troubleshooting purposes only, but that is not entirely the case.
+You should know or be familiar with the Sysinternals tools whether you're a Desktop Engineer, Systems Analyst, or Security Engineer.
+
+Real-world scenario: As a security engineer, I had to work with vendors to troubleshoot why an agent wasn't responding on an endpoint—the tools used were ProcExp, ProcMon, and ProcDump.
+
+ProcExp = to inspect the agent process, its properties, and associated threads and handles.
+ProcMon = to investigate if there were any indicators on why the agent was not operating as it should.
+ProcDump = to create a dump of the agent process to send to the vendor for further analysis.
+And guess what? Asking questions about Sysinternals became part of the interview questions when hiring additional staff.
+
+Remember, red teamers and adversaries even use these tools.
+
+Below are some additional links to further your knowledge on how to use these tools as a Security Analyst, Security Engineer, or even an Incident Responder:
+
+Mark's Blog - https://docs.microsoft.com/en-us/archive/blogs/markrussinovich/
+Windows Blog Archive - https://techcommunity.microsoft.com/t5/windows-blog-archive/bg-p/Windows-Blog-Archive/label-name/Mark%20Russinovich
+License to Kill: Malware Hunting with Sysinternals Tools - https://www.youtube.com/watch?v=A_TPZxuTzBU
+Malware Hunting with Mark Russinovich and the Sysinternals Tools - https://www.youtube.com/watch?v=vW8eAqZyWeo
+Note: Some of the videos/blogs are a bit outdated, but they're still good to review as it showcases how to use these tools extensively. This will build your foundation on the tools covered, along with the tools that weren't covered in this room.
+
+---
