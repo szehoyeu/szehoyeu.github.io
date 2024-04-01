@@ -17,6 +17,13 @@ Ref:
 
 - [Sysinternals Suite - Download](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)
 
+- [Sigcheck](https://docs.microsoft.com/en-us/sysinternals/downloads/sigcheck)
+
+- [streams](https://docs.microsoft.com/en-us/sysinternals/downloads/streams)
+
+
+
+
 ---
 
 Task 1 - Introduction
@@ -231,3 +238,409 @@ Now that we got that out of the way time to start exploring some of these tools.
 Answer: webclient
 
 ---
+
+
+Task 4 - File and Disk Utilities
+---
+
+Each task within this room will focus on 1 or 2 tools per section (maybe more).
+
+Again, the goal is to introduce you to the Sysinternals tools, but there are far too many tools to go into each tool in depth.
+
+### Sigcheck
+---
+"Sigcheck is a command-line utility that shows file version number, timestamp information, and digital signature details, including certificate chains. It also includes an option to check a file’s status on VirusTotal, a site that performs automated file scanning against over 40 antivirus engines, and an option to upload a file for scanning." (official definition)
+
+![img](/assets/img/si22.png)
+
+From the official Sigcheck page, a use case is identified towards the bottom of the [page](https://docs.microsoft.com/en-us/sysinternals/downloads/sigcheck).
+
+If you completed the Core Windows Processes room you should be aware that the location of all the executables is C:\Windows\System32, except for Explorer.exe (which is C:\Windows).
+
+Use Case: Check for unsigned files in C:\Windows\System32.
+
+Command: sigcheck -u -e C:\Windows\System32
+![img](/assets/img/si23.png)
+
+Parameter usage:
+
+-u "If VirusTotal check is enabled, show files that are unknown by VirusTotal or have non-zero detection, otherwise show only unsigned files."
+-e "Scan executable images only (regardless of their extension)"
+Note: If the results were different it would warrant an investigation into any listed executables. 
+
+### Streams
+---
+
+"The NTFS file system provides applications the ability to create alternate data streams of information. By default, all data is stored in a file's main unnamed data stream, but by using the syntax 'file:stream', you are able to read and write to alternates." (official definition)
+
+Alternate Data Streams (ADS) is a file attribute specific to Windows NTFS (New Technology File System). Every file has at least one data stream ($DATA) and ADS allows files to contain more than one stream of data. Natively Window Explorer doesn't display ADS to the user. There are 3rd party executables that can be used to view this data, but Powershell gives you the ability to view ADS for files.
+
+Malware writers have used ADS to hide data in an endpoint, but not all its uses are malicious. When you download a file from the Internet unto an endpoint, there are identifiers written to ADS to identify that it was downloaded from the Internet.
+
+![img](/assets/img/si24.png)
+
+Example: A file downloaded from the Internet.
+
+![img](/assets/img/si25.png)
+
+Since the file has this identifier, additional security measures are added to its properties.
+
+![img](/assets/img/si26.png)
+
+You can read more on streams [here](https://docs.microsoft.com/en-us/sysinternals/downloads/streams).
+
+### SDelete
+---
+"SDelete is a command line utility that takes a number of options. In any given use, it allows you to delete one or more files and/or directories, or to cleanse the free space on a logical disk."
+
+As per the official documentation page, SDelete (Secure Delete) implemented the DOD 5220.22-M (Department of Defense clearing and sanitizing protocol).
+
+Screenshot showing the implementation of the DoD 5220.22-M Wipe Method
+
+![img](/assets/img/si28.png)
+
+Source: https://www.lifewire.com/dod-5220-22-m-2625856
+
+SDelete has been used by adversaries and is associated with MITRE techniques [T1485](https://attack.mitre.org/techniques/T1485/) (Data Destruction) and [T1070.004](https://attack.mitre.org/techniques/T1070/004/) (Indicator Removal on Host: File Deletion). It's MITRE ID [S0195](https://attack.mitre.org/software/S0195/).
+You can review this tool more in-depth by visiting its Sysinternals SDelete [page](https://docs.microsoft.com/en-us/sysinternals/downloads/sdelete). 
+
+Other tools fall under the File and Disk Utilities category. I encourage you to explore these tools at your own leisure.
+
+Link: https://docs.microsoft.com/en-us/sysinternals/downloads/file-and-disk-utilities 
+
+1. There is a txt file on the desktop named file.txt. Using one of the three discussed tools in this task, what is the text within the ADS?
+
+Hint: 
+First, use the streams command to get the name of the hidden file: "streams file.txt". Then use Notepad to view the contents of the hidden file: "notepad file.txt:EXAMPLE" (Replace EXAMPLE with the name of the file you discovered when you ran streams).
+
+![img](/assets/img/si27.png)
+
+Answer: I am hiding in the stream.
+
+---
+
+Task 5 - Networking Utilities
+---
+
+### TCPView
+---
+"TCPView is a Windows program that will show you detailed listings of all TCP and UDP endpoints on your system, including the local and remote addresses and state of TCP connections. On Windows Server 2008, Vista, and XP, TCPView also reports the name of the process that owns the endpoint. TCPView provides a more informative and conveniently presented subset of the Netstat program that ships with Windows. The TCPView download includes Tcpvcon, a command-line version with the same functionality." (official definition)
+
+This is a good time to mention that Windows has a built-in utility that provides the same functionality. This tool is called Resource Monitor. There are many ways to open this tool. From the command line use ```resmon```.
+
+![img](/assets/img/si29.png)
+
+
+Expand TCP Connections to view the Remote Address for each Process with an outbound connection.
+
+![img](/assets/img/si30.png)
+
+This tool can also be called from the Performance tab within Task Manager. Look at the bottom left for the link to open Resource Monitor.
+
+![img](/assets/img/si31.png)
+
+
+Now back to TCPView.
+
+![img](/assets/img/si32.png)
+
+The below image shows the default view for TCPView.
+
+
+![img](/assets/img/si33.png)
+
+We can apply additional filtering by turning off TCP v4, TCP v6, UDP v4, and UDP v6 at the top toolbar, depending on which protocols we want to display. Moreover, we can click on the green flag to use the States Filter.
+
+
+![img](/assets/img/si34.png)
+
+Clicking the green flag opens the States Filter, which provides an extensive list of options to select which connection states we want to display. Most of the connection states available apply only to TCP connections. (UDP, being a connectionless protocol, cannot offer this flexibility in filtering.)
+
+![img](/assets/img/si35.png)
+
+
+
+The list below shows all TCP v4 and TCP v6 connections in any state except in the "Listen" state. For instance, we notice that we have one TCP connection in an Established state and another connection in a Close Wait state.
+
+In the below image, I unselected Listen in the Connection States from the States Filter and turned off UDP v4 and UDP v6 from the top toolbar.
+
+
+
+![img](/assets/img/si36.png)
+
+
+Now the output only displays processes with an established outbound connection.
+
+Other tools fall under the Networking Utilities category. I encourage you to explore these tools at your own leisure.
+
+Link: https://docs.microsoft.com/en-us/sysinternals/downloads/networking-utilities
+
+---
+
+1. Using WHOIS tools, what is the ISP/Organization for the remote address in the screenshots above?
+
+Hint: You can use a website like https://www.whois.com/whois to get the organization's name. (Unfortunately, the answer provided by https://talosintelligence.com/ is different and won't be accepted, although it is also correct.)
+
+![img](/assets/img/si37.png)
+
+Answer: Microsoft Corporation
+
+---
+
+Task 6 - Process Utilities
+---
+
+
+Note: Some of these tools require you to run as an administrator.
+
+### Autoruns
+---
+"This utility, which has the most comprehensive knowledge of auto-starting locations of any startup monitor, shows you what programs are configured to run during system bootup or login, and when you start various built-in Windows applications like Internet Explorer, Explorer and media players. These programs and drivers include ones in your startup folder, Run, RunOnce, and other Registry keys. Autoruns reports Explorer shell extensions, toolbars, browser helper objects, Winlogon notifications, auto-start services, and much more. Autoruns goes way beyond other autostart utilities." (official definition)
+
+Note: This is a good tool to search for any malicious entries created in the local machine to establish Persistence.
+
+Launch Autoruns.
+
+![img](/assets/img/si38.png)
+
+
+Below is a snapshot of Autoruns, showing the first couple of items from the Everything tab. Normally there are a lot of entries within this tab.
+
+![img](/assets/img/si39.png)
+
+Notice all the tabs within the application. Click on each tab to inspect the items associated with each. 
+
+The below image is a snapshot of the Image Hijacks tab. (At this time there is only 1 item listed)
+
+![img](/assets/img/si40.png)
+
+
+### ProcDump
+---
+"ProcDump is a command-line utility whose primary purpose is monitoring an application for CPU spikes and generating crash dumps during a spike that an administrator or developer can use to determine the cause of the spike." (official definition)
+
+
+![img](/assets/img/si41.png)
+
+Alternatively, you can use Process Explorer to do the same.
+
+Right-click on the process to create a Minidump or Full Dump of the process.
+
+![img](/assets/img/si42.png)
+
+
+Please refer to the examples listed on the ProcDump page to learn about all the available options with running this tool.
+
+### Process Explorer
+---
+"The Process Explorer display consists of two sub-windows. The top window always shows a list of the currently active processes, including the names of their owning accounts, whereas the information displayed in the bottom window depends on the mode that Process Explorer is in: if it is in handle mode you'll see the handles that the process selected in the top window has opened; if Process Explorer is in DLL mode you'll see the DLLs and memory-mapped files that the process has loaded." (official definition)
+
+![img](/assets/img/si43.png)
+
+This tool was touched on slightly within the Core Windows Processes room. Process Hacker was intentionally used in that room to broaden your exposure to various tools that essentially perform the same tasks with subtle differences. 
+
+Since much of the basic foundational information was discussed in the Core Windows Processes room, Process Explorer will be briefly touched.
+
+In the following images, let's look at svchost.exe PID 3636 more closely.
+
+![img](/assets/img/si44.png)
+![img](/assets/img/si45.png)
+
+This process is associated with the WebClient service that is needed to connect to live.sysinternals.com (WebDAV).
+
+There should be web traffic listed in the TCP/IP tab.
+
+![img](/assets/img/si46.png)
+
+
+Ideally, it would be wise to check if that IP is what we assume it is.
+
+Various online tools can be utilized to verify the authenticity of an IP address. For this demonstration, I'll use Talos Reputation Center.
+
+![img](/assets/img/si47.png)
+
+https://talosintelligence.com/reputation_center/lookup?search=52.154.170.73
+
+As mentioned in the ProcExp description, we can see open handles associated with the process within the bottom window.
+
+
+![img](/assets/img/si48.png)
+
+Listed as an open handle is the connection to the remote WebDAV folder.
+
+There is an option within ProcExp to Verify Signatures. Once enabled, it shows up as a column within the Process view.
+
+![img](/assets/img/si49.png)
+
+Other options to note include Run at Logon and Replace Task Manager.
+
+You may have noticed that some of the processes within Process Explorer have different colors. Those colors have meaning.
+
+Below is a snippet from MalwareBytes explaining what each of those colors means.
+
+![img](/assets/img/si50.png)
+
+### Process Monitor
+---
+"Process Monitor is an advanced monitoring tool for Windows that shows real-time file system, Registry and process/thread activity. It combines the features of two legacy Sysinternals utilities, Filemon and Regmon, and adds an extensive list of enhancements including rich and non-destructive filtering, comprehensive event properties such as session IDs and user names, reliable process information, full thread stacks with integrated symbol support for each operation, simultaneous logging to a file, and much more. Its uniquely powerful features will make Process Monitor a core utility in your system troubleshooting and malware hunting toolkit." (official definition)
+
+Launch ProcMon.
+
+![img](/assets/img/si51.png)
+
+In the below snapshot, I set a filter to capture all the events related to PID 3888, notepad.exe. You can see some of the file operations that were captured and the file path or registry path/key the action occurred on, and the operation result.
+
+![img](/assets/img/si52.png)
+
+ProcMon will capture thousands upon thousands of events occurring within the operating system.
+
+The option to capture events can be toggled on and off. 
+
+![img](/assets/img/si53.png)
+
+In this ProcMon example, the session captured events only for a few seconds. Look at how many events were captured in that short space of time!
+
+![img](/assets/img/si54.png)
+
+To use ProcMon effectively you must use the Filter and must configure it properly.
+
+![img](/assets/img/si55.png)
+
+In the above image, a filter was already set to capture events associated with PID 3888. Alternatively, a filter could have been set to capture events with the Process Name = notepad.exe. 
+
+Here is a useful guide on configuring ProcMon.
+
+Note: To fully understand the output from some of these tools you need to understand some Windows concepts, such as Processes and Threads and Windows API calls.  
+
+### PsExec
+---
+"PsExec is a light-weight telnet-replacement that lets you execute processes on other systems, complete with full interactivity for console applications, without having to manually install client software. PsExec's most powerful uses include launching interactive command-prompts on remote systems and remote-enabling tools like IpConfig that otherwise do not have the ability to show information about remote systems." (official definition)
+
+
+
+![img](/assets/img/si56.png)
+
+PsExec is another tool that is utilized by adversaries. This tool is associated with MITRE techniques [T1570](https://attack.mitre.org/techniques/T1570) (Lateral Tool Transfer), [T1021.002](https://attack.mitre.org/techniques/T1021/002) (Remote Services: SMB/Windows Admin Shares), and [T1569.002](https://attack.mitre.org/techniques/T1569/002) (System Services: Service Execution). It's MITRE ID is [S0029](https://attack.mitre.org/software/S0029/).
+
+You can review this tool more in-depth by visiting its Sysinternals PsExec [page](https://docs.microsoft.com/en-us/sysinternals/downloads/psexec). You can also check out this resource [page](https://adamtheautomator.com/psexec-ultimate-guide/).
+
+Other tools fall under the Process Utilities category. I encourage you to explore these tools at your own leisure.
+
+Link: https://docs.microsoft.com/en-us/sysinternals/downloads/process-utilities
+
+---
+
+1. Run Autoruns and inspect what are the new entries in the Image Hijacks tab compared to the screenshots above.
+
+2. What entry was updated?
+
+Answer: taskmgr.exe
+
+
+3. What is the updated value?
+
+Answer: C:\TOOLS\SYSINT\PROCEXP.EXE
+
+
+---
+
+Task 7 - Security Utilities
+---
+### Sysmon
+---
+"System Monitor (Sysmon) is a Windows system service and device driver that, once installed on a system, remains resident across system reboots to monitor and log system activity to the Windows event log. It provides detailed information about process creations, network connections, and changes to file creation time. By collecting the events it generates using Windows Event Collection or SIEM agents and subsequently analyzing them, you can identify malicious or anomalous activity and understand how intruders and malware operate on your network." (official definition)
+
+Sysmon is a comprehensive tool, and it can't be summarized in just one section.
+
+Check out the [Sysmon room](https://tryhackme.com/room/sysmon) to further learn what Sysmon is and how to use it.  
+
+Other tools fall under the Security Utilities category. I encourage you to explore these tools at your own leisure.
+
+Link: https://docs.microsoft.com/en-us/sysinternals/downloads/security-utilities
+
+---
+Task 8 - System Information
+---
+
+### WinObj
+---
+"WinObj is a 32-bit Windows NT program that uses the native Windows NT API (provided by NTDLL.DLL) to access and display information on the NT Object Manager's name space." (official definition)
+
+To showcase this tool, let's look into the concept of Session 0 and Session 1 that was mentioned in the Core Windows Processes room.
+
+Remember that Session 0 is the OS session and Session 1 is the User session. Also recall that there will be at least 2 csrss.exe processes running, one for each session. Note Session 1 will be for the first user logged into the system.  
+
+Launch WinObj.
+
+
+![img](/assets/img/si57.png)
+
+The below image shows the default view for WinObj.
+
+![img](/assets/img/si58.png)
+
+Within Session 0, under DosDevices, there is an entry for the network drive I mounted in my local machine.
+
+![img](/assets/img/si59.png)
+
+Let's look at WindowStations value for Session 1. 
+
+![img](/assets/img/si60.png)
+
+
+Note: This is a high-level exposure for this tool.
+
+Other tools fall under the System Information category. I encourage you to explore these tools at your own leisure.
+
+Link: https://docs.microsoft.com/en-us/sysinternals/downloads/system-information
+
+---
+
+Task 9 - Miscellaneous
+---
+
+### BgInfo
+---
+
+"It automatically displays relevant information about a Windows computer on the desktop's background, such as the computer name, IP address, service pack version, and more." (official definition)
+
+![img](/assets/img/si61.png)
+
+This is a handy utility if you manage multiple machines. This tool, or similar tools, are typically utilized on servers. When a user RDPs into a server, the system information is displayed on the wallpaper to provide quick information about the server, such as the server's name.
+
+![img](/assets/img/si62.png)
+
+Refer to the [Sysinternals BgInfo](https://docs.microsoft.com/en-us/sysinternals/downloads/bginfo) page for more information on installation and usage.
+
+### RegJump
+---
+"This little command-line applet takes a registry path and makes Regedit open to that path. It accepts root keys in standard (e.g. HKEY_LOCAL_MACHINE) and abbreviated form (e.g. HKLM)." (official definition)
+
+When navigating through the registry using the Registry Editor, one must manually drill down to the key you wish to inspect.
+
+![img](/assets/img/si63.png)
+
+There are multiple ways to query the Windows Registry without using the Registry Editor, such as via the command line (reg query) and PowerShell (Get-Item/Get-ItemProperty).
+
+Using Regjump will open the Registry Editor and automatically open the editor directly at the path, so one doesn't need to navigate it manually.
+
+![img](/assets/img/si64.png)
+
+![img](/assets/img/si65.png)
+
+![img](/assets/img/si66.png)
+
+### Strings
+---
+"Strings just scans the file you pass it for UNICODE (or ASCII) strings of a default length of 3 or more UNICODE (or ASCII) characters. Note that it works under Windows 95 as well." (official definition)
+
+This is the tool that was used on Day 21 of AoC2 to inspect a mysterious binary.
+
+The example below strings is used to search within the ZoomIt binary for any string containing the word 'zoom'.
+
+![img](/assets/img/si67.png)
+
+
+Other tools fall under the Miscellaneous category. I encourage you to explore these tools at your own leisure.
+
+Link: https://docs.microsoft.com/en-us/sysinternals/downloads/misc-utilities
