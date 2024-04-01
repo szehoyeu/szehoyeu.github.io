@@ -660,9 +660,9 @@ Link: https://docs.microsoft.com/en-us/sysinternals/downloads/misc-utilities
 Answer: C:\agent\_work\112\s\Win32\Release\ZoomIt.pdb
 
 ---
+
 Task 10 - Conclusion
 ---
-
 When you read the Sysinternals documentation, it might hint these tools are for troubleshooting purposes only, but that is not entirely the case.
 You should know or be familiar with the Sysinternals tools whether you're a Desktop Engineer, Systems Analyst, or Security Engineer.
 
