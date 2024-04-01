@@ -5,7 +5,7 @@ categories: [Windows]
 tags: [Windows]
 ---
 
-![img](/assets/img/Fowsniff-ctf.png)  
+![img](/assets/img/fowsniff-ctf.png)  
 
 
 ---
