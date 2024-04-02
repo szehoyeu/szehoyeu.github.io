@@ -1,11 +1,12 @@
 ---
 title:  "THM: Into to Log Analysis"
-date:   2024-03-31 19:00:00 +0000
-categories: [Log]
-tags: [Log]
+date:   2024-04-01 19:00:00 +0000
+categories: [Logs]
+tags: [Logs]
 ---
 
-![img](/assets/img/logAnalysis.png)  
+![img](/assets/img/log-analysis.png)  
+
 
 
 ---
