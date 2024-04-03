@@ -303,16 +303,22 @@ path-traversal.log
 ---
 
 1. What is the default file path to view logs regarding HTTP requests on an Nginx server?
-Answer : /var/log/nginx/access.log
+
+    Answer : /var/log/nginx/access.log
+
 
 
 2. A log entry containing %2E%2E%2F%2E%2E%2Fproc%2Fself%2Fenviron was identified. What kind of attack might this infer?
-Answer : Path Traversal
 
+    Answer : Path Traversal
 
 ---
+
+
 Task 5 - Automated vs. Manual Analysis
 ---
+
+
 ### Automated Analysis
 ---
 Automated analysis involves the use of tools. For example, these often include commercial tools such as XPLG or SolarWinds Loggly. Automated analysis tools allow for processing and data analysis of logs. These tools often utilize Artificial Intelligence / Machine Learning to analyze patterns and trends. As the AI landscape evolves, we expect to see more effective automated analysis solutions.
