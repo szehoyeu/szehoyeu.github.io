@@ -43,6 +43,7 @@ Ref:
 
 
 ---
+
 Task 1 - Introduction
 ---
 
@@ -164,8 +165,10 @@ You are a consultant working for a growing startup. As a consultant, you partici
     Answer: How much do you need to log
 
 ---
+
 Task 4 - Configuration Dilemma: Planning and Implementation
 ---
+
 ### Configuration Dilemma: Requirements, Aspirations, Resources, and Investment
 ---
 Configuration dilemma reflects the challenges of implementation. As highlighted in the previous task, each log configuration scope comes with responsibilities, guidelines, and challenges. This means that the log configuration and logging are more than a simple practice of enabling logging from the assets and surviving among thousands of lines.
@@ -264,9 +267,11 @@ As a consultant, you are doing a comprehensive risk assessment and noticed that 
     Answer: Mistake
 
 ---
+
 Task 7 - Conclusion
 ---
-﻿Congratulations!
+
+Congratulations!
 
 You just finished the "Log Operations" room.
 

