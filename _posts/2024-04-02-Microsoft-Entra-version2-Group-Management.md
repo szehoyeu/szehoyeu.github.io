@@ -2,7 +2,7 @@
 title:  "Microsoft Entra version 2 cmdlets for group management"
 date:   2024-04-02 19:00:00 +0000
 categories: [Microsoft]
-tags: [Entra, PowerShell, Graph]
+tags: [Graph]
 ---
 
 ![img](/assets/img/ms-learn.png)  
