@@ -18,6 +18,32 @@ Ref:
 
 - [Log Operations](https://tryhackme.com/jr/logoperations)
 
+- [Logstash](https://tryhackme.com/jr/logstash)
+
+- [Grok documentation](https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html)
+
+- [Plaso (Python Log2Timeline)](https://github.com/log2timeline/plaso) 
+
+- [Splunk: Dashboards and Reports](https://tryhackme.com/jr/splunkdashboardsandreports)
+
+- [Threat Intelligence Feed - ThreatFox](https://threatfox.abuse.ch/)
+
+- [Nmap scanner](https://tryhackme.com/room/furthernmap) 
+
+- [Hydra brute-forcing tool](https://tryhackme.com/room/hydra)
+
+- [Directory Traversal Payload List](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Directory%20Traversal/README.md)
+
+- [awk and sed use cases](https://www.theunixschool.com/p/awk-sed.html)
+
+- [regular expression](https://tryhackme.com/room/catregex)
+
+- [RegExr](https://regexr.com/)
+
+- [Elastic documentation](https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html)
+
+- [GCHQ](https://github.com/gchq/CyberChef)
+
 ---
 
 Task 1 - Introduction
@@ -103,6 +129,7 @@ Each log type presents a unique perspective on the activities within an environm
 Each log type presents a unique perspective on the activities within an environment, and analyzing these logs in context to one another is crucial for effective cyber security investigation and threat detection.
 
 ---
+
 Task 3 - Investigation Theory
 ---
 
@@ -168,11 +195,14 @@ When analyzing a log file, we can search for the presence of threat intelligence
 Outputting an Apache2 Access Log
 ```
 cmnatic@thm cat access.log
+```
+```
 54.36.149.64 - - [25/Aug/2023:00:05:36 +0000] "GET /admin HTTP/1.1" 200 8260 "-" "Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)"
 191.96.106.80 - - [25/Aug/2023:00:33:11 +0000] "GET /TryHackMe/rooms/docker-rodeo/dockerregistry/catalog1.png HTTP/1.1" 200 19594 "https://tryhackme.com/" "Mozi>
 54.36.148.244 - - [25/Aug/2023:00:34:46 +0000] "GET /TryHackMe/?C=D;O=D HTTP/1.1" 200 5879 "-" "Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot>
 66.249.66.68 - - [25/Aug/2023:00:35:53 +0000] "GET /TryHackMe%20Designs/ HTTP/1.1" 200 5973 "-" "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) 200 19594 "https://tryhackme.com/" "Mozi>
 ```
+
 Using a threat intelligence feed like [ThreatFox](https://threatfox.abuse.ch/), we can search our log files for known malicious actors' presence.
 
 
@@ -376,6 +406,7 @@ Disadvantages
 
 Task 6 - Log Analysis Tools: Command Line
 ---
+
 When analyzing collected logs, sometimes the most readily available tool we have is the command line itself. Analyzing logs through the command line provides a quick and powerful way to gain insights into system activities, troubleshoot issues, and detect security incidents, even if we don't have an SIEM system configured.
 
 Many built-in Linux commands allow us to parse and filter relevant information quickly. Viewing log files using the command line is one of the most basic yet essential tasks for conducting log analysis. Several common built-in tools are used for this purpose, offering differing functionalities to read and navigate through log files efficiently.
@@ -391,6 +422,8 @@ For example, to view the contents of a log file named apache.log, you can use th
 cat Example
 ```
 user@tryhackme$ cat apache.log        
+```
+```
 203.0.113.42 - - [31/Jul/2023:12:34:56 +0000] "GET /index.php HTTP/1.1" 200 1234 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36"
 120.54.86.23 - - [31/Jul/2023:12:34:57 +0000] "GET /contact.php HTTP/1.1" 404 5678 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36"
 185.76.230.45 - - [31/Jul/2023:12:34:58 +0000] "GET /about.php HTTP/1.1" 200 9876 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36"
@@ -442,6 +475,8 @@ For example, if we only wanted to print the last five lines of the apache.log fi
 tail Example
 ```
 user@tryhackme$ tail -f -n 5 apache.log
+```
+```
 176.145.201.99 - - [31/Jul/2023:12:34:24 +0000] "GET /login.php HTTP/1.1" 200 1234 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.90 Safari/537.36"
 104.76.29.88 - - [31/Jul/2023:12:34:23 +0000] "GET /index.php HTTP/1.1" 200 5678 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36"
 128.45.76.66 - - [31/Jul/2023:12:34:22 +0000] "GET /contact.php HTTP/1.1" 404 5678 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.54 Safari/537.36"
@@ -459,7 +494,9 @@ The wc (word count) command is a simple but powerful utility that can be quite u
 
 wc Example
 ```
-user@tryhackme$ wc apache.log     
+user@tryhackme$ wc apache.log    
+```
+``` 
    70  1562 14305 apache.log
 ```
 
@@ -477,6 +514,8 @@ If we want to extract all of the IP addresses in the file, we can use the cut co
 cut Example
 ```
 user@tryhackme$ cut -d ' ' -f 1 apache.log
+```
+```
 203.0.113.42
 120.54.86.23
 185.76.230.45
@@ -509,6 +548,8 @@ For example, to sort the list of returned IP addresses from the above ```cut``` 
 sort Example
 ```
 user@tryhackme$ cut -d ' ' -f 1 apache.log | sort -n
+```
+```
 76.89.54.221
 76.89.54.221
 76.89.54.221
@@ -537,6 +578,8 @@ If we want to ```reverse the order```, we can add the ```-r``` option:
 sort Example (Reversed)
 ```
 user@tryhackme$ cut -d ' ' -f 1 apache.log | sort -n -r
+```
+```
 221.90.64.76
 211.87.186.35
 203.78.122.88
@@ -566,6 +609,8 @@ For example, the output of the ```sort``` command we ran above contains a few du
 uniq Example
 ```
 user@tryhackme$ cut -d ' ' -f 1 apache.log | sort -n -r | uniq
+```
+```
 221.90.64.76
 211.87.186.35
 203.78.122.88
@@ -584,6 +629,8 @@ We can also append the ```-c``` option to output unique lines and prepend the co
 uniq Example (with count)
 ```
 user@tryhackme$ cut -d ' ' -f 1 apache.log | sort -n -r | uniq -c
+```
+```
       1 221.90.64.76
       1 211.87.186.35
       1 203.78.122.88
@@ -607,6 +654,8 @@ Using the substitute syntax, ```sed``` can replace specific patterns or strings 
 sed Example
 ```
 user@tryhackme$ sed 's/31\/Jul\/2023/July 31, 2023/g' apache.log
+```
+```
 203.0.113.42 - - [July 31, 2023:12:34:56 +0000] "GET /index.php HTTP/1.1" 200 1234 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36"
 120.54.86.23 - - [July 31, 2023:12:34:57 +0000] "GET /contact.php HTTP/1.1" 404 5678 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36"
 ...
@@ -625,6 +674,8 @@ For the ```awk``` command, a common use case, is conditional actions based on sp
 awk Example
 ```
 user@tryhackme$ awk '$9 >= 400' apache.log
+```
+```
 120.54.86.23 - - [31/Jul/2023:12:34:57 +0000] "GET /contact.php HTTP/1.1" 404 5678 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36"
 156.98.34.12 - - [31/Jul/2023:12:35:02 +0000] "GET /about.php HTTP/1.1" 404 5678 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.85 Safari/537.36"
 189.76.230.44 - - [31/Jul/2023:12:35:06 +0000] "GET /about.php HTTP/1.1" 404 1234 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.170 Safari/537.36"
@@ -729,7 +780,11 @@ Hint:
 Useful commands to help answer this question include "cut", "sort", and "uniq".
 
 ```
-root@ip-10-10-64-111:~/Rooms/introloganalysis/task6# cut -d ' ' -f 1 apache.log | sort -n | uniq -c
+root@ip-10-10-64-111:~/Rooms/introloganalysis/task6# 
+
+cut -d ' ' -f 1 apache.log | sort -n | uniq -c
+```
+```
       6 76.89.54.221
       1 77.188.103.244
       1 99.76.122.65
@@ -772,7 +827,11 @@ root@ip-10-10-64-111:~/Rooms/introloganalysis/task6# cut -d ' ' -f 1 apache.log 
 4. What is the complete timestamp of the entry where 110.122.65.76 accessed /login.php?
 
 ```
-root@ip-10-10-64-111:~/Rooms/introloganalysis/task6# grep -v "/login.php?" apache.log | grep "110.122.65.76"
+root@ip-10-10-64-111:~/Rooms/introloganalysis/task6# 
+
+grep -v "/login.php?" apache.log | grep "110.122.65.76"
+```
+```
 110.122.65.76 - - [31/Jul/2023:12:35:02 +0000] "GET /contact.php HTTP/1.1" 200 1234 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.210 Safari/537.36"
 110.122.65.76 - - [31/Jul/2023:12:34:54 +0000] "GET /contact.php HTTP/1.1" 200 7890 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.330 Safari/537.36"
 110.122.65.76 - - [31/Jul/2023:12:34:47 +0000] "GET /index.php HTTP/1.1" 200 9876 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.230 Safari/537.36"
@@ -788,3 +847,314 @@ root@ip-10-10-64-111:~/Rooms/introloganalysis/task6# grep -v "/login.php?" apach
 
 Task 7 - Log Analysis Tools: Regular Expressions
 ---
+
+Regular expressions, abbreviated as ```regex```, are an invaluable way to define patterns for searching, matching, and manipulating text data. Regular expression patterns are constructed using a combination of special characters that represent matching rules and are supported in many programming languages, text editors, and software.
+
+This room won't cover the in-depth use of constructing [regular expression](https://tryhackme.com/room/catregex) patterns. However, the Regular expressions room is a fantastic resource for learning and practicing regex.
+
+Regular expressions are widely used in log analysis to extract relevant information, filter data, identify patterns, and process logs before they are forwarded to a centralized SIEM system. It's even possible to use regex with the ```grep``` command, as it is an extremely powerful way to search for patterns in log files.
+
+#### Regular Expressions for grep
+---
+As a simple example, refer to the ```apache-ex2.log``` file within the ZIP file attached to this task. You can locate the task files on the AttackBox under ```/root/Rooms/introloganalysis/task7```. Ensure to unzip the file first by running unzip regex.zip and then cd regex.
+
+This log file contains log entries from a blog site. The site is structured so that each blog post has its unique ID, fetched from the database dynamically through the post URL parameter. 
+
+If we are only interested in the specific blog posts with an ```ID between 10-19```, we can run the following grep regular expression pattern on the log file:
+
+grep Regex Example
+```
+user@tryhackme$ 
+
+grep -E 'post=1[0-9]' apache-ex2.log
+```
+```
+203.0.113.1 - - [02/Aug/2023:10:15:23 +0000] "GET /blog.php?post=12 HTTP/1.1" 200 - "Mozilla/5.0"
+100.22.189.54 - - [03/Aug/2023:12:48:43 +0000] "GET /blog.php?post=14 HTTP/1.1" 200 - "Mozilla/5.0"
+34.210.98.12 - - [03/Aug/2023:15:30:56 +0000] "GET /blog.php?post=11 HTTP/1.1" 200 - "Mozilla/5.0"
+102.210.76.44 - - [04/Aug/2023:19:26:29 +0000] "GET /blog.php?post=16 HTTP/1.1" 200 - "Mozilla/5.0"
+98.88.76.103 - - [05/Aug/2023:17:56:33 +0000] "GET /blog.php?post=13 HTTP/1.1" 200 - "Mozilla/5.0"
+76.88.44.90 - - [06/Aug/2023:12:58:22 +0000] "GET /blog.php?post=17 HTTP/1.1" 200 - "Mozilla/5.0"
+98.76.102.33 - - [07/Aug/2023:15:24:30 +0000] "GET /blog.php?post=19 HTTP/1.1" 200 - "Mozilla/5.0"
+...
+...
+```
+Notice that we added the 
+- -E option to signify that we are searching on a pattern rather than just a string, which is what allows us to use regex. For the pattern itself, we match the literal characters post=. 
+
+- After which, we include the number 1 followed by the dynamic insertion of characters 0-9 using [0-9]. 
+
+- Putting this together, ```1[0-9]``` will match any two-digit number that starts with "1", such as 10, 11, 12, and onward.
+
+### Regular Expressions for Log Parsing
+---
+Regular expressions also play a crucial role in log parsing, which is the process of breaking down log entries into structured components and extracting relevant information from them. Log files from different sources can have diverse formats and fields, sometimes requiring additional processing to transform raw log data into structured, actionable information.
+
+Additionally, engineers can create custom regex patterns tailored to specific logs to map specific parts of a log entry to named fields for an SIEM system. Overall, this process makes it much easier to query and analyze the extracted data later.
+
+Consider the following raw, unstructured log entry:
+
+Log Entry Example
+```
+126.47.40.189 - - [28/Jul/2023:15:30:45 +0000] "GET /admin.php HTTP/1.1" 200 1275 "" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.9999.999 Safari/537.36"
+```
+
+From a security standpoint, several fields here would be beneficial to extract into an SIEM for visualization. Some of these include:
+
+- The IP address
+- The timestamp
+- The HTTP method (POST, GET, or PUT, for example)
+- The URL
+- The user-agent
+
+[RegExr](https://regexr.com/) is an online tool to help teach, build, and test regular expression patterns. To follow along, copy the above log entry and paste it into the "Text" section of the tool.
+
+![img](/assets/img/log-analysis03.png)
+
+As a basic example, if we want to extract just the remote IP address from this log, we can think about the structure of the IP address logically. The IP address is the log entry's first part, consisting of four octets separated by periods. We can use the following pattern:
+
+```
+\b([0-9]{1,3}\.){3}[0-9]{1,3}\b
+```
+
+Paste this pattern into the "Expression" field in RegExr, and you will notice that the IP address from the log is successfully extracted and highlighted.
+
+![img](/assets/img/log-analysis04.png)
+
+Breaking this pattern down, it begins and ends with a word boundary anchor ```\b``` to ensure we match complete IP addresses. In between, we define the following:
+
+- [0-9]{1,3} - Matches one to three digits to match numbers from 0 to 999. While IPv4 addresses octets cannot exceed 255, this simplified pattern works for our use case.
+
+- \. - Escapes and matches a literal . character in the IP address.
+
+- {3} - Specifies that the previous capturing group ([0-9]{1,3}\.) should be repeated three times.
+
+- [0-9]{1,3} - Again, this matches numbers from 0 to 999, completing the fourth octet of the IP address.
+
+
+### Example: Logstash and Grok
+---
+Grok is a powerful Logstash plugin that enables you to parse unstructured log data into something structured and searchable. It's commonly used for any log format written for humans to read rather than for computer consumption. It works by combining text patterns with the ```%{SYNTAX:SEMANTIC}``` pattern syntax. However, sometimes, Logstash lacks the built-in pattern we need. In these cases, we can define custom patterns using the Oniguruma syntax and take advantage of regular expressions. More info on Grok and its use within the Elastic Stack can be found in the Elastic documentation [here](https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html).
+
+We can use the pattern we previously created to successfully extract IPv4 addresses from our log file and process them into a custom field before they are sent to an SIEM. In an Elastic Stack scenario, we can add a filter using the ```Grok``` plugin within our Logstash configuration file to achieve this.
+
+
+logstash.conf
+```
+input {
+  ...
+}
+
+filter {
+  grok {
+    match => { "message" => "(?<ipv4_address>\b([0-9]{1,3}\.){3}[0-9]{1,3}\b)" }
+  }
+}
+
+output {
+  ...
+}
+```
+
+
+In the configuration above, we use our previously defined regular expression pattern to extract IPv4 addresses from the "message" field of incoming log events. The extracted values will be added under the custom "ipv4_addresses" field name we defined. Typically, IP addresses are extracted automatically by default configurations. But this simple example shows the power of regular expression patterns when dealing with complex log files and custom field requirements.
+
+The [Logstash](https://tryhackme.com/jr/logstash) room and [the official Grok documentation](https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html) are fantastic resources for further exploring Logstash input and filter configurations!
+
+
+---
+
+1. How would you modify the original grep pattern above to match blog posts with an ID between 22-26?
+Answer : POST=2[2-6]
+    ```
+    grep -E 'POST=2[2-6]' apache-ex2.log
+    ```
+
+2. What is the name of the filter plugin used in Logstash to parse unstructured log data?
+
+    Answer : Grok
+
+---
+
+Task 8 - Log Analysis Tools: CyberChef
+---
+
+CyberChef is a powerful tool in an analyst's toolkit. Created by [GCHQ](https://github.com/gchq/CyberChef), CyberChef has long been regarded as the "Cyber Swiss Army Knife." The application boasts over 300 operations, which combine to make a recipe that makes handling data a piece of cake. Some key features include:
+
+- Encoding and decoding data
+- Encryption and hashing algorithms
+- Data analysis, such as parsing log files and extracting data
+- And many more!
+
+This task is going to demonstrate how CyberChef can be used to parse a log file alongside the use of recipes for analysis. Before we begin, let's become familiar with the CyberChef interface. First, let's launch CyberChef in our browser by visiting CyberChef. Note, if you are a free user on the AttackBox, a local copy of CyberChef is installed and can be accessed by clicking the "Offline CyberChef" bookmark in Firefox.
+
+### Understanding CyberChef
+---
+Let's break down the interface:
+
+1. The "Operations" tab - This tab allows us to select what we wish to do with the input
+2. Recipe - This tab is a collection of operations
+3. Input - This tab is where we input the data or source that we want to analyze
+4. Output - This tab is the final output of the input after the operations have been applied
+
+
+![img](/assets/img/log-analysis05.png)
+
+Let's demonstrate CyberChef in use. 
+In this example, I provide an input ```"dHJ5aGFja21l"```, which is ```"tryhackme"``` in ```base64```. 
+After selecting the "From Base64" operation, we can see the output of "tryhackme":
+
+![img](/assets/img/log-analysis06.png)
+
+Note, if you are unsure what encoding an input is, you can use CyberChef's "Magic" operation to take its best guess at what the input is and what operations may be of use here.
+
+![img](/assets/img/log-analysis07.png)
+
+### Regex with CyberChef
+---
+Recall from this room that regular expressions are a great way of searching and matching data. In this example, we are taking a log file that has captured SSH authentication attempts, and we are using regex to output all of the IP addresses that have attempted to authenticate.
+
+Additionally, we are using the regex pattern ```\b([0-9]{1,3}\.){3}[0-9]{1,3}\b``` to search for values that are IP addresses:
+
+![img](/assets/img/log-analysis08.png)
+
+
+By selecting the ```"List matches"``` filter on the ```"Output format"``` of the operation, we can remove all of the noise from the log and output solely the IP addresses. Of course, this is a small example. Log files can often be hundreds of lines long.
+
+### Uploading Files in CyberChef
+---
+Files and folders can be uploaded to CyberChef. This provides a convenient way of uploading log files to CyberChef. To do so, click on the box with an arrow pointing inside it. Additionally, CyberChef has operators that allow you to unzip compressed files, such as .tar.gz or .zip.
+
+![img](/assets/img/log-analysis09.png)
+![img](/assets/img/log-analysis10.png)
+
+---
+
+Locate the "loganalysis.zip" file under /root/Rooms/introloganalysis/task8 and extract the contents.
+
+```
+unzip filename.zip
+```
+
+1. Upload the log file named "access.log" to CyberChef. Use regex to list all of the IP addresses. What is the full IP address beginning in 212?
+
+![img](/assets/img/log-analysis11.png)
+```
+\b([0-9]{1,3}\.){3}[0-9]{1,3}\b
+```
+    Answer : 212.14.17.145
+
+
+![img](/assets/img/log-analysis12.png)
+
+
+2. Using the same log file from Question #2, a request was made that is encoded in base64. What is the decoded value?
+
+    Answer : THM{CYBERCHEF_WIZARD}
+
+3. Using CyberChef, decode the file named "encodedflag.txt" and use regex to extract by MAC address. What is the extracted value?
+
+    Answer : 08-2E-9A-4B-7F-61
+
+
+---
+
+Task 9 - Log Analysis Tools: Yara and Sigma
+---
+
+
+### Sigma
+---
+[Sigma](https://github.com/SigmaHQ/sigma) is a highly flexible open-source tool that describes log events in a structured format. Sigma can be used to find entries in log files using pattern matching. Sigma is used to:
+
+- Detect events in log files
+- Create SIEM searches
+- Identify threats
+
+
+Sigma uses the YAML syntax for its rules. This task will demonstrate Sigma being used to detect failed login events in SSH. Please note that writing a Sigma rule is out-of-scope for this room. However, let's break down an example Sigma rule for the scenario listed above:
+```
+title: Failed SSH Logins
+description: Searches sshd logs for failed SSH login attempts
+status: experimental
+author: CMNatic
+logsource: 
+    product: linux
+    service: sshd
+
+detection:
+    selection:
+        type: 'sshd'
+        a0|contains: 'Failed'
+        a1|contains: 'Illegal'
+    condition: selection
+falsepositives:
+    - Users forgetting or mistyping their credentials
+level: medium
+```
+
+In this Sigma rule:
+
+![img](/assets/img/log-analysis13.png)
+
+This rule can now be used in SIEM platforms to identify events in the processed logs. If you want to learn more about Sigma, I recommend checking out the [Sigma](https://tryhackme.com/room/sigma) room on TryHackMe.
+
+Yara
+
+[Yara](https://github.com/VirusTotal/yara) is another pattern-matching tool that holds its place in an analyst's arsenal. Yara is a YAML-formatted tool that identifies information based on binary and textual patterns (such as hexadecimal and strings). While it is usually used in malware analysis, Yara is extremely effective in log analysis.
+
+Let's look at this example Yara rule called "IPFinder". This YARA rule uses regex to search for any IPV4 addresses. If the log file we are analyzing contains an IP address, YARA will flag it:
+```
+rule IPFinder {
+    meta:
+        author = "CMNatic"
+    strings:
+        $ip = /([0-9]{1,3}\.){3}[0-9]{1,3}/ wide ascii
+ 
+    condition:
+        $ip
+}
+```
+
+Let's look at the keys that make up this Yara rule:
+
+![img](/assets/img/log-analysis14.png)
+
+Using YARA to detect a specific IP address
+cmnatic@thm:~$ yara ipfinder.yar apache2.txt
+IPFinder apache2
+This YARA rule can be expanded to look for:
+
+Multiple IP addresses
+IP Addresses based on a range (for example, an ASN or a subnet)
+IP addresses in HEX
+If an IP address lists more than a certain amount (I.e., alert if an IP address is found five times)
+And combined with other rules. For example, if an IP address visits a specific page or does a certain action
+If you want to learn more about Yara, check out the Yara room on TryHackMe.
+
+---
+
+1. What languages does Sigma use?
+    
+    Answer : YAML
+
+2. What keyword is used to denote the "title" of a Sigma rule?
+
+    Answer : Title
+
+
+3. What keyword is used to denote the "name" of a rule in YARA?
+
+    Answer : Rule
+
+---
+
+
+Task 10 - Conclusion
+---
+
+In this room, we covered the basic methodology behind adopting an effective log analysis strategy. We explored the importance of log data collection, common attack patterns, and useful tools for the investigation and response processes.
+
+Next Steps
+
+For a hands-on log analysis challenge, check out the next room in this module: Log Factory (coming soon!). To expand your SIEM and centralized logging solution capabilities, visit the [Advanced Splunk](https://tryhackme.com/module/advanced-splunk) and [Advanced ELK](https://tryhackme.com/module/advanced-elk) modules.
