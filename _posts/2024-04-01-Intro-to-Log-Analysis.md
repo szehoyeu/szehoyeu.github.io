@@ -696,6 +696,8 @@ The most basic usage of grep is to search for specific strings within log files.
 grep Example
 ```
 user@tryhackme$ grep "admin" apache.log
+```
+```
 145.76.33.201 - - [31/Jul/2023:12:34:54 +0000] "GET /admin.php HTTP/1.1" 200 4321 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.330 Safari/537.36"
 ```
 
@@ -707,13 +709,18 @@ Like the ```uniq -c``` command, we can append the
 grep Example (with count)
 ```
 user@tryhackme$ grep -c "admin" apache.log
-1
-If we wanted to know which line number in the log file relates to the matched entries, we could add the -n option to help quickly locate specific occurrences:
 ```
+```
+1
+```
+
+If we wanted to know which line number in the log file relates to the matched entries, we could add the -n option to help quickly locate specific occurrences:
 
 grep Example (line number)
 ```
-user@tryhackme$ grep -n "admin" apache.log                           
+user@tryhackme$ grep -n "admin" apache.log 
+```
+```                          
 37:145.76.33.201 - - [31/Jul/2023:12:34:54 +0000] "GET /admin.php HTTP/1.1" 200 4321 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.330 Safari/537.36"
 ```
 In this case, the line number ```"37"``` is prepended to the log entry output.
@@ -723,6 +730,8 @@ Lastly, we can ```invert``` our command using the ```-v``` option only to select
 grep Example (inverted)
 ```
 user@tryhackme$ grep -v "/index.php" apache.log | grep "203.64.78.90"
+```
+```
 203.64.78.90 - - [31/Jul/2023:12:35:01 +0000] "GET /about.php HTTP/1.1" 404 4321 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.170 Safari/537.36"
 203.64.78.90 - - [31/Jul/2023:12:34:53 +0000] "GET /about.php HTTP/1.1" 200 1234 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.210 Safari/537.36"
 203.64.78.90 - - [31/Jul/2023:12:34:46 +0000] "GET /contact.php HTTP/1.1" 200 4321 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.100 Safari/537.36"
@@ -739,14 +748,14 @@ While command-line log analysis offers powerful capabilities, it might only suit
 ---
 
 1. Use cut on the apache.log file to return only the URLs. What is the flag that is returned in one of the unique entries?
+
+
 ```
 root@ip-10-10-64-111:~/Rooms/introloganalysis/task6# dir
-apache.log
-
-root@ip-10-10-64-111:~/Rooms/introloganalysis/task6# cut -d ' ' -f 7 apache.log
-
+    apache.log
+root@ip-10-10-64-111:~/Rooms/introloganalysis/task6# cut -d ' ' -f 7    apache.log
 ```
-Output
+
 ```
 ...
 ...
@@ -760,17 +769,18 @@ Output
 ...
 ...
 ```
+
     Answer : c701d43cc5a3acb9b5b04db7f1be94f6
 
 
 2. In the apache.log file, how many total HTTP 200 responses were logged?
 
 Hint: With the "awk" command, "==" is used for equality comparisons.
+
 ```
 root@ip-10-10-64-111:~/Rooms/introloganalysis/task6# awk '$9 == 200' apache.log | wc
      52    1144   10485
 root@ip-10-10-64-111:~/Rooms/introloganalysis/task6# 
-
 ```
     Answer : 52
 
@@ -782,9 +792,9 @@ Useful commands to help answer this question include "cut", "sort", and "uniq".
 
 ```
 root@ip-10-10-64-111:~/Rooms/introloganalysis/task6# 
-
 cut -d ' ' -f 1 apache.log | sort -n | uniq -c
 ```
+
 ```
       6 76.89.54.221
       1 77.188.103.244
@@ -819,7 +829,6 @@ cut -d ' ' -f 1 apache.log | sort -n | uniq -c
       1 203.78.122.88
       1 211.87.186.35
       1 221.90.64.76
-
 ```
 
     Answer : 145.76.33.201
@@ -829,9 +838,9 @@ cut -d ' ' -f 1 apache.log | sort -n | uniq -c
 
 ```
 root@ip-10-10-64-111:~/Rooms/introloganalysis/task6# 
-
 grep -v "/login.php?" apache.log | grep "110.122.65.76"
 ```
+
 ```
 110.122.65.76 - - [31/Jul/2023:12:35:02 +0000] "GET /contact.php HTTP/1.1" 200 1234 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.210 Safari/537.36"
 110.122.65.76 - - [31/Jul/2023:12:34:54 +0000] "GET /contact.php HTTP/1.1" 200 7890 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.330 Safari/537.36"
