@@ -67,6 +67,7 @@ It is recommended to have a general understanding of logs and how they are colle
 - [Log Operations](https://tryhackme.com/jr/logoperations)
 
 ---
+
 Task 2 - Log Analysis Basics
 ---
 
@@ -843,10 +844,13 @@ grep -v "/login.php?" apache.log | grep "110.122.65.76"
 
     Answer : 31/Jul/2023:12:34:40 +0000
 
+
 ---
+
 
 Task 7 - Log Analysis Tools: Regular Expressions
 ---
+
 
 Regular expressions, abbreviated as ```regex```, are an invaluable way to define patterns for searching, matching, and manipulating text data. Regular expression patterns are constructed using a combination of special characters that represent matching rules and are supported in many programming languages, text editors, and software.
 
@@ -976,8 +980,10 @@ Answer : POST=2[2-6]
 
 ---
 
+
 Task 8 - Log Analysis Tools: CyberChef
 ---
+
 
 CyberChef is a powerful tool in an analyst's toolkit. Created by [GCHQ](https://github.com/gchq/CyberChef), CyberChef has long been regarded as the "Cyber Swiss Army Knife." The application boasts over 300 operations, which combine to make a recipe that makes handling data a piece of cake. Some key features include:
 
@@ -1057,10 +1063,13 @@ unzip filename.zip
     Answer : 08-2E-9A-4B-7F-61
 
 
+
 ---
+
 
 Task 9 - Log Analysis Tools: Yara and Sigma
 ---
+
 
 
 ### Sigma
