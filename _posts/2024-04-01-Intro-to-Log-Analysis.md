@@ -881,6 +881,7 @@ user@tryhackme$
 
 grep -E 'post=1[0-9]' apache-ex2.log
 ```
+
 ```
 203.0.113.1 - - [02/Aug/2023:10:15:23 +0000] "GET /blog.php?post=12 HTTP/1.1" 200 - "Mozilla/5.0"
 100.22.189.54 - - [03/Aug/2023:12:48:43 +0000] "GET /blog.php?post=14 HTTP/1.1" 200 - "Mozilla/5.0"
@@ -892,6 +893,7 @@ grep -E 'post=1[0-9]' apache-ex2.log
 ...
 ...
 ```
+
 Notice that we added the 
 - -E option to signify that we are searching on a pattern rather than just a string, which is what allows us to use regex. For the pattern itself, we match the literal characters post=. 
 
@@ -1054,9 +1056,11 @@ unzip filename.zip
 1. Upload the log file named "access.log" to CyberChef. Use regex to list all of the IP addresses. What is the full IP address beginning in 212?
 
 ![img](/assets/img/log-analysis11.png)
+
 ```
 \b([0-9]{1,3}\.){3}[0-9]{1,3}\b
 ```
+
     Answer : 212.14.17.145
 
 
@@ -1092,6 +1096,7 @@ Task 9 - Log Analysis Tools: Yara and Sigma
 
 Sigma uses the YAML syntax for its rules. This task will demonstrate Sigma being used to detect failed login events in SSH. Please note that writing a Sigma rule is out-of-scope for this room. However, let's break down an example Sigma rule for the scenario listed above:
 
+
 ```
 title: Failed SSH Logins
 description: Searches sshd logs for failed SSH login attempts
@@ -1111,6 +1116,7 @@ falsepositives:
     - Users forgetting or mistyping their credentials
 level: medium
 ```
+
 
 In this Sigma rule:
 
@@ -1141,6 +1147,7 @@ Let's look at the keys that make up this Yara rule:
 ![img](/assets/img/log-analysis14.png)
 
 Using YARA to detect a specific IP address
+
 ```
 cmnatic@thm:~$ yara ipfinder.yar apache2.txt
 IPFinder apache2
