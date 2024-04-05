@@ -331,6 +331,7 @@ As we are in the Linux realm, familiarity with Linux commands, in general, will 
 
 1. What is the hostname of the target system?
 wade7363
+
 ```
 hostname
 ```
@@ -344,6 +345,7 @@ or
 
 cat /proc/version
 ```
+
 ```
 Linux wade7363 3.13.0-24-generic #46-Ubuntu SMP Thu Apr 10 19:11:08 UTC 2014 x86_64 x86_64 x86_64 GNU/Li
 nux
@@ -359,6 +361,7 @@ nux
 
 4. What version of the Python language is installed on the system? 
 2.7.6
+
 ```
 python --version or python -V
 ```
@@ -366,15 +369,19 @@ python --version or python -V
 
 
 5. What vulnerability seem to affect the kernel of the target system? (Enter a CVE number)
+
 ![img](/assets/img/lpe20.png)
+
 ```
 CVE-2015-1328
 ```
+
 ---
 
 
-Task 4
-Automated Enumeration Tools
+Task 4 - Automated Enumeration Tools
+---
+
 Several tools can help you save time during the enumeration process. These tools should only be used to save time knowing they may miss some privilege escalation vectors. Below is a list of popular Linux enumeration tools with links to their respective Github repositories.
 
 The target system’s environment will influence the tool you will be able to use. For example, you will not be able to run a tool written in Python if it is not installed on the target system. This is why it would be better to be familiar with a few rather than having a single go-to tool.
