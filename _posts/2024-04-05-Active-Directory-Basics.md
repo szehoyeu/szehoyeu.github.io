@@ -497,6 +497,7 @@ When Kerberos is used for authentication, the following process happens:
 
 ![img](/assets/img/adb25.png)
 
+
 2. When a user wants to connect to a service on the network like a share, website or database, they will use their TGT to ask the KDC for a ```Ticket Granting Service (TGS)```. TGS are tickets that allow connection only to the specific service they were created for. To request a TGS, the user will send their username and a timestamp encrypted using the Session Key, along with the TGT and a ```Service Principal Name (SPN)```, which indicates the service and server name we intend to access.
 
     As a result, the KDC will send us a TGS along with a ```Service Session Key```, which we will need to authenticate to the service we want to access. The TGS is encrypted using a key derived from the Service Owner Hash. The Service Owner is the user or machine account that the service runs under. The TGS contains a copy of the Service Session Key on its encrypted contents so that the Service Owner can access it by decrypting the TGS.
@@ -595,3 +596,31 @@ In simple terms, having a trust relationship between domains allows you to autho
 The simplest trust relationship that can be established is a one-way trust relationship. In a one-way trust, if Domain AAA trusts Domain BBB, this means that a user on BBB can be authorised to access resources on AAA:
 
 ![img](/assets/img/adb32.png)
+
+
+The direction of the one-way trust relationship is contrary to that of the access direction.
+
+Two-way trust relationships can also be made to allow both domains to mutually authorise users from the other. By default, joining several domains under a tree or a forest will form a two-way trust relationship.
+
+It is important to note that having a trust relationship between domains doesn't automatically grant access to all resources on other domains. Once a trust relationship is established, you have the chance to authorise users across different domains, but it's up to you what is actually authorised or not.
+
+
+1. What is a group of Windows domains that share the same namespace called?
+
+    Answer : tree
+
+
+
+2. What should be configured between two domains for a user in Domain A to access a resource in Domain B?
+
+    Answer : a trust relationship
+
+---
+
+Task 9 - Conclusion
+---
+
+
+In this room, we have shown the basic components and concepts related to Active Directories and Windows Domains. Keep in mind that this room should only serve as an introduction to the basic concepts, as there's quite a bit more to explore to implement a production-ready Active Directory environment.
+
+If you are interested in learning how to secure an Active Directory installation, be sure to check out the Active Directory Hardening Room (To be released soon). If, on the other hand, you'd like to know how attackers can take advantage of common AD misconfigurations and other AD hacking techniques, the Compromising Active Directory module is the way to go.
