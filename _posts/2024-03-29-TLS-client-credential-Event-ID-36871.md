@@ -1,6 +1,6 @@
 ---
 title:  "Event Viewer - Event ID 36871 - TLS client credential - Internal Error State 10013"
-date:   2024-03-23 15:00:00 +0000
+date:   2024-03-29 15:00:00 +0000
 categories: [WindowsServer]
 tags: [TLS]
 ---
