@@ -13,8 +13,7 @@ Ref:
 
 - [MSOnline](https://learn.microsoft.com/en-us/powershell/module/msonline/?view=azureadps-1.0)
 
-> Add content here
- `_posts/2024-04-11-PowerShell-Group-Creation-and-Adding-Devices-as-Member.md`{: .filepath } 
+> Azure AD Powershell is planned for deprecation on March 30, 2024. For more details on the deprecation plans, see the deprecation update. We encourage you to continue migrating to Microsoft Graph PowerShell, which is the recommended module for interacting with Azure AD. In addition, [Microsoft Graph PowerShell](https://learn.microsoft.com/en-us/powershell/microsoftgraph/overview) allows you access to all Microsoft Graph APIs and is available on PowerShell 7. For answers to frequent migration queries, see the [Migration FAQ](https://learn.microsoft.com/en-us/powershell/module/msonline/migration-faq.yml?view=azureadps-1.0).
 {: .prompt-tip }
 
 - [Microsoft Graph](https://learn.microsoft.com/en-us/powershell/module/microsoft.graph.identity.directorymanagement/get-mgdevice?view=graph-powershell-1.0)
