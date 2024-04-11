@@ -21,6 +21,12 @@ $csv = Get-Content -Path C:\Users\user\Desktop\ip.txt -Raw
 $output | Out-File -filepath "C:\Users\user\Desktop\FileName-Out.txt"
 ```
 
+```
+$csv = Import-Csv -Path "C:\Users\user\Downloads\importFileName.csv"
+```
+
+
+
 - List all the DC
 ```
 Get-ADDomainController -filter * | Select-Object name

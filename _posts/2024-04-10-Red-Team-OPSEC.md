@@ -216,8 +216,6 @@ Example: The figure below shows the User-Agent that will be logged by the remote
 
 ![img](/assets/img/rto08.png)
 
-
-
 ---
 
 Task 8 - Summary
@@ -225,9 +223,14 @@ Task 8 - Summary
 
 In this room, we have covered how the OPSEC process can be applied to red team operations. OPSEC process has five elements:
 
-Identify critical information: “Critical information includes, but is not limited to, red team’s intentions, capabilities, activities and limitations.”
-Analyse threats: Threat analysis refers to identifying potential adversaries and their intentions and capabilities.
-Analyse vulnerabilities: An OPSEC vulnerability exists when an adversary can obtain critical information, analyse the findings, and act in a way that would affect your plans.
-Assess risks: “Risk assessment requires learning the possibility of an event taking place along with the expected cost of that event.”
-Apply appropriate countermeasures: Countermeasures are designed to prevent an adversary from detecting critical information, provide an alternative interpretation of critical information or indicators (deception), or deny the adversary’s collection system.
+1. Identify critical information: “Critical information includes, but is not limited to, red team’s intentions, capabilities, activities and limitations.”
+
+2. Analyse threats: Threat analysis refers to identifying potential adversaries and their intentions and capabilities.
+
+3. Analyse vulnerabilities: An OPSEC vulnerability exists when an adversary can obtain critical information, analyse the findings, and act in a way that would affect your plans.
+
+4. Assess risks: “Risk assessment requires learning the possibility of an event taking place along with the expected cost of that event.”
+
+5. Apply appropriate countermeasures: Countermeasures are designed to prevent an adversary from detecting critical information, provide an alternative interpretation of critical information or indicators (deception), or deny the adversary’s collection system.
+
 OPSEC is a process that can be applied outside the military. This room covered how it is applied to red team operations; furthermore, it is not difficult to apply it to other fields, such as marketing or industry. This process will help prevent the adversary from putting the pieces together, thus preventing them from taking timely action.
