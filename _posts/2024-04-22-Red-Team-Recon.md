@@ -649,20 +649,106 @@ Use recon-ng to repeat the steps we carried out against thmredteam.com, then ans
 
 1. How do you start recon-ng with the workspace clinicredteam?
 
-    Answer : ******** ** *************
+    Answer : recon-ng -w clinicredteam
 
 
 2. How many modules with the name virustotal exist?
 
-    Answer : *
+    ```
+    marketplace search virustotal
+    ```
+    Answer : 2
 
 3. There is a single module under hosts-domains. What is its name?
+    ```
+    marketplace search hosts-domains
+    ```
 
-    Answer : *************
+    Answer : migrate_hosts
 
 4. censys_email_address is a module that “retrieves email addresses from the TLS certificates for a company.” Who is the author?
 
-    Answer : ****** ****
+    ```
+    marketplace info censys_email_address
+    ```
+    Answer : Censys Team 
 
 ---
 
+
+
+---
+
+
+Task 7 - Maltego
+---
+
+[Maltego](https://www.maltego.com/) is an application that blends mind-mapping with OSINT. In general, you would start with a domain name, company name, person’s name, email address, etc. Then you can let this piece of information go through various transforms.
+
+The information collected in Maltego can be used for later stages. For instance, company information, contact names, and email addresses collected can be used to create very legitimate-looking phishing emails.
+
+Think of each block on a Maltego graph as an entity. An entity can have values to describe it. In Maltego’s terminology, a transform is a piece of code that would query an API to retrieve information related to a specific entity. The logic is shown in the figure below. Information related to an entity goes via a transform to return zero or more entities.
+
+![img](/assets/img/rtr08.png)
+
+It is crucial to mention that some of the transforms available in Maltego might actively connect to the target system. Therefore, it is better to know how the transform works before using it if you want to limit yourself to passive reconnaissance.
+
+Every transform might lead to several new values. For instance, if we start from the “DNS Name” cafe.thmredteam.com, we expect to get new kinds of entities based on the transform we use. For instance, “To IP Address” is expected to return IP addresses as shown next.
+
+
+![img](/assets/img/rtr09.png)
+
+One way to achieve this on Maltego is to right-click on the “DNS Name” cafe.thmredteam.com and choose:
+
+1. Standard Transforms
+2. Resolve to IP
+3. To IP Address (DNS)
+
+After executing this transform, we would get one or more IP addresses, as shown below.
+
+![img](/assets/img/rtr10.png)
+
+
+Then we can choose to apply another transform for one of the IP addresses. Consider the following transform:
+
+1. DNS from IP
+2. To DNS Name from passive DNS (Robtex)
+
+This transform will populate our graph with new DNS names. With a couple more clicks, you can get the location of the IP address, and so on. The result might be similar to the image below.
+
+![img](/assets/img/rtr11.png)
+
+
+The above two examples should give you an idea of the workflow using Maltego. You can observe that all the work is based on transforms, and Maltego will help you keep your graph organized. You would get the same results by querying the different online websites and databases; however, Maltego helps you get all the information you need with a few clicks.
+
+We experimented with whois and nslookup in a previous task. You get plenty of information, from names and email addresses to IP addresses. The results of whois and nslookup are shown visually in the following Maltego graph. Interestingly, Maltego transforms were able to extract and arrange the information returned from the WHOIS database. Although the returned email addresses are not helpful due to privacy protection, it is worth seeing how Maltego can extract such information and how it's presented.
+
+![img](/assets/img/rtr12.png)
+
+Now that we have learned how Maltego’s power stems from its transforms, the only logical thing is to make Maltego more powerful by adding new Transforms. Transforms are usually grouped into different categories based on data type, pricing, and target audience. Although many transforms can be used using Maltego Community Edition and free transforms, other transforms require a paid subscription. A screenshot is shown below to give a clearer idea.
+
+![img](/assets/img/rtr13.png)
+
+Using Maltego requires activation, even if you opt for Maltego CE (Community Edition). Therefore, the following questions can be answered by visiting [Maltego Transform Hub](https://www.maltego.com/transform-hub/) or by installing and activating Maltego CE on your own system (not on the AttackBox).
+
+---
+
+1. What is the name of the transform that queries NIST’s National Vulnerability Database?
+
+    NIST NVD
+
+2. What is the name of the project that offers a transform based on ATT&CK?
+
+    MISP Project
+
+---
+
+Task 8 - Summary
+---
+
+
+Sun Tzu once said, “If you know the enemy and know yourself, you need not fear the result of a hundred battles. If you know yourself but not the enemy, for every victory gained you will also suffer a defeat. If you know neither the enemy nor yourself, you will succumb in every battle.” Fast forward to the cyber warfare era; in addition to knowing our red team skillset and capabilities, we need to gain as much information about the target as possible. The terrain is constantly evolving, and new ways to collect data are becoming possible.
+
+We have reviewed essential built-in tools such as whois, dig, and tracert. Moreover, we explored the power of search engines to aid in our passive reconnaissance activities. Finally, we demonstrated two tools, Recon-ng and Maltego, that allow us to collect information from various sources and present them in one place.
+
+The purpose is to expand our knowledge about the target and collect various information that can be leveraged in the subsequent attack phases. For instance, hosts that are discovered can be scanned and probed for vulnerabilities, while contact information and email addresses can be used to launch phishing campaigns efficiently. In brief, the more information we gather about the target, the more we can refine our attacks and increase our chances of success.
