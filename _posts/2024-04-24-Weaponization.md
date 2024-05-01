@@ -137,9 +137,10 @@ Task 4 - An HTML Application - HTA
 
 ### An HTML Application (HTA)
 
-HTA stands for “HTML Application.” It allows you to create a downloadable file that takes all the information regarding how it is displayed and rendered. HTML Applications, also known as HTAs, which are dynamic HTML pages containing JScript and VBScript. The LOLBINS (Living-of-the-land Binaries) tool mshta is used to execute HTA files. It can be executed by itself or automatically from Internet Explorer. 
+```HTA``` stands for ```“HTML Application.”``` It allows you to create a downloadable file that takes all the information regarding how it is displayed and rendered. HTML Applications, also known as HTAs, which are dynamic HTML pages containing JScript and VBScript. The LOLBINS ```(Living-of-the-land Binaries)``` tool ```mshta``` is used to execute HTA files. It can be executed by itself or automatically from Internet Explorer. 
 
-In the following example, we will use an ActiveXObject in our payload as proof of concept to execute cmd.exe. Consider the following HTML code.
+In the following example, we will use an [ActiveXObject](https://en.wikipedia.org/wiki/ActiveX) in our payload as proof of concept to execute cmd.exe. Consider the following HTML code.
+
 ```
 <html>
 <body>
