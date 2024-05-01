@@ -483,6 +483,22 @@ $currentForest = Get-ADForest
 Set-ADForestMode -Identity $currentForest -Server $currentForest.SchemaMaster -ForestMode Windows2008R2Forest
 ```
 
+Example:
+
+To set the Active Directory forest to a Windows Server 2012 R2 functional level using PowerShell, you can use the Set-ADForestMode cmdlet. Here’s an example of how you would do it:
+
+```
+Set-ADForestMode -Identity "YourForestName" -ForestMode Windows2012R2Forest
+```
+
+Replace "YourForestName" with the name of your forest. This command will change the forest functional level to Windows Server 2012 R2. Ensure that all domain controllers in your forest are running Windows Server 2012 R2 or later before you attempt to set the forest functional level to Windows Server 2012 R21.
+
+
+
+
+
+
+
 Ref: [Get-ADForest](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/ee617216(v=technet.10))
 
 Syntax:
@@ -514,6 +530,23 @@ Get the forest information of the current logged on users's forest.
 Get-ADForest
 ```
 
+
+Example:
+To get the latest forest functional levels for domain controllers using PowerShell, you can use the Get-ADForest cmdlet, which will provide information about the current forest functional level of your Active Directory environment. Here’s the command to retrieve the forest functional level:
+```
+Get-ADForest | Select-Object Name, ForestMode
+
+```
+
+This command will display the name of your forest and the current functional level. As of the latest information available, the highest forest functional level is Windows Server 20161. No new forest functional levels have been introduced in Windows Server 2019 or 20222. Therefore, the latest five forest functional levels are:
+
+- Windows Server 2016
+- Windows Server 2012 R2
+- Windows Server 2012
+- Windows Server 2008 R2
+- Windows Server 2008
+
+
 Additional references
 
 [Managing Domains and Forests](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc772570(v=ws.10))
@@ -529,6 +562,10 @@ The first question that many organizations confront when it comes to transitioni
 ```
 Rather than perform an in-place upgrade of existing domain controllers, most organizations add domain controllers running the latest version of Windows Server to their existing AD DS forest, transfer Flexible Single Master Operations roles, and then retire existing domain controllers running earlier versions of the Windows Server operating system. When you upgrade an AD DS forest in this manner, there's no downtime for users or resources, and the same AD DS structure is maintained.
 ```
+
+Ref: [Demote a Domain Controller](https://lazyadmin.nl/it/demote-domain-controller/)
+
+
 
 Migrating to a new AD DS forest is more complex than upgrading an existing AD DS forest. When you perform an AD DS migration, you create a new AD DS forest with new domain controllers running the latest version of Windows Server. The migration process involves moving users, groups, computers, servers, and applications to the new AD DS forest. During the migration, you need to plan for coexistence and ensure that users maintain access to resources in the source and destination environment.
 
