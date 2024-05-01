@@ -38,6 +38,8 @@ Raise a privileged access management deployment that started with Windows Server
 
 - [Forest and Domain Functional Levels](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/active-directory-functional-levels)
 
+- [Demote a Domain Controller](https://lazyadmin.nl/it/demote-domain-controller/)
+
 ---
 
 ### Summary
