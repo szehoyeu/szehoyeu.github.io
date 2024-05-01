@@ -14,6 +14,8 @@ Ref:
 
 - [What Are Active Directory Functional Levels?](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc787290(v=ws.10))
 
+- [Raise the Domain Functional Level](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/cc753104(v=ws.11))]
+
 - [Raise the functional level using PowerShell scripts](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc730985(v=ws.11)).
 
 - [Raise the functional level using GUI Administration Tools](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc759280(v=ws.10))
@@ -28,6 +30,7 @@ Learn more about Active Directory Domain Services Functional Levels in Windows S
 - [Raise the bastion forest functional level for Identity Manager to use Active Directory PAM features](https://learn.microsoft.com/en-us/microsoft-identity-manager/pam/raise-bastion-functional-level?source=recommendations)
 Raise a privileged access management deployment that started with Windows Server 2012 R2 functional level to the Windows Server 2016 functional level.
 
+- [Forest and Domain Functional Levels](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/active-directory-functional-levels)
 
 ---
 
@@ -309,3 +312,202 @@ Repadmin/Showrepl * /CSV>showrepl.csv
 ```
 
 Use replication tools such as Repadmin to verify that forest-wide replication is working correctly.
+
+
+
+### Forest and Domain Functional Levels
+
+Functional levels determine the available Active Directory Domain Services (AD DS) ```domain``` or ```forest``` capabilities. They also determine which Windows Server operating systems you can run on domain controllers in the domain or forest. However, functional levels do not affect which operating systems you can run on workstations and member servers that are joined to the domain or forest.
+
+When you ```deploy AD DS```, set the domain and forest functional levels to the highest value that your environment can support. This way, you can use as many AD DS features as possible. 
+
+- When you deploy a new forest, you are prompted to set the forest functional level, and then set the domain functional level. 
+
+- You can set the ```domain functional level``` to a value that is ```higher than the forest functional level```, but you cannot set the domain functional level to a value that is lower than the forest functional level.
+
+With the end of life of Windows Server 2003, 2008, and 2008 R2, these domain controllers (DCs) need to be updated to Windows Server 2012, 2012 R2, 2016, 2019, or 2022. 
+
+As with any server, domain controllers (DCs) running on an unsupported version of Windows Server should be removed from the domain and replaced with a version of Windows Server that is supported. For more information, see [Windows Server release information](https://learn.microsoft.com/en-us/windows-server/get-started/windows-server-release-info).
+
+At the Windows Server 2008 and higher ```domain functional levels```, ```Distributed File Service (DFS) Replication``` is used to replicate SYSVOL folder contents between domain controllers. 
+
+- If you create a new domain at the Windows Server 2008 domain functional level or higher, DFS Replication is automatically used to replicate SYSVOL. 
+
+- If you created the domain at a lower functional level, you will need to migrate from using FRS to DFS replication for SYSVOL. 
+
+- For migration steps, you can either follow the [procedures on TechNet](https://learn.microsoft.com/en-us/windows-server/storage/dfs-replication/migrate-sysvol-to-dfsr) or you can refer to the [Streamlined Migration of FRS to DFSR SYSVOL blog](https://techcommunity.microsoft.com/t5/storage-at-microsoft/streamlined-migration-of-frs-to-dfsr-sysvol/ba-p/425405). Windows Server 2016 is the last Windows Server release that includes FRS.
+
+
+
+#### Windows Server 2016 functional levels
+Supported domain controller operating systems:
+
+- Windows Server 2022
+- Windows Server 2019
+- Windows Server 2016
+
+The minimum requirement to add one a domain controller of one of these versions of Windows Server is a Windows Server 2008 functional level. The domain also has to use DFS-R as the engine to replicate SYSVOL.
+
+#### Windows Server 2016 forest functional level features
+
+All of the features that are available at the Windows Server 2012 R2 forest functional level, and the following features, are available:
+[Privileged access management (PAM)](https://learn.microsoft.com/en-us/windows-server/identity/whats-new-active-directory-domain-services#privileged-access-management) using ```Microsoft Identity Manager (MIM)```
+
+#### Windows Server 2016 domain functional level features
+All default Active Directory features, all features from the Windows Server 2012 R2 domain functional level, plus the following features:
+DCs can support automatic rolling of the NTLM and other password-based secrets on a user account configured to require PKI authentication. This configuration is also known as "Smart card required for interactive logon"
+
+DCs can support allowing network NTLM when a user is restricted to specific domain-joined devices.
+
+Kerberos clients successfully authenticating with the PKInit Freshness Extension will get the fresh public key identity SID.
+
+For more information, see [What's New in Kerberos Authentication](https://learn.microsoft.com/en-us/windows-server/security/kerberos/whats-new-in-kerberos-authentication) and [What's new in Credential Protection](https://learn.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/whats-new-in-credential-protection)
+
+---
+
+### Raise the Domain Functional Level
+
+Applies To: Windows Server 2008, Windows Server 2008 R2, Windows Server 2012, Windows Server 2012 R2
+
+When you install Active Directory Domain Services (AD DS), a set of basic Active Directory features is enabled by default. In addition to the basic Active Directory features on individual domain controllers, there are domain-wide and forest-wide Active Directory features available when all domain controllers in a domain or forest are running a later version of Windows Server.
+
+For the all domain-wide features to be enabled, all domain controllers in the domain must be running the latest version of Windows Server, and the domain functional level must be raised to that level. But you should not raise the domain functional level to a higher value if you plan to deploy any domain controllers running earlier versions of Windows Server. After you set the domain functional level to a certain value, you can roll back or lower the domain functional level only by using Windows PowerShell and only under specific conditions. For more information, see [Understanding Active Directory Domain Services (AD DS) Functional Levels](https://technet.microsoft.com/library/understanding-active-directory-functional-levels(ws.10).aspx).
+
+Membership in Domain Admins or Enterprise Admins , or equivalent, is the minimum required to complete this procedure. Review details about using the appropriate accounts and group memberships at https://go.microsoft.com/fwlink/?LinkId=83477.
+
+
+#### To raise the domain functional level
+1. Open Active Directory Domains and Trusts. To open Active Directory Domains and Trusts, click Start , click Administrative Tools , and then click Active Directory Domains and Trusts .
+
+2. In the console tree, right-click the domain for which you want to raise functional level, and then click Raise Domain Functional Level .
+
+3. In Select an available domain functional level , select the value and then click Raise .
+
+#### Additional considerations
+- Raise the domain functional level by right-clicking a domain in the Active Directory Users and Computers snap-in, and then clicking ```Raise Domain Functional Level``` .
+
+- The current domain functional level is displayed under Current domain functional level in the Raise domain functional level dialog box.
+
+- To perform this procedure, you must be a member of the Domain Admins group or Enterprise Admins group in AD DS, or you must have been delegated the appropriate authority. 
+As a security best practice, consider using ```Run as``` to perform this procedure. For more information, search for "using run as" in Help and Support.
+
+- You can also perform the task in this procedure by using the Active Directory module for Windows PowerShell™. To open the Active Directory module, click Start , click Administrative Tools , and then click Active Directory Module for Windows PowerShell . 
+
+For more information, see Raise the Domain Functional Level (https://go.microsoft.com/fwlink/?LinkId=137825). 
+
+The following example demonstrates how to set the domain functional level of the Fabrikam.com domain to Windows 2012:
+```
+Set-ADDomainMode -Identity FABRIKAM -DomainMode Windows2012Domain
+```
+Additional information
+You can use the following parameters when you set many of the common values that are associated with raising the domain functional level in Active Directory Domain Services (AD DS):
+
+- Windows2003InterimDomain
+- Windows2003Domain
+- Windows2008Domain
+- Windows2008R2Domain
+- Windows2012Domain
+
+For a full explanation of the parameters that you can pass to Set-ADDomainMode , at the Active Directory module command prompt, type 
+```
+Get-Help Set-ADDomainMode –detailed
+```
+and then press ENTER.
+
+In some cases, a domain functional level can be set to a lower value. For more information, see [Understanding Active Directory Domain Services (AD DS) Functional Levels](https://technet.microsoft.com/en-us/library/understanding-active-directory-functional-levels(ws.10).aspx).
+
+For more information about Windows PowerShell, see Windows PowerShell (https://go.microsoft.com/fwlink/?LinkID=102372).
+
+---
+
+### Raise the Forest Functional Level
+
+Applies To: Windows Server 2008, Windows Server 2008 R2, Windows Server 2012
+
+When you install Active Directory Domain Services (AD DS), a set of basic Active Directory features is enabled by default. In addition to the basic Active Directory features on individual domain controllers, there are new domain-wide and forest-wide Active Directory features available when all domain controllers in a domain or forest are running a later version of Windows Server.
+
+To enable new forest-wide features, all domain controllers in the forest must run the version of Windows Server that corresponds to the forest functional level value or a later version, and the forest functional level must be raised to that value. For example, to enable Active Directory Recycle Bin, all domain controllers must run Windows Server 2008 R2 or Windows Server 2012 and the forest functional level must be raised to at least Windows Server 2008 R2.
+
+Membership in Enterprise Admins , or equivalent, is the minimum required to complete this procedure. Review details about using the appropriate accounts and group memberships at https://go.microsoft.com/fwlink/?LinkId=83477.
+
+#### To raise the forest functional level
+
+1. Open Active Directory Domains and Trusts. To open Active Directory Domains and Trusts, click Start , click Administrative Tools , and then click Active Directory Domains and Trusts .
+
+2. In the console tree, right-click Active Directory Domains and Trusts , and then click Raise Forest Functional Level .
+
+3. In Select an available forest functional level , select the value and then click Raise .
+
+ Warning
+```
+Do not raise the forest functional level higher if you have or will have any domain controllers running an earlier version of Windows Server.
+```
+
+ Important
+```
+After you set the forest functional level to a certain value, you cannot roll back or lower the forest functional level, with the following exception: after you raise the forest functional level to Windows Server 2012, you can lower it to Windows Server 2008 R2. If Active Directory Recycle Bin has not been enabled, you can also lower the forest functional level from Windows Server 2012 back to Windows Server 2008 R2 or Windows Server 2008 or from Windows Server 2008 R2 back to Windows Server 2008. If the forest functional level is set to Windows Server 2008 R2, it cannot be rolled back, for example, to Windows Server 2003. For more information, see Understanding Active Directory Domain Services (AD DS) Functional Levels.
+```
+
+#### Additional considerations
+- To perform this procedure, you must be a member of the Enterprise Admins group in AD DS, or you must have been delegated the appropriate authority. As a security best practice, consider using Run as to perform this procedure. For more information, search for "using run as" in Help and Support.
+
+- If you are not able to raise the forest functional level, you can click Save As in the Raise Forest Functional Level dialog box to save a log file that specifies which domain controllers in the forest still need to be upgraded to a later version.
+
+- The current forest functional level is displayed under Current forest functional level in the Raise Forest Functional Level dialog box.
+
+- You can also perform the task in this procedure by using the Active Directory module for Windows PowerShell. For more information, see [Set-ADForestMode](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/ee617220(v=technet.10)).
+
+
+Syntax:
+```
+Set-ADForestMode [-Identity] <ADForest> [-ForestMode] {<Windows2000Forest> | <Windows2003InterimForest> | <Windows2003Forest> | <Windows2008Forest> | <Windows2008R2Forest> | <UnknownForest>} [-AuthType {<Negotiate> | <Basic>}] [-Credential <PSCredential>] [-PassThru <switch>] [-Server <string>] [-Confirm] [-WhatIf] [<CommonParameters>]
+```
+
+Example:
+```
+Set-ADForestMode -Identity fabrikam.com -ForestMode Windows2003Forest
+```
+
+Example:
+
+Set the forest mode of the current logged on user's forest. The Set operation targets the Schema Master FSMO to apply the update.
+```
+$currentForest = Get-ADForest 
+
+Set-ADForestMode -Identity $currentForest -Server $currentForest.SchemaMaster -ForestMode Windows2008R2Forest
+```
+
+Ref: [Get-ADForest](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/ee617216(v=technet.10))
+
+Syntax:
+```
+Get-ADForest [-Current {<LocalComputer> | <LoggedOnUser>}] [-AuthType {<Negotiate> | <Basic>}] [-Credential <PSCredential>] [-Server <string>] [<CommonParameters>]
+```
+
+Example:
+Get the forest information of the Fabrikam.com forest.
+```
+Get-ADForest Fabrikam.com
+```
+
+Example:
+Get the forest information of the current local computer's forest.
+```
+Get-ADForest -Current LocalComputer
+```
+
+Example:
+Get the forest information of the current logged on users's forest.
+```
+Get-ADForest -Current LoggedOnUser
+```
+
+Example:
+Get the forest information of the current logged on users's forest.
+```
+Get-ADForest
+```
+
+Additional references
+
+[Managing Domains and Forests](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc772570(v=ws.10))
