@@ -538,7 +538,7 @@ Get-ADForest | Select-Object Name, ForestMode
 
 ```
 
-This command will display the name of your forest and the current functional level. As of the latest information available, the highest forest functional level is Windows Server 20161. No new forest functional levels have been introduced in Windows Server 2019 or 20222. Therefore, the latest five forest functional levels are:
+This command will display the name of your forest and the current functional level. As of the latest information available, the highest forest functional level is Windows Server 2016. No new forest functional levels have been introduced in Windows Server 2019 or 20222. Therefore, the latest five forest functional levels are:
 
 - Windows Server 2016
 - Windows Server 2012 R2
