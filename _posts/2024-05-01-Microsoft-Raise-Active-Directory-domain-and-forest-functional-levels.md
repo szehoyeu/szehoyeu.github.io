@@ -38,6 +38,8 @@ Raise a privileged access management deployment that started with Windows Server
 
 - [Forest and Domain Functional Levels](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/active-directory-functional-levels)
 
+- [Microsoft - Demoting Domain Controllers](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/demoting-domain-controllers-and-domains--level-200-)
+
 - [Demote a Domain Controller](https://lazyadmin.nl/it/demote-domain-controller/)
 
 ---
@@ -96,8 +98,15 @@ Setting the functional level for a forest enables features across all the domain
 
 
 Note: 
-
+>
 When domain controllers running earlier versions of Windows Server are included in your domain or forest with domain controllers running later versions of Windows Server, advanced Active Directory features are limited.
+
+{: .prompt-tip }
+
+
+
+
+
 
 #### Example:
 
@@ -447,14 +456,14 @@ Membership in Enterprise Admins , or equivalent, is the minimum required to comp
 3. In Select an available forest functional level , select the value and then click Raise .
 
  Warning
-```
+>
 Do not raise the forest functional level higher if you have or will have any domain controllers running an earlier version of Windows Server.
-```
+{: .prompt-tip }
 
  Important
-```
+>
 After you set the forest functional level to a certain value, you cannot roll back or lower the forest functional level, with the following exception: after you raise the forest functional level to Windows Server 2012, you can lower it to Windows Server 2008 R2. If Active Directory Recycle Bin has not been enabled, you can also lower the forest functional level from Windows Server 2012 back to Windows Server 2008 R2 or Windows Server 2008 or from Windows Server 2008 R2 back to Windows Server 2008. If the forest functional level is set to Windows Server 2008 R2, it cannot be rolled back, for example, to Windows Server 2003. For more information, see Understanding Active Directory Domain Services (AD DS) Functional Levels.
-```
+{: .prompt-tip }
 
 #### Additional considerations
 - To perform this procedure, you must be a member of the Enterprise Admins group in AD DS, or you must have been delegated the appropriate authority. As a security best practice, consider using Run as to perform this procedure. For more information, search for "using run as" in Help and Support.
@@ -561,9 +570,9 @@ Additional references
 
 The first question that many organizations confront when it comes to transitioning to domain controllers running the newest version of the Windows Server operating system is “should we upgrade our existing forest or should we migrate to a new forest?”.
 
-```
+>
 Rather than perform an in-place upgrade of existing domain controllers, most organizations add domain controllers running the latest version of Windows Server to their existing AD DS forest, transfer Flexible Single Master Operations roles, and then retire existing domain controllers running earlier versions of the Windows Server operating system. When you upgrade an AD DS forest in this manner, there's no downtime for users or resources, and the same AD DS structure is maintained.
-```
+{: .prompt-tip }
 
 Ref: [Demote a Domain Controller](https://lazyadmin.nl/it/demote-domain-controller/)
 
@@ -586,6 +595,6 @@ Active Directory Domain Services compromised by a security event. Attackers have
 Aging Active Directory Domain Services forest that requires rationalization due to buildup of legacy configuration alterations. Some AD DS instances have been used for more than two decades and modifications to the schema and security delegations have been imperfectly documented or forgotten. A new implementation allows an organization to start over from a fresh beginning.
 
  Note
-```
+>
 You can rename a domain by using Rendom.exe without performing an AD DS migration, but this is a risky operation, and many organizations prefer to perform a migration instead. There are also some apps that fail after a domain rename. For example, if you have an existing Exchange Server deployment in the AD DS forest, you can't rename the domain.
-```
+{: .prompt-tip }
