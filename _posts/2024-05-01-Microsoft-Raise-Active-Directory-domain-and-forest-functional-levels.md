@@ -72,11 +72,12 @@ Raise a privileged access management deployment that started with Windows Server
 #### Domain functional level. Six domain functional levels are available:
 
 - Windows 2000 mixed (the default in Windows Server 2003)
-- Windows 2000 native
+- Windows 2000 native : Supports domain controllers running Windows Server 2000 and later.
 - Windows Server 2003 interim
-- Windows Server 2003
-- Windows Server 2008
-- Windows Server 2008 R2
+- Windows Server 2003 : Introduces features like the ability to rename domain controllers and the ability to create instances of application directory partitions.
+- Windows Server 2008 : Adds support for AES encryption for Kerberos authentication protocols, last functional level to support FRS for SYSVOL replication.
+- Windows Server 2008 R2 : Introduces features such as the Active Directory Recycle Bin.
+- Windows Server 2016 : The latest and highest domain functional level as of my last update, which allows all the features of previous levels plus additional features like Privileged Access Management.
 
 Setting the functional level for a domain enables features that affect the entire domain and that domain only.
 
@@ -91,6 +92,9 @@ Setting the functional level for a domain enables features that affect the entir
 - Windows Server 2003 (the default in Windows Server 2008 R2)
 - Windows Server 2008
 - Windows Server 2008 R2
+- Windows Server 2012
+- Windows Server 2012 R2
+- Windows Server 2016
 
 Setting the functional level for a forest enables features across all the domains within a forest. 
 
@@ -263,15 +267,17 @@ Additionally, the following message is logged in the Directory Services log:
 
 Output
 
-```
+---
 Active Directory could not update the functional level of the following domain because the domain is in mixed mode.
 In this scenario, you can change the domain mode to native mode by using the Active Directory Users & Computers snap-in, by using the Active Directory Domains & Trusts UI MMC snap-in, or by programmatically changing the value of the ntMixedDomain attribute to 0 on the domainDNS object. When this process is used to raise the domain functional level to 2 (Windows Server 2003), the domain mode is automatically changed to native mode
-```
 
-        In this scenario, you can change the domain mode to ```native mode``` 
-        - by using the Active Directory Users & Computers snap-in, 
-        - by using the Active Directory Domains & Trusts UI MMC snap-in, or 
-        - by programmatically changing the value of the ntMixedDomain attribute to 0 on the domainDNS object. When this process is used to raise the domain functional level to 2 (Windows Server 2003), the domain mode is automatically changed to native mode.
+---
+
+
+In this scenario, you can change the domain mode to native mode 
+    - by using the Active Directory Users & Computers snap-in, 
+    - by using the Active Directory Domains & Trusts UI MMC snap-in, or 
+    - by programmatically changing the value of the ntMixedDomain attribute to 0 on the domainDNS object. When this process is used to raise the domain functional level to 2 (Windows Server 2003), the domain mode is automatically changed to native mode.
 
 2. The transition from ```mixed mode to native mode``` changes the scope of the Schema Administrators security group and the Enterprise Administrators security group to ```universal groups```. 
 
@@ -279,13 +285,15 @@ In this scenario, you can change the domain mode to native mode by using the Act
     When these groups have been changed to universal groups, the following message is logged in the System log:
 
 Output: 
-```
+
+---
 Event Type: Information  
 Event Source: SAM  
 Event ID: 16408  
 Computer:Server Name  
 Description: "Domain operation mode has been changed to Native Mode. The change cannot be reversed."
-```
+
+---
 
 3. When the Windows Server 2003 administrative tools are used to invoke the domain functional level, both the ntmixedmode attribute and the msdsBehaviorVersion attribute are modified in the correct order. However, this does not always occur. In the following scenario, the native mode is implicitly set to a value of 0 without changing the scope for the Schema Administrators security group and the Enterprise Administrators security group to universal:
 
@@ -424,6 +432,13 @@ You can use the following parameters when you set many of the common values that
 - Windows2008Domain
 - Windows2008R2Domain
 - Windows2012Domain
+- Windows2016Domain
+
+
+To find the Domain functional level,
+```
+Get-ADDomain | fl Name, DomainMode
+```
 
 For a full explanation of the parameters that you can pass to Set-ADDomainMode , at the Active Directory module command prompt, type 
 ```
@@ -458,11 +473,13 @@ Membership in Enterprise Admins , or equivalent, is the minimum required to comp
  Warning
 >
 Do not raise the forest functional level higher if you have or will have any domain controllers running an earlier version of Windows Server.
+
 {: .prompt-tip }
 
  Important
 >
 After you set the forest functional level to a certain value, you cannot roll back or lower the forest functional level, with the following exception: after you raise the forest functional level to Windows Server 2012, you can lower it to Windows Server 2008 R2. If Active Directory Recycle Bin has not been enabled, you can also lower the forest functional level from Windows Server 2012 back to Windows Server 2008 R2 or Windows Server 2008 or from Windows Server 2008 R2 back to Windows Server 2008. If the forest functional level is set to Windows Server 2008 R2, it cannot be rolled back, for example, to Windows Server 2003. For more information, see Understanding Active Directory Domain Services (AD DS) Functional Levels.
+
 {: .prompt-tip }
 
 #### Additional considerations
@@ -546,7 +563,6 @@ Example:
 To get the latest forest functional levels for domain controllers using PowerShell, you can use the Get-ADForest cmdlet, which will provide information about the current forest functional level of your Active Directory environment. Here’s the command to retrieve the forest functional level:
 ```
 Get-ADForest | Select-Object Name, ForestMode
-
 ```
 
 This command will display the name of your forest and the current functional level. As of the latest information available, the highest forest functional level is Windows Server 2016. No new forest functional levels have been introduced in Windows Server 2019 or 20222. Therefore, the latest five forest functional levels are:
