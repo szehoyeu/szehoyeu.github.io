@@ -59,15 +59,20 @@ Step 4: login to the TARGET DC that you want the FSMO roles to transfer
      - select "OperationMaster"
 
         ![img](/assets/img/fsmo01.png)
+
      - Repeat Step 1 and check the roles have been transferred successfully.
 
 - Second transfer Domain Naming Roles
     - Open Active Directory Domains and Trusts
     - Right click on Active Directory Domains and Trusts
     - Select OperationMaster...
+
         ![img](/assets/img/fsmo02.png)
+        
     - Change the Domain Naming operation master to the new DC
+
         ![img](/assets/img/fsmo03.png)
+
     - Repeat Step 1 and check the roles have been transferred successfully.
 
  - Third transfer SchemaMaster role
@@ -81,16 +86,24 @@ Step 4: login to the TARGET DC that you want the FSMO roles to transfer
     ```
     - Click File, then select "Add/Remove Snap-in..."" 
     - Select Active Directory / Schema
+
         ![img](/assets/img/fsmo04.png)
+
 
     - Right click on the Active Directory Schema
     - Select "Change Active Directory Domain Controller" and click OK
+
         ![img](/assets/img/fsmo05.png)
+
         ![img](/assets/img/fsmo06.png)
+
     - Right click on the Active Directory Schema
     - Select OperationMaster...
+
         ![img](/assets/img/fsmo07.png)
+
         ![img](/assets/img/fsmo08.png)
+        
     - Repeat Step 1, 2 and 3 to check the roles have been transferred successfully.
     
 

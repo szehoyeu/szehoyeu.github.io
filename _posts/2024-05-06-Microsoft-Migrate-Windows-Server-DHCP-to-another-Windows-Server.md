@@ -27,7 +27,7 @@ Before migration to the new server:
    - copy the exported xml file the new server  
 
 ```
-Export-DhcpServer -ComputerName "Server1.fqdn.com" -File "C:\temp\dhcp.xml" -Leases
+Export-DhcpServer -ComputerName "Server1.fqdn.com" -File "C:\temp\dhcp.xml" -Leases -Force
 ```
 
 3. Stop the current DHCP server
@@ -37,25 +37,25 @@ Export-DhcpServer -ComputerName "Server1.fqdn.com" -File "C:\temp\dhcp.xml" -Lea
 4. Disable the "DCHP Server" services
 
 5. On the new server, 
-
+    - Import the DHCP scope 
 ```
-Import-DhcpServer -ComputerName "Server2.fqdn.com" -File "C:\temp\dhcp.xml" -Leases
+Import-DhcpServer -ComputerName "Server2.fqdn.com" -File "C:\temp\dhcp.xml" -Leases -Force
 ```
-- Enter the backup path: C:\temp\DHCP-backup.xml
-- Click yes
+    - Enter the backup path: C:\temp\DHCP-backup.xml
+    - Click yes
 
 6. Test on client PC via ipconfig /all, and ipconfig /release
-- Check the DHCP Server ip address is the same as the new server
+    - Check the DHCP Server ip address is the same as the new server
 
 7. On the old DHCP, decommision 
-- Right click on the DHCP
-- Select Manage authorized server ...
+    - Right click on the DHCP
+    - Select Manage authorized server ...
 
-    ![img](/assets/img/dhcp02.png)
+        ![img](/assets/img/dhcp02.png)
 
-- Unauthorize the old server
+    - Unauthorize the old server
 
-    ![img](/assets/img/dhcp03.png)
+        ![img](/assets/img/dhcp03.png)
 
 
 
