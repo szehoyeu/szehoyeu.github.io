@@ -6,6 +6,7 @@ tags: [PowerShell]
 ---
 
 ![img](/assets/img/ps.png)
+
 ![img](/assets/img/ms.png)
 
 
@@ -30,7 +31,8 @@ Export-DhcpServer -ComputerName "Server1.fqdn.com" -File "C:\temp\dhcp.xml" -Lea
 ```
 
 3. Stop the current DHCP server
-![img](/assets/img/dhcp01.png)
+
+    ![img](/assets/img/dhcp01.png)
 
 4. Disable the "DCHP Server" services
 
@@ -48,9 +50,12 @@ Import-DhcpServer -ComputerName "Server2.fqdn.com" -File "C:\temp\dhcp.xml" -Lea
 7. On the old DHCP, decommision 
 - Right click on the DHCP
 - Select Manage authorized server ...
-![img](/assets/img/dhcp02.png)
+
+    ![img](/assets/img/dhcp02.png)
+
 - Unauthorize the old server
-![img](/assets/img/dhcp03.png)
+
+    ![img](/assets/img/dhcp03.png)
 
 
 
