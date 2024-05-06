@@ -14,6 +14,8 @@ Ref:
 
 - [How to view and transfter FSMO roles](https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/view-transfer-fsmo-roles)
 
+- [Link](https://www.youtube.com/watch?v=4p1ezkRfFzM)
+
 
 
 
