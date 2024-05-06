@@ -6,7 +6,7 @@ tags: [PowerShell]
 ---
 
 ![img](/assets/img/ps.png)
-![img](/assets/img/MS.png)
+![img](/assets/img/ms.png)
 
 
 ---
@@ -78,7 +78,8 @@ Step 4: login to the TARGET DC that you want the FSMO roles to transfer
     ```
     mmc.exe
     ```
-    - Right click and select Active Directory / Schema
+    - Click File, then select "Add/Remove Snap-in..."" 
+    - Select Active Directory / Schema
         ![img](/assets/img/fsmo04.png)
 
     - Right click on the Active Directory Schema
