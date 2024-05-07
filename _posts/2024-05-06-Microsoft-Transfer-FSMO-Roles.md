@@ -1,5 +1,5 @@
 ---
-title:  "Microsoft - Transfter FSMO roles to another Domain Controller"
+title:  "Microsoft - Transfer FSMO roles to another Domain Controller"
 date:   2024-05-06 19:00:00 +0000
 categories: [PowerShell]
 tags: [PowerShell]
@@ -23,7 +23,7 @@ Ref:
 ---
 > 
 #### NOTE: 
-Login to the TARGET Machine that you want to transfter the FSMO roles to.
+Login to the TARGET Machine that you want to transfer the FSMO roles to.
 {: .prompt-tip }
 
 
@@ -103,7 +103,7 @@ Step 4: login to the TARGET DC that you want the FSMO roles to transfer
         ![img](/assets/img/fsmo07.png)
 
         ![img](/assets/img/fsmo08.png)
-        
+
     - Repeat Step 1, 2 and 3 to check the roles have been transferred successfully.
     
 
