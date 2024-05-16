@@ -13,6 +13,13 @@ Ref:
 
 ---
 
+To find out the details of the Domain Controllers. Here's a command that you can use:
+```
+Get-ADDomainController -Filter *
+```
+
+
+---
 
 To find out if a Domain Controller is functioning as a DNS server. Here’s a simple script that you can use:
 ```
@@ -118,7 +125,6 @@ Scope ID: 10.30.25.0, Name: Clients, Start Range: 10.30.25.60, End Range: 10.30.
 
 DC5 is functioning as a DHCP server.
 ```
-
 
 ---
 

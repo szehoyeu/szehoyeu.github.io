@@ -13,7 +13,12 @@ tags: [PowerShell]
 ---
 Ref: 
 
+- [Transfter or seize Operation Master roles in Active Directory Domain Services](https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/transfer-or-seize-operation-master-roles-in-ad-ds)
+
 - [How to view and transfter FSMO roles](https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/view-transfer-fsmo-roles)
+
+
+- [PowerShell - Move-ADDirectoryServerOperationMasterRole](https://learn.microsoft.com/en-us/powershell/module/activedirectory/move-addirectoryserveroperationmasterrole?view=windowsserver2019-ps#example-1--move-a-pdc-emulator-to-a-domain-controller)
 
 - [Link](https://www.youtube.com/watch?v=4p1ezkRfFzM)
 
@@ -111,7 +116,12 @@ Step 4: login to the TARGET DC that you want the FSMO roles to transfer
 Step A: Move the FSMO roles via powershell
 
 The names of the FSMO roles may be typed out as well.
+```
+$Server = Get-ADDomainController -Identity "TK5-CORP-DC-10.fabrikam.com"
 
+Move-ADDirectoryServerOperationMasterRole -Identity $Server -OperationMasterRole SchemaMaster,DomainNamingMaster,PDCEmulator,RIDMaster,InfrastructureMaster
+```
+or
 ```
 Move-ADDirectoryServerOperationMasterRole –Identity "Target_DC_Name" –OperationMasterRole 0,1,2,3,4
 ```
