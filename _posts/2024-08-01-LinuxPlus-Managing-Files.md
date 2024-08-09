@@ -1,5 +1,5 @@
 ---
-title:  "Linux Plus"
+title:  "Linux Plus-Managing Files"
 date:   2024-08-01 18:27:42 +0000
 categories: [Linux]
 tags: [Linux]
@@ -421,6 +421,8 @@ find /usr/share/doc -name '*.html' -exec cp {} docs/ \;
 ls docs
 rsync -ave ssh docs user1@192.168.33.13:
 ```
+
+## Git repositoriesd
 
 
 
