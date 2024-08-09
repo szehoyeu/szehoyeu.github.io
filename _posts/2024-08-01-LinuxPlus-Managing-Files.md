@@ -422,8 +422,76 @@ ls docs
 rsync -ave ssh docs user1@192.168.33.13:
 ```
 
-## Git repositoriesd
+
+## Objectives
+- File Compression Using Compression Tools
+- Archiving Using cpio
+
+### Creating TAR Files
+The command tar can be used to create file archives. Althouth, ```T```ape ```Ar```chives, they are more commonly used in standard filesystems. By default, a TAR file is not compressed but may appear to be a slightly small size than the original content. This is due to the more efficient use of blocks in the filesystem and not compression
+
+Find the size of our etc directory
+- du - disk utilization
+- s - summary
+- h - human readable
+
+```
+sudo du -sh /etc
+22M /etc
+```
+
+Create archive with a specify the file to back up
+- -c - create
+```
+sudo tar -cf etc.tar /etc
+tar: Removing leading '/' from member names
+ls -lh etc.tar
+-rw-r--r--. 1 root root 21M Jan 18 10:49 etc.tar
+```
+Note: 
+The most common block size is 4K on Intel based systems. Each new file goes to a new block potentially wasting space
+
+Tar Operations
+---
+- -c - Create
+```
+tar -cf file.tar file1 file2
+```
+- -t - Table of Contents or --verify
+```
+tar -tf file.tar
+```
+- -x - Extract
+```
+tar -xf file.tar
+```
+
+More Examples
+---
+We will investigate the basic tar operations
+
+For summary, look at the disk usage of a directory
+```
+du -s
+```
+or 
+To overcome permission on files
+```
+sudo !!
+sudo du -sh /etc 
+23M /etc
+```
 
 
+```
+sudo tar -cf etc.tar /etc
+tar: Removing leading `/' from member names
+```
+To test (verify) the archive,
+- -t or --verify
+```
+sudo tar -tf etc.tar /etc
+```
+ 
 
 
