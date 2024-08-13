@@ -89,7 +89,7 @@ ls /mnt ; lsblk ; sudo losetup
 sudo unmount /mnt
 ```
 
-### Creating Raq Disk Files
+### Creating a Disk File
 Using either ```dd``` or ```fallocate```, we can create disk file. The latter being more efficient as it does not copy the data just allocating space.
 
 - Create disk file with ```dd```

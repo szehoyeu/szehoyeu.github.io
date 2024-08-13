@@ -127,7 +127,7 @@ PDI TTY            TIME CMD
 5093 pts/0      00:00:00 ps
 ```  
 
-### Compressionk operations from the CLI
+### Compression operations from the CLI
 
 Compress from 23MB down to 5.2MB
 ```
