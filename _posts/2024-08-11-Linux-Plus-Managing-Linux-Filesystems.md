@@ -42,4 +42,20 @@ Filesystems
 - Using the xfs toolset to read the filesystems settings
 - Demonstrating the dynamic nature of XFS to defrag the existing root filesystem
 
-![image](/assets/img/linuxP-FileSystem03.png) 
+![image](/assets/img/linuxP-FileSystem03.png)
+
+### Managing btrfs on openSUSE
+- Install btrfs
+- Add new disk files
+- Add btrfs filesystem to one disk and mount it
+- Checking the filesystem, and view its size
+- Add another disk and check the filesystem grew while still online
+
+![image](/assets/img/linuxP-FileSystem04.png)
+
+
+
+
+
+
+
