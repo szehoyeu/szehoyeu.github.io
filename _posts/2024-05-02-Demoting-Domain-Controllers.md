@@ -14,6 +14,8 @@ Ref:
 
 - [Demote a Domain Controller](https://lazyadmin.nl/it/demote-domain-controller/)
 
+-[Demote a Domain Controller](https://activedirectorypro.com/demote-domain-controller/)
+
 - [Clean up AD DS server metadata](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/ad-ds-metadata-cleanup?source=recommendations)
 
 - [Remove irogabed domains from Active Directory - Windows Server](https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/remove-orphaned-domains?source=recommendations)

@@ -62,17 +62,23 @@ Filesystems
 ![image](/assets/img/linuxP-FileSystem05.png)
 
 ### Summary 
+
 1. Check the size of the file (df) or directory (du)
 
 ```
 df, du
 ```
+
 2. mkfs - create a filesytem, such as xfs, ext4 and btrfs (option -t - to specify the type of filesystem)
+
 ```
 mkfs -t xfs, ext4, btrfs
 ```
-3. 
-- mount / umount
+
+3. To mount and unmount the disk
+```
+mount / umount
+```
 4. To persist any of the filesystem into the mount point edit /etc/fstab and use the UUID of the filesystem
 ```
 vi /etc/fstab
