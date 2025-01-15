@@ -16,7 +16,7 @@ Ref:
 
 - [Core Windows Processes](https://tryhackme.com/r/room/investigatingwindows2#:~:text=Core%20Windows%20Processes)
 
-- [Sysinternals](http://tryhackme.com/jr/btsysinternalssg)
+- [Sysinternals](https://tryhackme.com/jr/btsysinternalssg)
 
 - [Yara](https://tryhackme.com/room/yara)
 
@@ -26,7 +26,19 @@ Ref:
 
 Task 1 - Introduction
 ---
-What registry key contains the same command that is executed within a scheduled task?
+1. What registry key contains the same command that is executed within a scheduled task?
 
 
 Step 1 
+![img](/assets/img/iw2-01.png) 
+
+
+2. What analysis tool will immediately close if/when you attempt to launch it?
+
+![img](/assets/img/iw2-02.png)
+
+Procexp64
+
+Creating a new environment variable with a path from Desktop
+
+![img](/assets/img/iw2-03.png)
