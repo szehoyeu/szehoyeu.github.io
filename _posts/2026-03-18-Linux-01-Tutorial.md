@@ -1,6 +1,6 @@
 ---
 title:  "Overthewire-Bandit Level 1 -> 2"
-date:   2026-03-18 14:00:00 +0000
+date:   2026-03-18 16:00:00 +0000
 categories: [Linux]
 tags: [Linux]
 ---
@@ -43,14 +43,18 @@ Output:
 4.0K    /home/bandit1/-
 20K     /home/bandit1
 ```
+#
+## SSH 
+Use the bandit0 password to login 
+```
+ssh -p 2220 bandit1@bandit.labs.overthewire.org
+```
+Command
+```
+bandit1@bandit:/home$ cd bandit1
+bandit1@bandit:~$ ls
+-
+bandit1@bandit:~$ cat ./-
+263JGJPfgU6LtdEvgfWU1XP5yac29mFx
+```
 
-
-```
-bandit0@bandit:/home/bandit1$ 
-
-find /home/bandit1 -name "-" -exec cat {} \;
-```
-Output:
-```
-cat: /home/bandit1/-: Permission denied
-```

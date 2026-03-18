@@ -1,0 +1,45 @@
+---
+title:  "Overthewire-Bandit Level 2 -> 3"
+date:   2026-03-18 16:00:00 +0000
+categories: [Linux]
+tags: [Linux]
+---
+
+![image](/assets/img/overthewire.png)
+
+---
+Ref: 
+
+- [Overthewire-Bandit2-3](https://overthewire.org/wargames/bandit/bandit2.html)
+
+---
+
+## Bandit Level 2 → Level 3
+
+Bandit Level 2 → Level 3
+Level Goal
+The password for the next level is stored in a file called --spaces in this filename-- located in the home directory
+
+Commands you may need to solve this level
+ls , cd , cat , file , du , find
+
+Helpful Reading Material
+[Google Search for “spaces in filename”](https://www.google.com/search?q=spaces+in+filename)
+
+#
+## SSH
+```
+ssh bandit2@bandit.labs.overthewire.org -p 2220
+```
+
+Command: 
+```
+bandit2@bandit:~$ ls
+--spaces in this filename--
+
+bandit2@bandit:~$ cat -- '--spaces in this filename--'
+
+MNk8KNH3Usiio41PRUEoDFPqfxLPlSmx
+
+bandit2@bandit:~$
+```
