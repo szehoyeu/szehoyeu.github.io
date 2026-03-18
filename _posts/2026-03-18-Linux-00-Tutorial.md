@@ -14,7 +14,7 @@ Ref:
 
 ---
 
-Bandit Level 0 → Level 1
+## Bandit Level 0 → Level 1
 
 Level Goal
 The password for the next level is stored in a file called readme located in the home directory. Use this password to log into bandit1 using SSH. Whenever you find a password for a level, use SSH (on port 2220) to log into that level and continue the game.
@@ -22,26 +22,36 @@ The password for the next level is stored in a file called readme located in the
 Commands you may need to solve this level
 ls , cd , cat , file , du , find
 
+#
 
+
+## du
 du  - disk usage
 Using du to Check File Sizes
 To see the size of a specific file or directory, use the following syntax:
 
 Check a single file:
+```
 du filename.txt — Shows the disk space used by a specific file.
-
+```
 Human-readable format:
+```
 du -h filename.txt — Displays size in KB, MB, or GB (e.g., 4.0K instead of just a number).
-
+```
 Check all files in a directory:
+```
 du -ah /path/to/directory — The -a (all) flag forces du to list individual files, not just directories.
-
+```
 Summarize a directory:
-du -sh /path/to/directory — The -s (summarize) flag shows only the total size of the directory without listing every item inside. 
-
+```
+du -sh /path/to/directory 
+```
+```
+— The -s (summarize) flag shows only the total size of the directory without listing every item inside. 
+```
 
 Common du Flags
-
+```
 Flag 	Description
 -a  All: Shows sizes for files as well as directories.
 
@@ -53,20 +63,109 @@ Flag 	Description
 
 --max-depth=N	Limits the output to 
  levels deep into subdirectories.
+```
+Example: du
+```
+du -h readme 
+```
+#
+## SSH
 
-Example:
+Example : SSH
 ```
 ssh -p 2220 bandit0@bandit.labs.overthewire.org
-ls
-cat readme
-file -f readme
-file --help
-du 
-find 
 ```
+
+# 
+## Find
+Using cat to Display the Entire File Content
+The cat command is used to display the entire content of a file to the standard output. 
+bash
+
+Example: Find
+```
+find /path/to/search -name "filename.txt" -exec cat {} \;
+```
+
+```
+find /home/bandit0 -name "readme" -exec cat {} \;
+```
+
+#
+## File
+
+Determining File Type
+To determine the type of a file, use the file command followed by the filename: 
+bash
+```
+file <filename>
+```
+Example output: 
+
+data.txt: ASCII text or program: ELF 64-bit LSB executable. 
+
+# 
+## nano
+Text Editors: You can also use terminal-based text editors to open and read (as well as edit) files. nano is considered more user-friendly for beginners than vim or emacs.
+
+Example: nano
+```
+nano <filename>
+nano readme 
+```
+#
+## CAT
+Displays the entire content of a file to the terminal screen at once. This is best for short files.
+Example:
+```
+cat readme
+```
+#
+## Less and More
+less and more (pagers): Display the file content one screen or "page" at a time, allowing you to scroll through large files. less is generally preferred as it allows both forward and backward scrolling (use space for the next page, arrow keys to scroll, and q to exit).
+
+Example :
+```
+less <filename>
+```
+#
+## head and tail 
+(partial view): Show only the beginning or end of a file, respectively. By default, they display the first or last 10 lines, which is especially useful for quickly previewing a file or monitoring log files.
+
+Example: 
+```
+head <filename>
+tail <filename>
+```
+
+
+
+
+#
+
 
 TIP: Create a file for notes and passwords on your local machine!
 
 Passwords for levels are not saved automatically. If you do not save them yourself, you will need to start over from bandit0.
 
 Passwords also occasionally change. It is recommended to take notes on how to solve each challenge. As levels get more challenging, detailed notes are useful to return to where you left off, reference for later problems, or help others after you’ve completed the challenge.
+
+
+Command:
+```
+bandit0@bandit:/home$ cd bandit0
+
+bandit0@bandit:~$ ls
+readme
+
+bandit0@bandit:~$ cat readme
+
+Congratulations on your first steps into the bandit game!!
+Please make sure you have read the rules at https://overthewire.org/rules/
+If you are following a course, workshop, walkthrough or other educational activity,
+please inform the instructor about the rules as well and encourage them to
+contribute to the OverTheWire community so we can keep these games free!
+
+The password you are looking for is: ZjLjTmM6FvvyRnrb2rfNWOZOTa6ip5If
+
+```
