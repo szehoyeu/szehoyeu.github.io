@@ -10,7 +10,7 @@ tags: [Linux]
 ---
 Ref: 
 
-- [Overthewire-Bandit2-3](https://overthewire.org/wargames/bandit/bandit2.html)
+- [Overthewire-Bandit2-3](https://overthewire.org/wargames/bandit/bandit3.html)
 
 ---
 
