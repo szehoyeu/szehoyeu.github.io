@@ -1,6 +1,6 @@
 ---
 title:  "Overthewire-Bandit Level 2 -> 3"
-date:   2026-03-18 16:00:00 +0000
+date:   2026-03-18 18:00:00 +0000
 categories: [Linux]
 tags: [Linux]
 ---
@@ -43,3 +43,4 @@ MNk8KNH3Usiio41PRUEoDFPqfxLPlSmx
 
 bandit2@bandit:~$
 ```
+ 
