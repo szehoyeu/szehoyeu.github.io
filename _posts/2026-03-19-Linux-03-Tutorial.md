@@ -1,0 +1,120 @@
+---
+title:  "Overthewire-Bandit Level 3"
+date:   2026-03-19 18:00:00 +0000
+categories: [Linux]
+tags: [Linux]
+---
+
+![image](/assets/img/overthewire.png)
+
+---
+Ref: 
+
+- [Overthewire-Bandit3](https://overthewire.org/wargames/bandit/bandit4.html)
+
+---
+
+## Bandit Level 3
+
+Level Goal
+The password for the next level is stored in a hidden file in the inhere directory.
+
+Commands you may need to solve this level
+ls , cd , cat , file , du , find
+
+#
+
+## SSH
+```
+ssh bandit3@bandit.labs.overthewire.org -p 2220
+```
+
+Command :
+
+Show display the hidden file within the folder. Use du
+```
+bandit3@bandit:~/inhere$ du -ah /home/bandit3/inhere
+```
+Output:
+```
+4.0K    /home/bandit3/inhere/...Hiding-From-You
+8.0K    /home/bandit3/inhere
+```
+
+Show hidden file within a folder using File command
+```
+bandit3@bandit:~/inhere$ 
+
+ls -al
+```
+Output:
+```
+total 12
+drwxr-xr-x 2 root    root    4096 Oct 14 09:26 .
+drwxr-xr-x 3 root    root    4096 Oct 14 09:26 ..
+-rw-r----- 1 bandit4 bandit3   33 Oct 14 09:26 ...Hiding-From-You
+```
+
+## Find Hidden Files Recursively 
+This command searches the current directory (.) and all subdirectories for files or directories where the name starts with a dot. 
+```
+find . -name ".*"
+```
+The output will include the current directory (.) and the parent directory (..). 
+
+## Find Only Hidden Files (excluding . and ..) 
+To list only hidden files (regular files, not directories) while excluding the standard . (current) and .. (parent) directory entries, and searching recursively: 
+```
+find . -type f -name ".[^.]*"
+```
+-type f: Specifies the search should only return regular files.
+
+-name ".[^.]*": Matches filenames that begin with a dot, followed by any character except another dot. 
+
+## Find Hidden Files and Directories in the Current Directory Only 
+To restrict the search to the current directory only, use the -maxdepth 1 option: 
+```
+find . -maxdepth 1 -name ".*"
+```
+-maxdepth 1: Limits the search to a depth of one level, meaning only the current directory is searched. 
+
+Example: 
+```
+bandit3@bandit:~/inhere$ 
+
+find . -maxdepth 1 -name ".*"
+
+```
+Output:
+```
+.
+./...Hiding-From-You
+```
+
+
+## Find Only Hidden Directories
+To find and list only hidden directories in the current and subdirectories:
+```
+find . -type d -name ".*"
+```
+-type d: Restricts the search results to directories. 
+
+
+
+
+
+
+
+
+#
+To display the content of the hidden file with special characters. Use Cat -- '<Filename>'
+
+```
+bandit3@bandit:~/inhere$ 
+
+cat -- '...Hiding-From-You'
+```
+Output: 
+```
+2WmrDFRmJIq3IPxneAaMGhap0pFhF3NJ
+```
