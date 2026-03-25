@@ -1,6 +1,6 @@
 ---
-title:  "Overthewire-Bandit Level 4"
-date:   2026-03-19 19:00:00 +0000
+title:  "Overthewire-Bandit Level 5"
+date:   2026-03-20 19:00:00 +0000
 categories: [Linux]
 tags: [Linux]
 ---
@@ -10,7 +10,7 @@ tags: [Linux]
 ---
 Ref: 
 
-- [Overthewire-Bandit4](https://overthewire.org/wargames/bandit/bandit5.html)
+- [Overthewire-Bandit5](https://overthewire.org/wargames/bandit/bandit5.html)
 
 ---
 
