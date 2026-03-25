@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 ---
 title:  "Overthewire-Bandit Level 6"
 date:   2026-03-25 19:00:00 +0000
