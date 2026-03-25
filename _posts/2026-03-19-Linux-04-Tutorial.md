@@ -27,4 +27,41 @@ ls , cd , cat , file , du , find
 ## SSH
 ```
 ssh bandit4@bandit.labs.overthewire.org -p 2220
+
+2WmrDFRmJIq3IPxneAaMGhap0pFhF3NJ
+```
+
+Using a wildcard instead of the filename using "file" command in order to get the type for all the files within the folder
+
+Command:
+```
+bandit4@bandit:~/inhere$ 
+
+file ./*
+```
+Output
+```
+./-file00: data
+./-file01: OpenPGP Public Key
+./-file02: OpenPGP Public Key
+./-file03: data
+./-file04: data
+./-file05: data
+./-file06: data
+./-file07: ASCII text
+./-file08: data
+./-file09: data
+```
+
+‘-file07’ is of type ‘ASCII text’, which is a human readable can. 
+
+Command:
+```
+bandit4@bandit:~/inhere$ 
+
+cat ./-file07
+```
+Output:
+```
+4oQYVPkxZOOEOO5pTW81FB8j8lxXGUQw
 ```
