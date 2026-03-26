@@ -10,7 +10,7 @@ tags: [Linux]
 ---
 Ref: 
 
-- [Overthewire-Bandit6](https://overthewire.org/wargames/bandit/bandit7.html)
+- [Overthewire-Bandit6](https://overthewire.org/wargames/bandit/bandit8.html)
 
 ---
 
@@ -35,3 +35,19 @@ HWasnPhtq9AVKe0dmk45nxy20cvUa6EG
 ```
 
 #
+Commands:
+```
+bandit6@bandit:~$ 
+find / -type f -user bandit7 -group bandit6 -size 33c 2>/dev/null
+```
+
+Output:
+```
+/var/lib/dpkg/info/bandit7.password
+```
+```
+bandit6@bandit:/var/lib/dpkg/info$ 
+
+cat bandit7.password
+morbNTDkSW6jIlUc0ymOdMaLnOlFVAaj
+```
