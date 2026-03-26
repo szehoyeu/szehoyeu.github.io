@@ -27,14 +27,23 @@ ssh bandit9@bandit.labs.overthewire.org -p 2220
 4CKMh1JI91bUIZZPXDqGanal4xvAg0JM
 ```
 
-Commands:
+Command
 ```
 bandit9@bandit:~$ 
-```
-```
 strings data.txt  | grep "==="
+```
+Output
+```
 ========== the
 ========== password
 f\Z'========== is
 ========== FGUW5ilLVJrxX9kMYMmlN4MgbpfMiqey
+```
+
+Command
+```
+strings data.txt | grep "==" | head -n 1
+```
+```
+strings data.txt | grep "==" | awk '{print $NF}'
 ```
