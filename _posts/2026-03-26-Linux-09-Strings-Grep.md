@@ -1,5 +1,5 @@
 ---
-title:  "Overthewire-Bandit Level 9 - Strings-Grep"
+title:  "Overthewire-Bandit Level 09 - Strings-Grep"
 date:   2026-03-26 21:00:00 +0000
 categories: [Linux]
 tags: [Linux]

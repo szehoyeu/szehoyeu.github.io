@@ -1,5 +1,5 @@
 ---
-title:  "Overthewire-Bandit Level 8 - Sort-Uniq"
+title:  "Overthewire-Bandit Level 08 - Sort-Uniq"
 date:   2026-03-26 20:00:00 +0000
 categories: [Linux]
 tags: [Linux]
