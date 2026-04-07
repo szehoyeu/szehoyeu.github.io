@@ -1,5 +1,5 @@
 ---
-title:  "Overthewire-Bandit Level 14 - SSL"
+title:  "Overthewire-Bandit Level 14 - NC-OpenSSL"
 date:   2026-04-07 01:00:00 +0000
 categories: [Linux]
 tags: [Linux]
@@ -187,7 +187,41 @@ openssl s_client -connect localhost:30000
 ```
 Paste the password + Enter 
 
+# NMap
 
+```
+bandit14@bandit:~$ 
 
+nmap localhost
+```
+```
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-04-07 22:38 UTC
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.00014s latency).
+Not shown: 993 closed tcp ports (conn-refused)
+PORT      STATE SERVICE
+22/tcp    open  ssh
+1111/tcp  open  lmsocialserver
+1840/tcp  open  netopia-vo2
+4321/tcp  open  rwhois
+8000/tcp  open  http-alt
+30000/tcp open  ndmps
+50001/tcp open  unknown
 
+Nmap done: 1 IP address (1 host up) scanned in 0.06 seconds
+bandit14@bandit:~$
+```
+
+Command
+```
+bandit14@bandit:~$ 
+nmap -p 30000 -sV localhost
+```
+```
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-04-07 22:40 UTC
+Stats: 0:00:26 elapsed; 0 hosts completed (1 up), 1 undergoing Service Scan
+Service scan Timing: About 0.00% done
+
+[4]+  Stopped                 nmap -p 30000 -sV localhost
+```
 
