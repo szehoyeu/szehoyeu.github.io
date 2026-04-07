@@ -1,6 +1,6 @@
 ---
-title:  "Overthewire-Bandit Level 15 - SSL"
-date:   2026-04-07 10:00:00 +0000
+title:  "Overthewire-Bandit Level 15 - SSL - Ncat"
+date:   2026-04-07 11:00:00 +0000
 categories: [Linux]
 tags: [Linux]
 ---
@@ -23,9 +23,10 @@ Helpful note: Getting “DONE”, “RENEGOTIATING” or “KEYUPDATE”? Read t
 Commands you may need to solve this level
 ssh, telnet, nc, ncat, socat, openssl, s_client, nmap, netstat, ss
 
+
 Helpful Reading Material
-[Secure Socket Layer/Transport Layer Security on Wikipedia](https://en.wikipedia.org/wiki/Transport_Layer_Security)
-[OpenSSL Cookbook - Testing with OpenSSL](https://www.feistyduck.com/library/openssl-cookbook/online/testing-with-openssl/index.html)
+- [Secure Socket Layer/Transport Layer Security on Wikipedia](https://en.wikipedia.org/wiki/Transport_Layer_Security)
+- [OpenSSL Cookbook - Testing with OpenSSL](https://www.feistyduck.com/library/openssl-cookbook/online/testing-with-openssl/index.html)
 
 ## SSH
 ```
