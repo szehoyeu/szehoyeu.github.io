@@ -38,7 +38,7 @@ ssh bandit15@bandit.labs.overthewire.org -p 2220
 
 # Openssl
 ```
-bandit15@bandit:~$ openssl s_client -connect localhost:30001
+openssl s_client -connect localhost:30001
 ```
 Paste the password 
 ```
