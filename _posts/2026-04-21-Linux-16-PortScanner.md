@@ -426,3 +426,10 @@ bandit17@bandit:~$ diff passwords.old passwords.new
 ---
 > x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO
 ```
+
+```
+bandit17@bandit:~$ grep -Fxv -f passwords.old passwords.new
+```
+```
+x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO
+```
