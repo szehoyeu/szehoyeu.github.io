@@ -17,9 +17,16 @@ Ref:
 ## Bandit Level 19
 To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary.
 
-Helpful Reading Material
+## Helpful Reading Material
 
 [Setuid Binary Wikipedia](https://en.wikipedia.org/wiki/Setuid)
 
 
-# Note
+## Note
+setuid - set user identity
+setgid - set group identity 
+
+# chmod - Change Mode
+[Ref: chmod](https://en.wikipedia.org/wiki/Chmod)
+![image-chmod](/assets/img/otw-19-chmod.png)
+
