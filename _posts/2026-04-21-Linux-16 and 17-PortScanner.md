@@ -441,13 +441,26 @@ Commands you may need to solve this level
 cat, grep, ls, diff
 
 
-
+# Grep
 ```
 bandit17@bandit:~$ grep -Fxv -f passwords.old passwords.new
 ```
+Options:
+-F, --fixed-strings       PATTERNS are strings
+
+-x, --line-regexp         match only whole lines
+
+-v, --invert-match        select non-matching lines
+
+ -f, --file=FILE           take PATTERNS from FILE
+
+Output: 
 ```
-x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO
+KxOU4IzbXM8j8HeAWPAXTd1eC77mp1qV
 ```
+
+
+
 
 
 Output
@@ -551,4 +564,29 @@ discord or IRC.
 
 Byebye !
 Connection to bandit.labs.overthewire.org closed.
+```
+
+# Sort
+
+Command
+```
+bandit17@bandit:~$ sort passwords.old passwords.new | uniq -u
+```
+
+Output
+```
+KxOU4IzbXM8j8HeAWPAXTd1eC77mp1qV
+x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO
+```
+
+# Cat
+
+Command
+```
+bandit17@bandit:~$ cat passwords.new | grep KxOU4IzbXM8j8HeAWPAXTd1eC77mp1qV
+```
+
+Output
+```
+KxOU4IzbXM8j8HeAWPAXTd1eC77mp1qV
 ```
